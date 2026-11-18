@@ -1,0 +1,17 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeEarns (MIT).
+extends: existence
+message: 'Wage metaphor: ''%s''. Say what the thing gets or requires.'
+level: warning
+ignorecase: true
+tokens:
+- earn(?:s|ed|ing)?
+tests:
+- name: flags 'earns'
+  input: |
+    The helper earns a caveat.
+  want: |
+    1:12:PlainTechnical.WageMetaphor:Wage metaphor: 'earns'. Say what the thing gets or requires.
+- name: earnings noun
+  input: |
+    The quarterly earnings report is due on Friday.
+  want: ''

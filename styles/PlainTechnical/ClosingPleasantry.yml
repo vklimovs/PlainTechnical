@@ -1,0 +1,79 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ClosingPleasantries (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+# Holds the closers of Voices v0.2.0 Human.Closers. Matches 'If you have any
+# questions' before 'feel free' or 'let me know' alone, and drops 'If you need
+# more information', since a document points to its support that way. Drops 'I
+# am happy to', 'I would be happy to' and 'Let me know if', which state an
+# offer or a request. Matches 'If anything is unclear' and the like before
+# 'feel free' or 'let me know' alone.
+extends: existence
+message: 'Closing pleasantry: ''%s''. Delete it and end on the last fact.'
+level: error
+ignorecase: true
+tokens:
+- I hope this is helpful
+- I hope this proves helpful
+- I hope this will be helpful
+- Hope this helps
+- Hope this was helpful
+- I hope this clears things up
+- I hope this cleared things up
+- I hope this answers your question
+- I hope that answers your question
+- I hope this gives you a better understanding
+- I hope you find this helpful
+- I hope you found this helpful
+- I hope you find this useful
+- I hope you found this useful
+- I hope this is what you were looking for
+- I hope this pointed you in the right direction
+- I hope this sheds some light
+- I hope this makes things clearer
+- Hopefully this helps
+- Hopefully this is helpful
+- 'If you have any additional questions(?=, (?:feel free|let me know|do not hesitate|just ask|please ask)\b)'
+- 'If you have any more questions(?=, (?:feel free|let me know|do not hesitate|just ask|please ask)\b)'
+- 'If you need any clarification(?=, (?:feel free|let me know|do not hesitate|just ask|please ask)\b)'
+- 'If anything is unclear(?=, (?:feel free|let me know|do not hesitate|just ask|please ask)\b)'
+- 'If you would like more details(?=, (?:feel free|let me know|do not hesitate|just ask|please ask)\b)'
+- 'If you would like me to elaborate'
+- If you want me to expand
+- Happy to help
+- Happy to answer
+- Happy to clarify
+- Happy to elaborate
+- Happy to explain
+- Happy to assist
+- Happy to walk you through
+- 'I am here to help'
+- 'I am here if you need'
+- 'I am here if you have'
+- 'I am always here to help'
+- 'We are here to help'
+- Best of luck
+- Good luck with your
+- Good luck on your
+- 'You have got this'
+- Happy coding
+- Happy learning
+- Happy building
+- Happy exploring
+- Enjoy the journey
+- Feel free to
+- 'Do not hesitate to'
+- 'If you have any (?:other |further )?questions(?=, (?:feel free|let me know|do not hesitate|just ask|please ask)\b)'
+tests:
+- name: flags 'hope this helps'
+  input: |
+    I hope this helps!
+  want: |
+    1:3:PlainTechnical.ClosingPleasantry:Closing pleasantry: 'hope this helps'. Delete it and end on the last fact.
+- name: flags the full form
+  input: |
+    Do not hesitate to ask.
+  want: |
+    1:1:PlainTechnical.ClosingPleasantry:Closing pleasantry: 'Do not hesitate to'. Delete it and end on the last fact.
+- name: plain closing sentence
+  input: |
+    Open an issue with the failing input and the Vale version.
+  want: ''

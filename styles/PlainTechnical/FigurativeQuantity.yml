@@ -1,0 +1,64 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeQuantities (MIT).
+# Changed: Leaves 'a myriad of' and 'a plethora of' to InflatedWord.
+extends: existence
+message: 'Quantity metaphor: ''%s''. Give the count, or write ''a few'' or ''many''.'
+level: warning
+ignorecase: true
+tokens:
+- a handful
+- the handful of
+- handfuls of
+- a fistful of
+- an armful of
+- a smattering
+- a sprinkling of
+- a sliver of
+- a dash of
+- a pinch of
+- a dollop of
+- a slew of
+- a (?:whole )?host of
+- a raft of
+- a spate of
+- a flurry of
+- a litany of
+- a laundry list of
+- a bevy of
+- a grab bag of
+- a boatload of
+- boatloads of
+- a truckload of
+- truckloads of
+- a ton of
+- tons of
+- a heap of
+- heaps of
+- a pile of
+- a mountain of
+- a sea of
+- an ocean of
+- a flood of
+- a wave of
+- a deluge of
+- a torrent of
+- an avalanche of
+- a wealth of
+- a trove of
+- a smorgasbord of
+- a cornucopia of
+- a medley of
+- a patchwork of
+- a mosaic of
+- a constellation of
+- an? (?:vast|wide|broad|whole|dizzying|impressive|endless|bewildering) array of
+- how far (?:a|an|the|this|that|these|those|each|every|its|their|one|any|some) (?:[a-z'-]+ )?[a-z]+ (?:reach(?:es|ed)?|travel(?:s|l?ed)?|copied|copies|spread|spreads|propagat(?:es|ed)|carr(?:ies|ied|y)|go(?:es)?|went|extends?|extended)
+tests:
+- name: flags 'A litany of'
+  input: |
+    A litany of errors fills the log.
+  want: |
+    1:1:PlainTechnical.FigurativeQuantity:Quantity metaphor: 'A litany of'. Give the count, or write 'a few' or 'many'.
+- name: bare array stays literal
+  input: |
+    The function returns an array of integers.
+  want: ''

@@ -1,0 +1,26 @@
+# Source: ASD-STE100 Issue 9 rule 6.6, via SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: Counts a full stop, a question mark or an exclamation mark before a
+# capital or at the end of the paragraph. A full stop after an initial or an
+# abbreviation such as 'e.g.' or 'Dr.' does not count, nor one before a
+# number, so 'ver. 2' and 'approx. 3 MB' do not end a sentence.
+extends: occurrence
+message: "Long paragraph of more than six sentences. Split it by topic."
+level: error
+scope: paragraph
+max: 6
+token: '(?:(?<!\b(?:[A-Z]|e\.g|i\.e|vs|cf|viz|etc|al|Dr|Mr|Mrs|Ms|Prof|Sr|Jr|St|Mt|Inc|Ltd|Co|Corp|Dept|Capt|Lt|Sgt|Col|Maj|Gen|Gov|Rev|Fig|Vol|No|Eq|Ref|Sec|Ch|Ed|U\.S|a\.m|p\.m|a\.k\.a|max|min|approx|incl|excl|resp|ca|pp?|eds?|misc|est))\.|[!?])[)"\u201d\u2019'']?(?=\s+["\u201c\u2018''(]?[A-Z]|\s*\z)'
+tests:
+- name: flags seven sentences
+  input: |
+    One fact. One fact. One fact. One fact. One fact. One fact. One fact.
+  want: |
+    1:9:PlainTechnical.ParagraphLength:Long paragraph of more than six sentences. Split it by topic.
+- name: leaves six sentences alone
+  input: |
+    One fact. One fact. One fact. One fact. One fact. One fact.
+  want: ''
+- name: leaves a full stop after an abbreviation alone
+  input: |
+    The tool reads ver. 2 of the file. It takes approx. 3 MB. Ask Dr. Grey. It
+    runs on a kernel, e.g. Linux. One fact. One fact.
+  want: ''

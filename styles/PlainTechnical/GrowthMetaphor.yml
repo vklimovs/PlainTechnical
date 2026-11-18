@@ -1,0 +1,29 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.GrowthMetaphors (MIT).
+extends: existence
+message: 'Growth metaphor: ''%s''. Say what happens.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bincubat(?:e|es|ed|ing|ion|or|ors)\b
+- \bgestat(?:e|es|ed|ing|ion)\b
+- \bnascent\b
+- \bfledglings?\b
+- \bembryonic\b
+- \bcultivat(?:e|es|ed|ing)\b
+- \bnurtur(?:e|es|ed|ing)\b
+- \bin (?:its|their|the|early|relative|comparative|this) infancy\b
+- \bminimum viable\b
+- \bseed (?:funding|rounds?|stage|capital|money|investment|financing|investors?|backers?)\b
+- \borganic growth\b
+tests:
+- name: flags 'nascent'
+  input: |
+    A nascent market with embryonic potential.
+  want: |
+    1:3:PlainTechnical.GrowthMetaphor:Growth metaphor: 'nascent'. Say what happens.
+    1:23:PlainTechnical.GrowthMetaphor:Growth metaphor: 'embryonic'. Say what happens.
+- name: random seed
+  input: |
+    Set the random seed before each test run.
+  want: ''

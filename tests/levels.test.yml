@@ -1,0 +1,573 @@
+# Each rule fires on its own first case. Under the warning floor of the
+# configuration, a warning and an error show, and a suggestion does not.
+# tests/commits pins the commit rules.
+- name: keeps AbstractSubject at warning
+  input: |
+    This coupling is the price.
+  contains: PlainTechnical.AbstractSubject
+- name: keeps AffirmativeFormula at warning
+  input: |
+    And that is the beauty of it.
+  contains: PlainTechnical.AffirmativeFormula
+- name: keeps AnnouncementHeading at warning
+  input: |
+    ### What to Expect
+  contains: PlainTechnical.AnnouncementHeading
+- name: keeps Anthropomorphism at warning
+  input: |
+    The library decides for itself.
+  contains: PlainTechnical.Anthropomorphism
+- name: keeps BareDemonstrative at warning
+  input: |
+    The pool is full. This means the write fails.
+  contains: PlainTechnical.BareDemonstrative
+- name: keeps BritishSpelling at error
+  input: |
+    The colour is grey.
+  contains: PlainTechnical.BritishSpelling
+- name: keeps Cliche at warning
+  input: |
+    That commit crowns the release.
+  contains: PlainTechnical.Cliche
+- name: keeps ClosingPleasantry at error
+  input: |
+    I hope this helps!
+  contains: PlainTechnical.ClosingPleasantry
+- name: keeps CoinageMetaphor at warning
+  input: |
+    The step mints them on demand.
+  contains: PlainTechnical.CoinageMetaphor
+- name: keeps ColloquialAssessment at warning
+  input: |
+    This is where it lands.
+  contains: PlainTechnical.ColloquialAssessment
+- name: keeps ColonReveal at warning
+  input: |
+    ## FigurativeSurfaces: the bare verb
+  contains: PlainTechnical.ColonReveal
+- name: keeps ConclusionMarker at warning
+  input: |
+    The bottom line is that costs dropped sharply.
+  contains: PlainTechnical.ConclusionMarker
+- name: keeps ConsequenceClause at warning
+  input: |
+    The styles ship as release assets, so the version pins itself.
+  contains: PlainTechnical.ConsequenceClause
+- name: keeps ConsequenceOpener at warning
+  input: |
+    The pool fills. So writes fail. So the daemon stops.
+  contains: PlainTechnical.ConsequenceOpener
+- name: keeps Contraction at error
+  input: |
+    The daemon doesn't restart.
+  contains: PlainTechnical.Contraction
+- name: keeps ContrastiveFormula at warning
+  input: |
+    ### A refinement, not a rivalry
+  contains: PlainTechnical.ContrastiveFormula
+- name: keeps CopulaDodge at warning
+  input: |
+    The refrain serves as an anchor for the essay.
+  contains: PlainTechnical.CopulaDodge
+- name: keeps CorrectionFrame at warning
+  input: |
+    The cache is not a database. It is a buffer for the disk.
+  contains: PlainTechnical.CorrectionFrame
+- name: keeps CrossReference at error
+  input: |
+    As mentioned above, the cache reduces read latency.
+  contains: PlainTechnical.CrossReference
+- name: keeps Dash at error
+  input: |
+    The deploy failed — the disk was full.
+  contains: PlainTechnical.Dash
+- name: keeps DefensiveHedge at warning
+  input: |
+    Admittedly, the parser is slow, but it handles every edge case cleanly.
+  contains: PlainTechnical.DefensiveHedge
+- name: keeps DepletionMetaphor at warning
+  input: |
+    The job stalls on the lock.
+  contains: PlainTechnical.DepletionMetaphor
+- name: keeps DesignationAdjective at warning
+  input: |
+    Its named target is a table.
+  contains: PlainTechnical.DesignationAdjective
+- name: keeps DespiteFormula at warning
+  input: |
+    Despite these challenges, the team shipped the release on time.
+  contains: PlainTechnical.DespiteFormula
+- name: keeps DiscoveryMetaphor at warning
+  input: |
+    Nothing surfaced this earlier.
+  contains: PlainTechnical.DiscoveryMetaphor
+- name: keeps DisguiseMetaphor at warning
+  input: |
+    The change is a rewrite in disguise.
+  contains: PlainTechnical.DisguiseMetaphor
+- name: keeps Emoji at error
+  input: |
+    ✅ The build passes. 🚀 Deploy it.
+  contains: PlainTechnical.Emoji
+- name: keeps Emphasis at warning
+  input: |
+    This design *is* intentional.
+  contains: PlainTechnical.Emphasis
+- name: keeps EmptyModifier at warning
+  input: |
+    A certain stakeholder raised the issue.
+  contains: PlainTechnical.EmptyModifier
+- name: keeps EmptyWord at warning
+  input: |
+    It simply restarts.
+  contains: PlainTechnical.EmptyWord
+- name: keeps ExplainerHeading at warning
+  input: |
+    ### Demystifying the Cache
+  contains: PlainTechnical.ExplainerHeading
+- name: keeps ExplainerLead at warning
+  input: |
+    That is where the exemption lives.
+  contains: PlainTechnical.ExplainerLead
+- name: keeps ExplainerPrompt at warning
+  input: |
+    Let us explore the available options.
+  contains: PlainTechnical.ExplainerPrompt
+- name: keeps FalseBalance at warning
+  input: |
+    In the end, each side has merit.
+  contains: PlainTechnical.FalseBalance
+- name: keeps FalseExclusivity at warning
+  input: |
+    This is the dirty secret of most caching layers.
+  contains: PlainTechnical.FalseExclusivity
+- name: keeps FigurativeBreeds at warning
+  input: |
+    Inconsistency breeds distrust.
+  contains: PlainTechnical.FigurativeBreeds
+- name: keeps FigurativeCarries at warning
+  input: |
+    No set carries the name.
+  contains: PlainTechnical.FigurativeCarries
+- name: keeps FigurativeCasts at warning
+  input: |
+    The rewrite casts a wide net.
+  contains: PlainTechnical.FigurativeCasts
+- name: keeps FigurativeDemands at warning
+  input: |
+    The migration demands care.
+  contains: PlainTechnical.FigurativeDemands
+- name: keeps FigurativeDraws at warning
+  input: |
+    The chapter draws to a close.
+  contains: PlainTechnical.FigurativeDraws
+- name: keeps FigurativeLands at warning
+  input: |
+    The patch lands in the next release.
+  contains: PlainTechnical.FigurativeLands
+- name: keeps FigurativeLends at warning
+  input: |
+    The structure lends itself to reuse.
+  contains: PlainTechnical.FigurativeLends
+- name: keeps FigurativeLives at warning
+  input: |
+    Truth lives in one place.
+  contains: PlainTechnical.FigurativeLives
+- name: keeps FigurativeNoun at warning
+  input: |
+    One wrinkle remains.
+  contains: PlainTechnical.FigurativeNoun
+- name: keeps FigurativeOwns at warning
+  input: |
+    It owns three tables.
+  contains: PlainTechnical.FigurativeOwns
+- name: keeps FigurativeQuantity at warning
+  input: |
+    A litany of errors fills the log.
+  contains: PlainTechnical.FigurativeQuantity
+- name: keeps FigurativeReaches at warning
+  input: |
+    Reach for it in a script.
+  contains: PlainTechnical.FigurativeReaches
+- name: keeps FigurativeRides at warning
+  input: |
+    The query rides the index.
+  contains: PlainTechnical.FigurativeRides
+- name: keeps FigurativeSees at warning
+  input: |
+    The quarter saw record adoption.
+  contains: PlainTechnical.FigurativeSees
+- name: keeps FigurativeShape at warning
+  input: |
+    The pass shapes the output.
+  contains: PlainTechnical.FigurativeShape
+- name: keeps FigurativeSits at warning
+  input: |
+    Beside it sit flat columns.
+  contains: PlainTechnical.FigurativeSits
+- name: keeps FigurativeStrikes at warning
+  input: |
+    This phrase strikes the right tone.
+  contains: PlainTechnical.FigurativeStrikes
+- name: keeps FigurativeTravels at warning
+  input: |
+    State travels with the session.
+  contains: PlainTechnical.FigurativeTravels
+- name: keeps FigurativeTrips at warning
+  input: |
+    Writing about the rule still trips it.
+  contains: PlainTechnical.FigurativeTrips
+- name: keeps FillerPhrase at warning
+  input: |
+    The tool reads a wide range of formats.
+  contains: PlainTechnical.FillerPhrase
+- name: keeps FormalTransition at warning
+  input: |
+    Of note, the schema gained two columns.
+  contains: PlainTechnical.FormalTransition
+- name: keeps FusionMetaphor at warning
+  input: |
+    The fix fuses the two passes.
+  contains: PlainTechnical.FusionMetaphor
+- name: keeps GrowthMetaphor at warning
+  input: |
+    A nascent market with embryonic potential.
+  contains: PlainTechnical.GrowthMetaphor
+- name: keeps Hedge at warning
+  input: |
+    This much is certain: delays are inevitable.
+  contains: PlainTechnical.Hedge
+- name: keeps HollowAcknowledgment at warning
+  input: |
+    It names the gap without filling it.
+  contains: PlainTechnical.HollowAcknowledgment
+- name: keeps HurdleMetaphor at warning
+  input: |
+    The finding clears on the next run.
+  contains: PlainTechnical.HurdleMetaphor
+- name: keeps Idiom at warning
+  input: |
+    The query fans out.
+  contains: PlainTechnical.Idiom
+- name: keeps ImportancePuffery at warning
+  input: |
+    The release marks a pivotal moment, and the team provided support for it.
+  contains: PlainTechnical.ImportancePuffery
+- name: keeps IncompleteComparison at warning
+  input: |
+    The new parser is substantially faster.
+  contains: PlainTechnical.IncompleteComparison
+- name: keeps InevitabilityClaim at warning
+  input: |
+    The proof falls cleanly out of the lemma.
+  contains: PlainTechnical.InevitabilityClaim
+- name: keeps InflatedWord at warning
+  input: |
+    We leverage the cache.
+  contains: PlainTechnical.InflatedWord
+- name: keeps InstructionLength at warning
+  input: |
+    - word word word word word word word word word word word word word word word word word word word word word.
+  contains: PlainTechnical.InstructionLength
+- name: keeps JourneyMetaphor at warning
+  input: |
+    A fix is on the way.
+  contains: PlainTechnical.JourneyMetaphor
+- name: keeps LabelAndExplain at warning
+  input: |
+    The takeaway: Always check the output.
+  contains: PlainTechnical.LabelAndExplain
+- name: keeps LatinAbbreviation at error
+  input: |
+    Use a path, e.g. /tmp.
+  contains: PlainTechnical.LatinAbbreviation
+- name: keeps ListAnnouncement at warning
+  input: |
+    Here is a breakdown of how the system works.
+  contains: PlainTechnical.ListAnnouncement
+- name: keeps Loudness at warning
+  input: |
+    The check fails loudly on bad input.
+  contains: PlainTechnical.Loudness
+- name: keeps MarketingHeading at warning
+  input: |
+    ### Mastering Vale
+  contains: PlainTechnical.MarketingHeading
+- name: keeps Metacommentary at warning
+  input: |
+    This distinction matters because the port is fixed.
+  contains: PlainTechnical.Metacommentary
+- name: keeps MicDrop at warning
+  input: |
+    Pure data.
+  contains: PlainTechnical.MicDrop
+- name: keeps MicDropHeading at warning
+  input: |
+    ### Correct, not clever
+  contains: PlainTechnical.MicDropHeading
+- name: keeps ModalVerb at error
+  input: |
+    You should restart the daemon.
+  contains: PlainTechnical.ModalVerb
+- name: keeps MoneyMetaphor at warning
+  input: |
+    The cache buys us time.
+  contains: PlainTechnical.MoneyMetaphor
+- name: keeps MotionMetaphor at warning
+  input: |
+    Nothing strands there.
+  contains: PlainTechnical.MotionMetaphor
+- name: keeps NarrativePivot at warning
+  input: |
+    The launch went out. Something shifted.
+  contains: PlainTechnical.NarrativePivot
+- name: keeps NegatedObject at warning
+  input: |
+    Most text embeds nothing.
+  contains: PlainTechnical.NegatedObject
+- name: keeps NegatedPair at warning
+  input: |
+    It runs with no database and no network.
+  contains: PlainTechnical.NegatedPair
+- name: keeps NegatedSubject at warning
+  input: |
+    Nothing downloads.
+  contains: PlainTechnical.NegatedSubject
+- name: keeps NegationDensity at warning
+  input: |
+    The build collects no telemetry, sets no cookies, and allocates no memory on the hot path.
+  contains: PlainTechnical.NegationDensity
+- name: keeps Nominalization at warning
+  input: |
+    The task performs compression of the file.
+  contains: PlainTechnical.Nominalization
+- name: keeps OpeningCliche at warning
+  input: |
+    You might be wondering why this matters.
+  contains: PlainTechnical.OpeningCliche
+- name: keeps Overclaim at warning
+  input: |
+    The single most important factor is latency.
+  contains: PlainTechnical.Overclaim
+- name: keeps OverusedWord at warning
+  input: |
+    ### Deep Dive
+  contains: PlainTechnical.OverusedWord
+- name: keeps ParagraphLength at error
+  input: |
+    One fact. One fact. One fact. One fact. One fact. One fact. One fact.
+  contains: PlainTechnical.ParagraphLength
+- name: keeps ParagraphLengthVariance at warning
+  input: |
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+  contains: PlainTechnical.ParagraphLengthVariance
+- name: keeps ParticipialPadding at warning
+  input: |
+    Shaping the direction of the API took a year.
+  contains: PlainTechnical.ParticipialPadding
+- name: keeps ParticipleTail at warning
+  input: |
+    The role writes the file, making the daemon reload.
+  contains: PlainTechnical.ParticipleTail
+- name: keeps PassiveVoice at warning
+  input: |
+    The file is deleted by the job.
+  contains: PlainTechnical.PassiveVoice
+- name: keeps PassiveVoiceAdverb at warning
+  input: |
+    The patch was not merged.
+  contains: PlainTechnical.PassiveVoiceAdverb
+- name: keeps PerfectTense at warning
+  input: |
+    The role has changed the file.
+  contains: PlainTechnical.PerfectTense
+- name: keeps PhrasalVerb at warning
+  input: |
+    Find out which host failed.
+  contains: PlainTechnical.PhrasalVerb
+- name: keeps PointVerdict at warning
+  input: |
+    That is the point.
+  contains: PlainTechnical.PointVerdict
+- name: keeps Preamble at warning
+  input: |
+    What this means is that the pin moved.
+  contains: PlainTechnical.Preamble
+- name: keeps ProceduralLength at warning
+  input: |
+    Restart the sync service on the host that runs the nightly import job after the backup of the primary database finishes.
+  contains: PlainTechnical.ProceduralLength
+- name: keeps PseudoCleft at warning
+  input: |
+    All you need is the offset.
+  contains: PlainTechnical.PseudoCleft
+- name: keeps Puffery at warning
+  input: |
+    The natural beauty of the coastline drew many visitors.
+  contains: PlainTechnical.Puffery
+- name: keeps ReadingEase at suggestion
+  input: |
+    Plain functions.
+  absent: PlainTechnical.ReadingEase
+- name: keeps RegimeOpener at warning
+  input: |
+    Under `cog` the same text is configurable twice.
+  contains: PlainTechnical.RegimeOpener
+- name: keeps RepeatedOpening at warning
+  input: |
+    Every host gets the key from the vault at boot. Every host writes the key to its disk. Every host reloads the daemon after that.
+  contains: PlainTechnical.RepeatedOpening
+- name: keeps Resonates at warning
+  input: |
+    The message resonated deeply.
+  contains: PlainTechnical.Resonates
+- name: keeps Restatement at warning
+  input: |
+    In the end, one read.
+  contains: PlainTechnical.Restatement
+- name: keeps RhetoricalDevice at warning
+  input: |
+    Ask yourself: does the abstraction earn its keep?
+  contains: PlainTechnical.RhetoricalDevice
+- name: keeps RhetoricalQuestion at warning
+  input: |
+    The result? A faster build and a smaller binary.
+  contains: PlainTechnical.RhetoricalQuestion
+- name: keeps ScopeChangeNoun at warning
+  input: |
+    This broadening adds three tokens.
+  contains: PlainTechnical.ScopeChangeNoun
+- name: keeps ScopePartition at warning
+  input: |
+    Read-side, the join is one hop.
+  contains: PlainTechnical.ScopePartition
+- name: keeps Semicolon at error
+  input: |
+    The pool is full; the write fails.
+  contains: PlainTechnical.Semicolon
+- name: keeps SentenceLength at error
+  input: |
+    word word word word word word word word word word word word word word word word word word word word word word word word word word.
+  contains: PlainTechnical.SentenceLength
+- name: keeps SentenceLengthVariance at warning
+  input: |
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+  contains: PlainTechnical.SentenceLengthVariance
+- name: keeps SentenceStartRepetition at warning
+  input: |
+    A single sentence with an exclamation mark is fine! A question is fine? This paragraph exists to push the reply past the sentence ceiling. Sentence five. Sentence six. Sentence seven. Sentence eight. Sentence nine. Sentence ten. Sentence eleven. Sentence twelve. Sentence thirteen. Sentence fourteen. Sentence fifteen. Sentence sixteen makes the point. Sentence seventeen is the one that fires.
+  contains: PlainTechnical.SentenceStartRepetition
+- name: keeps SettlementMetaphor at warning
+  input: |
+    The debate is settled.
+  contains: PlainTechnical.SettlementMetaphor
+- name: keeps ShellNoun at warning
+  input: |
+    The reason is simply that the pin moved.
+  contains: PlainTechnical.ShellNoun
+- name: keeps Silence at warning
+  input: |
+    It keeps the console quiet.
+  contains: PlainTechnical.Silence
+- name: keeps Staccato at warning
+  input: |
+    Workers push.
+  contains: PlainTechnical.Staccato
+- name: keeps StackedHedge at error
+  input: |
+    It can potentially be misread as a directive.
+  contains: PlainTechnical.StackedHedge
+- name: keeps StockPhrase at warning
+  input: |
+    ### A Game-Changer for Documentation
+  contains: PlainTechnical.StockPhrase
+- name: keeps StrategyBuzzword at warning
+  input: |
+    Strong network effects take over.
+  contains: PlainTechnical.StrategyBuzzword
+- name: keeps StrawmanContrast at warning
+  input: |
+    The lookup is one read, rather than a scan.
+  contains: PlainTechnical.StrawmanContrast
+- name: keeps StructureAnnouncement at warning
+  input: |
+    Here is a quick recap of what we covered.
+  contains: PlainTechnical.StructureAnnouncement
+- name: keeps SummativeAppositive at warning
+  input: |
+    It drops the header, something no caller expects.
+  contains: PlainTechnical.SummativeAppositive
+- name: keeps SuperficialAnalysis at warning
+  input: |
+    The museum expanded its collection, reflecting its new focus.
+  contains: PlainTechnical.SuperficialAnalysis
+- name: keeps Sycophancy at error
+  input: |
+    Absolutely! The daemon restarts.
+  contains: PlainTechnical.Sycophancy
+- name: keeps TermRotation at warning
+  input: |
+    Edit the configuration. Then reload the config.
+  contains: PlainTechnical.TermRotation
+- name: keeps ThroatClearing at warning
+  input: |
+    I will be honest, the migration was harder than expected.
+  contains: PlainTechnical.ThroatClearing
+- name: keeps TotalityReveal at warning
+  input: |
+    Clean data, and nothing else.
+  contains: PlainTechnical.TotalityReveal
+- name: keeps TrailingCondition at warning
+  input: |
+    - Read the log if the build fails.
+  contains: PlainTechnical.TrailingCondition
+- name: keeps UnmeasuredClaim at warning
+  input: |
+    The retry logic is robust.
+  contains: PlainTechnical.UnmeasuredClaim
+- name: keeps UnstatedCondition at warning
+  input: |
+    Restart it as needed.
+  contains: PlainTechnical.UnstatedCondition
+- name: keeps UpkeepFrame at warning
+  input: |
+    It keeps search fast.
+  contains: PlainTechnical.UpkeepFrame
+- name: keeps UrgencyInflation at warning
+  input: |
+    The stakes could not be higher.
+  contains: PlainTechnical.UrgencyInflation
+- name: keeps VagueAttribution at warning
+  input: |
+    Experts argue that caching is essential for read-heavy workloads.
+  contains: PlainTechnical.VagueAttribution
+- name: keeps ValueVerdict at warning
+  input: |
+    The complexity is worth it.
+  contains: PlainTechnical.ValueVerdict
+- name: keeps WageMetaphor at warning
+  input: |
+    The helper earns a caveat.
+  contains: PlainTechnical.WageMetaphor
+- name: keeps WholeEnvironment at warning
+  input: |
+    Every host in the fleet gets it, and so does the homelab.
+  contains: PlainTechnical.WholeEnvironment
+- name: keeps WrapUpHeading at warning
+  input: |
+    ### Wrap-Up
+  contains: PlainTechnical.WrapUpHeading
+- name: keeps ChatReply at error
+  input: |
+    I am sorry, but the host is down.
+  contains: PlainTechnical.ChatReply

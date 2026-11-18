@@ -1,0 +1,27 @@
+# Source: ASD-STE100 Issue 9 GR-4, via SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: Leaves 'That is,', the swap of GR-6 for 'i.e.', and leaves 'This is
+# the key' and the like to Metacommentary. Adds 'These' and 'Those'. Reads a
+# closed list of common verbs, since an open list catches a noun such as 'This
+# process'. Leaves 'This is because' to FormalTransition. Drops the plural
+# verbs that are also nouns, such as 'use', 'set' and 'return', since 'These
+# use cases' names a thing.
+extends: existence
+message: "Bare demonstrative: '%s'. Name the thing, as in 'This setting is'."
+level: warning
+nonword: true
+tokens:
+  - '(?:\A|(?<=[.!?:]\s))(?:(?:This|That(?! is,)) (?:is(?! (?:where|why|how|what|because|the point|to say|important because|the (?:insight|key|takeaway|crucial|critical|important))\b)|was|will|can|must|does|did|has|had|means|makes|keeps|leaves|gives|shows|lets|causes|allows|enables|ensures|provides|needs|requires|adds|removes|fixes|breaks|changes|happens|works|runs|stops|starts|returns|prevents|fails|occurs|gets|takes|sets|uses|creates|avoids|handles|helps(?! (?:to|with)\b))|(?:These|Those) (?:are|were|will|can|must|do|did|have|had|give|let|allow|enable|ensure|provide|require|get|prevent|create|avoid)(?!-))\b'
+tests:
+- name: flags a bare demonstrative
+  input: |
+    The pool is full. This means the write fails.
+  want: |
+    1:19:PlainTechnical.BareDemonstrative:Bare demonstrative: 'This means'. Name the thing, as in 'This setting is'.
+- name: leaves a named subject alone
+  input: |
+    The pool is full. This full pool makes the write fail.
+  want: ''
+- name: leaves that is alone
+  input: |
+    Each vendor names its handles. That is, two libraries never share one.
+  want: ''

@@ -1,0 +1,22 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeSurfaces (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Discovery metaphor: ''%s''. Say what reported the problem, and when.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bsurfac(?:es|ed|ing) (?!(?:of|on|in|at|to|from|for|with|by|and|or|but|is|are|was|were|that|which|it|they|have|has|had|do|does|did|can|will|would|should|may|might|must|not|also|so|area|areas|roughness|finish|tension|treatment|mount|layer|water|temperature|level|texture|normal|normals|type|types|exposed|available|provided|defined|used)\b)[a-z][a-z-]+\b
+- \b(?:defects?|drift|findings?|failures?|differences?|mistakes?|errors?|gaps?|bugs?|tells?|regressions?|problems?|issues?|questions?) (?:[a-z]+ )?surfac(?:es|ed)\b
+- \bnothing surfaced\b
+- '\b(?:to|will|would|may|might|can|could|should|must|shall|also|never|not|does not|do not|did not|will not|cannot) surface (?!(?:area|areas|api|apis|syntax|syntaxes|rust|roughness|finish|tension|treatment|mount|mounts|layer|layers|water|temperature|temperatures|level|levels|texture|textures|normal|normals|type|types)\b)[a-z][a-z-]+\b'
+tests:
+- name: flags 'Nothing surfaced'
+  input: |
+    Nothing surfaced this earlier.
+  want: |
+    1:1:PlainTechnical.DiscoveryMetaphor:Discovery metaphor: 'Nothing surfaced'. Say what reported the problem, and when.
+- name: singular noun
+  input: |
+    The API surface is small and documented.
+  want: ''

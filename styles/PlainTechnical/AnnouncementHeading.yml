@@ -1,0 +1,24 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.AnnouncementHeadings (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Announcement heading: ''%s''. Name the topic of the section.'
+level: warning
+ignorecase: true
+scope: heading
+tokens:
+- 'What You will Learn'
+- 'What We will Cover'
+- What to Expect
+- 'What We are Building'
+- 'Here is What You will Get'
+- 'Here is What You Get'
+tests:
+- name: flags 'What to Expect'
+  input: |
+    ### What to Expect
+  want: |
+    1:5:PlainTechnical.AnnouncementHeading:Announcement heading: 'What to Expect'. Name the topic of the section.
+- name: topic heading
+  input: |
+    # Installing the parser
+  want: ''

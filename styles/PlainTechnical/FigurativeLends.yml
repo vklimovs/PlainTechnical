@@ -1,0 +1,23 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeLends (MIT).
+extends: existence
+message: 'Figurative verb: ''%s''. State what it adds or enables.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \blend(?:s|ing)? itself (?:well |neatly |naturally |readily )?to\b
+- \blend(?:s|ing)? themselves (?:well |neatly |naturally |readily )?to\b
+- \blend(?:s|ing)? (?:credence|credibility|weight|gravitas|authority|legitimacy|support|nuance|texture|color|colour|depth|clarity)\b
+- \blent (?:credence|credibility|weight|gravitas|authority|legitimacy|support|nuance|texture|color|colour|depth|clarity)\b
+- \blend(?:s|ing)? an (?:air|aura|element|element of surprise|impression) (?:of|to)\b
+- \blend(?:s|ing)? a hand\b
+tests:
+- name: flags 'lends itself to'
+  input: |
+    The structure lends itself to reuse.
+  want: |
+    1:15:PlainTechnical.FigurativeLends:Figurative verb: 'lends itself to'. State what it adds or enables.
+- name: literal money loan
+  input: |
+    The bank lends money to small firms.
+  want: ''

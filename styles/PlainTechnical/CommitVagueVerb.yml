@@ -1,0 +1,25 @@
+# Source: PlainTechnical. A verb that fits any change does not name an act, and
+# an act wide enough for it hides a second one. Leaves an area of the subject
+# such as 'refactor:' or 'update-alternatives:' alone.
+extends: existence
+message: 'Subject verb naming no act: ''%s''. Name what the change does.'
+level: warning
+scope: subject
+ignorecase: true
+nonword: true
+tokens:
+- '(?<=^(?!Revert |Reapply )(?:[^:"]*:\s+)?)(?:update|improve|tweak|adjust|rework|refactor|clean|cleanup|modify|change|handle|misc|various)\b(?![:(-])'
+tests:
+- name: flags a verb that fits any change
+  input: |
+    repo: rework the tests
+  want: |
+    1:7:PlainTechnical.CommitVagueVerb:Subject verb naming no act: 'rework'. Name what the change does.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: leaves a named act alone
+  input: |
+    repo: split the tests by role
+  want: ''
+  format: COMMIT_EDITMSG
+  view: Commit

@@ -1,0 +1,47 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-commits.CommitHedging (MIT).
+# Changed: The messages do not use contractions, after ASD-STE100 rule 4.2.
+# Leaves 'This should fix', 'This may help' and the other modal hedges to
+# ModalVerb.
+extends: existence
+message: 'Hedge: ''%s''. State what you tested.'
+level: warning
+ignorecase: true
+tokens:
+- This helps to
+- This helps with
+- This helps ensure
+- This helps prevent
+- helps to ensure
+- helps to prevent
+- helps to improve
+- helps to reduce
+- helps to avoid
+- appears to fix
+- appears to resolve
+- seems to fix
+- seems to resolve
+- seems to work
+- seems to be fixed
+- seems to be resolved
+- seems to be working
+scope:
+- subject
+- body
+tests:
+- name: flags 'seems to fix'
+  input: |
+    Fix the parser
+    
+    This seems to fix the parser now.
+  want: |
+    3:6:PlainTechnical.CommitHedge:Hedge: 'seems to fix'. State what you tested.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: diagnostic seems to be
+  input: |
+    fix(parser): handle empty input
+
+    The root cause seems to be a race in the lexer.
+  want: ''
+  format: COMMIT_EDITMSG
+  view: Commit

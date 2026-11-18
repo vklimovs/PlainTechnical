@@ -1,0 +1,14 @@
+# Source: PlainTechnical. The configuration skips each closed quotation, so a
+# mark left over never closes. Leaves a quote mark in parentheses, between
+# apostrophes as in '"', or named as a character alone, and a straight mark
+# after a digit, which is an inch mark. Flags a straight mark only when no
+# other one is in its paragraph, and a curly mark only when its partner is not,
+# since Vale skips no quotation in a raw block of HTML.
+extends: existence
+message: "Unclosed quotation mark. Close the quote, or put a literal mark in a code span. Otherwise the rules read the rest of the paragraph as prose."
+level: warning
+nonword: true
+tokens:
+  - '(?=")(?<!\d)(?<![(''])(?<!"(?>[^"\n]+|\n(?![ \t]*\n)){0,4000})"(?![)''])(?! (?:characters?|marks?|signs?)\b)(?!(?>[^"\n]+|\n(?![ \t]*\n)){0,4000}")'
+  - '(?=\u201c)(?<![(''])\u201c(?![)''])(?! (?:characters?|marks?|signs?)\b)(?!(?>[^\u201d\n]+|\n(?![ \t]*\n)){0,4000}\u201d)'
+  - '(?=\u201d)(?<![(''])(?<!\u201c(?>[^\u201c\n]+|\n(?![ \t]*\n)){0,4000})\u201d(?![)''])(?! (?:characters?|marks?|signs?)\b)'

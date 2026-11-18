@@ -1,0 +1,19 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ConsequenceClause (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Consequence clause: ''%s''. State the effect in a sentence of its own.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- ', so (?:the|a|an|every|each|its|their|any|these|those) (?:(?!(?:is|are|has|have|does|do|was|were|will|can|must|may|should|might|would|could|this|that|its|always|unless|less|across|thus|perhaps|plus|minus|towards|versus|as|whereas|yes|us|his|of|to|in|on|for|with|from|at|by|per|and|or|but|not)\b)[a-z''-]+ ){0,2}(?!(?:is|are|has|have|does|do|was|were|will|can|must|may|should|might|would|could|this|that|its|always|unless|less|across|thus|perhaps|plus|minus|towards|versus|as|whereas|yes|us|his|of|to|in|on|for|with|from|at|by|per|and|or|but|not)\b)(?![a-z]+(?:ous|ss|ics|sis|ness)\b)[a-z]+s\b(?!-)(?! (?:are|were|have|had|will|would|can|could|must|may|might|should|do|do not|are not|were not|have not|will not|cannot|need|also|then|that|which|who|and|or|of)\b)'
+tests:
+- name: flags ', so the version pins'
+  input: |
+    The styles ship as release assets, so the version pins itself.
+  want: |
+    1:34:PlainTechnical.ConsequenceClause:Consequence clause: ', so the version pins'. State the effect in a sentence of its own.
+- name: pronoun subject
+  input: |
+    The cache is warm, so it returns quickly.
+  want: ''

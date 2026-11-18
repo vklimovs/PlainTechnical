@@ -1,0 +1,34 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeRides (MIT).
+extends: existence
+message: 'Figurative verb: ''%s''. State the dependency or the mechanism.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \b(?:ride|rides|riding) on (?:whether|a single|(?:this |that )?one \w+|(?:the|this|that) (?:assumption|premise|hope|outcome|answer|result|success)|an assumption)\b
+- \b(?:everything|it all|a lot|much|the whole \w+) (?:ride|rides|riding) on\b
+- \b(?:ride|rides|riding) along\b
+- \b(?:ride|rides|riding|rode) alongside\b
+- \b(?:ride|rides|riding|rode) through\b
+- \b(?:ride|rides|riding) shotgun\b
+- \bhitch(?:es|ed|ing)? a ride\b
+- \balong for the ride\b
+- \bfree ride\b
+- \b(?:ride|rides|riding) on top of\b
+- \b(?:ride|rides|riding) (?:the|a|that) wave\b
+- \b(?:ride|rides|riding) (?:on the |the )?coattails\b
+- \b(?:ride|rides|riding) the momentum\b
+- \b(?:ride|rides|riding) high\b
+- \b(?:ride|rides|riding) the (?:index|cache|(?:hot|fast|slow|happy|read|write|critical) path|pipeline|queue|wire|backbone|mainline|gradient|event loop|fast lane|chain)\b
+- \b(?:ride|rides|riding) herd on\b
+- \blet it ride\b
+tests:
+- name: flags 'rides the index'
+  input: |
+    The query rides the index.
+  want: |
+    1:11:PlainTechnical.FigurativeRides:Figurative verb: 'rides the index'. State the dependency or the mechanism.
+- name: rides the bus
+  input: |
+    She rides the bus to work.
+  want: ''

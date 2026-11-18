@@ -1,0 +1,11 @@
+# Reads a comment that opens on its marker, one to three spaces and text. Vale
+# reads it as Markdown and skips a quotation in it. A marker with no space or a
+# tab after it, or with four spaces or more, marks a line of code, and so does
+# a comment that ends on a `;` or a brace. Inside a block comment, a line after
+# ` *` and a tab reads as prose.
+engine: tree-sitter
+lang: c
+scopes:
+  - name: comment
+    expr: '((comment) @comment (#match? @comment "^(//[/!]?<? {1,3}\\S|/\\*[*!]?\\s)") (#not-match? @comment "(;|[{}])\\s*(\\*/)?$"))'
+    type: md

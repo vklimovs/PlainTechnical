@@ -1,0 +1,63 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.StackedAnaphora (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Repeated opening: ''%s''. Join the sentences or vary their structure.'
+level: warning
+nonword: true
+tokens:
+- \bNo [^.]{1,400}\. No [^.]{1,400}\. No [^.]{1,400}
+- \bNo \w[^.]{1,400}\. No \w[^.]{1,400}
+- \bNo [^,]{1,400}, no [^,]{1,400}, no [^.!?]{1,400}
+- \bNot [^.]{1,400}\. Not [^.]{1,400}\. Not [^.]{1,400}
+- \bNot \w[^.]{1,400}\. Not \w[^.]{1,400}
+- '\b[Ii]t is [^.]{1,400}\. [Ii]t is [^.]{1,400}\. [Ii]t is [^.]{1,400}'
+- \b[Tt]his is [^.]{1,400}\. [Tt]his is [^.]{1,400}\. [Tt]his is [^.]{1,400}
+- \b(?:What|Why|How|Where|When|Who|Which|Is|Are|Can|Could|Should|Would|Do|Does) [^?]{1,400}\? (?:What|Why|How|Where|When|Who|Which|Is|Are|Can|Could|Should|Would|Do|Does) [^?]{1,400}\? (?:What|Why|How|Where|When|Who|Which|Is|Are|Can|Could|Should|Would|Do|Does) [^?]{1,400}\?
+- \b[A-Z][^.]{1,400}works because [^.]{1,400}\. [A-Z][^.]{1,400}works because [^.]{1,400}\. [A-Z][^.]{1,400}works because [^.]{1,400}
+- \bOne [^.]{1,400}\. One [^.]{1,400}\. One [^.]{1,400}
+- \bOne [^,]{1,400}, one [^.!?]{1,400}
+- \bEvery [^.]{1,400}\. Every [^.]{1,400}\. Every [^.]{1,400}
+- \bEvery [^,]{1,400}, every [^.!?]{1,400}
+- \bEach [^.]{1,400}\. Each [^.]{1,400}\. Each [^.]{1,400}
+- \bEach [^,]{1,400}, each [^.!?]{1,400}
+- \bZero [^.]{1,400}\. Zero [^.]{1,400}\. Zero [^.]{1,400}
+- \bZero [^,]{1,400}, zero [^.!?]{1,400}
+- \bA single [^.]{1,400}\. A single [^.]{1,400}
+- \bA single [^,]{1,400}, a single [^.!?]{1,400}
+- \bMany [^.]{1,400}\. Many [^.]{1,400}\.
+- \bFew [^.]{1,400}\. Few [^.]{1,400}\.
+- \bAll [^.]{1,400}\. All [^.]{1,400}\. All [^.]{1,400}
+- \b(?:with|through|by|for|via|within) [^,]{1,400}, (?:with|through|by|for|via|within) [^,]{1,400}, (?:and )?(?:with|through|by|for|via|within) [^.!?]{1,400}
+- \bAlways [^.]{1,400}\. Always [^.]{1,400}\.
+- \b[Aa]lways [^,]{1,400}, always [^.!?]{1,400}
+- \bNever [^.]{1,400}\. Never [^.]{1,400}\.
+- \b[Nn]ever [^,]{1,400}, never [^.!?]{1,400}
+- \bFully [^.]{1,400}\. Fully [^.]{1,400}\.
+- \b[Ff]ully [^,]{1,400}, fully [^.!?]{1,400}
+- \bCompletely [^.]{1,400}\. Completely [^.]{1,400}\.
+- \b[Cc]ompletely [^,]{1,400}, completely [^.!?]{1,400}
+- \bEntirely [^.]{1,400}\. Entirely [^.]{1,400}\.
+- \b[Ee]ntirely [^,]{1,400}, entirely [^.!?]{1,400}
+- \bTruly [^.]{1,400}\. Truly [^.]{1,400}\.
+- \b[Tt]ruly [^,]{1,400}, truly [^.!?]{1,400}
+- \bPurely [^.]{1,400}\. Purely [^.]{1,400}\.
+- \b[Pp]urely [^,]{1,400}, purely [^.!?]{1,400}
+- \bOnly [^.]{1,400}\. Only [^.]{1,400}\.
+- \b[Oo]nly [^,]{1,400}, only [^.!?]{1,400}
+- \b[Jj]ust [^,]{1,400}, just [^.!?]{1,400}
+- '\b(?:A|An) \w+(?: \w+){0,2} \w+s [^.]{1,400}\. (?:A|An) \w+(?: \w+){0,2} \w+s [^.]{1,400}\. (?:A|An) \w+(?: \w+){0,2} \w+s [^.!?]{1,400}'
+- '\b(?:A|An) \w+(?: \w+){0,2} \w+s [^.]{1,400}\. (?:A|An) \w+(?: \w+){0,2} \w+s [^.!?]{1,400}'
+- '\bThe [\w-]+(?: [\w-]+){0,4}(?:, the [\w-]+(?: [\w-]+){0,4}){2,}\.'
+- \bWhether [^.]{1,400}, or whether [^.!?]{1,400}\.
+- \bWhether [^.]{1,400}\. Whether [^.]{1,400}\.
+- '\bFor (?!(?:example|instance|now|details|more|this|that|these|those|some|historical|backward|backwards|simplicity|performance|efficiency|convenience|consistency|compatibility|clarity|debugging|testing|security|reference|completeness|context|comparison|brevity|safety|starters|any|all|each|every|the|a|an|one|its|our|your|my|their|no|most|many|what|whatever)\b)[A-Za-z][a-z-]*(?: [a-z-]+)?, [^.]{1,400}\. For (?!(?:example|instance|now|details|more|this|that|these|those|some|historical|backward|backwards|simplicity|performance|efficiency|convenience|consistency|compatibility|clarity|debugging|testing|security|reference|completeness|context|comparison|brevity|safety|starters|any|all|each|every|the|a|an|one|its|our|your|my|their|no|most|many|what|whatever)\b)[A-Za-z][a-z-]*(?: [a-z-]+)?,'
+tests:
+- name: flags 'Every host gets the key from the vault at boot. '
+  input: |
+    Every host gets the key from the vault at boot. Every host writes the key to its disk. Every host reloads the daemon after that.
+  want: |
+    1:1:PlainTechnical.RepeatedOpening:Repeated opening: 'Every host gets the key from the vault at boot. Every host writes the key to its disk. Every host reloads the daemon after that'. Join the sentences or vary their structure.
+- name: single for scope opener
+  input: |
+    For search, the index reverses the join.
+  want: ''

@@ -1,0 +1,51 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.RestatementMarkers (MIT).
+# Changed: Leaves 'What this means is' to Preamble.
+extends: existence
+message: 'Restatement: ''%s''. Delete it.'
+level: warning
+ignorecase: true
+tokens:
+- In other words
+- Simply put
+- Put simply
+- Put differently
+- To put it simply
+- To put it another way
+- Said differently
+- To state it plainly
+- To state this plainly
+- To be more precise
+- To be more specific
+- To be more exact
+- Or rather
+- More precisely
+- More specifically
+- More accurately
+- '(?<!happy )to clarify'
+- To rephrase
+- To restate
+- What I mean is
+- In plainer terms
+- In plain terms
+- In plain English
+- In simpler terms
+- In simple terms
+- To put it more simply
+- To put it more directly
+- Put another way
+- Which is to say
+- the same (?:holds(?! true)|applies|goes|is true|is the case)
+- (?-i:In practice)(?=,)
+- (?-i:In effect)(?=,)
+- (?-i:In the end)(?=,)
+- (?-i:Meaning)(?:(?=,)| (?:the|a|an|this|that|these|those|it|its|they|you|we|there|no|every|each|any|one|all|both|if|when|your|our|I)\b)
+tests:
+- name: flags 'In the end'
+  input: |
+    In the end, one read.
+  want: |
+    1:1:PlainTechnical.Restatement:Restatement: 'In the end'. Delete it.
+- name: mid-sentence in practice
+  input: |
+    The tool works in practice tests as well as in the lab.
+  want: ''

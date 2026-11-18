@@ -1,0 +1,18 @@
+# Source: PlainTechnical. ASD-STE100 rule 4.4 asks for connecting words, and a
+# run of So openers is a tic.
+extends: occurrence
+message: 'Consequence opener: %d sentences in this paragraph start with ''So''. Use ''because'' or ''as a result'' for the others.'
+level: warning
+scope: paragraph
+max: 1
+token: (?:^|(?<=[.!?]\s))So\b
+tests:
+- name: flags a run of So openers
+  input: |
+    The pool fills. So writes fail. So the daemon stops.
+  want: |
+    1:17:PlainTechnical.ConsequenceOpener:Consequence opener: 2 sentences in this paragraph start with 'So'. Use 'because' or 'as a result' for the others.
+- name: leaves one alone
+  input: |
+    The pool fills. So writes fail.
+  want: ''

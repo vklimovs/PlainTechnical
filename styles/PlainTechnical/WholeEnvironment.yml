@@ -1,0 +1,22 @@
+# Source: PlainTechnical. A word for the whole environment hides which
+# hosts a statement covers.
+extends: existence
+message: 'Word for the whole: ''%s''. Name the group, or write ''the environment''.'
+level: warning
+ignorecase: true
+nonword: true
+tokens:
+# A dotted name, such as a Kibana setting, is a machine's.
+- '(?-i:(?<![\w.-])(?:fleet|homelab)s?\b(?!-))'
+tests:
+- name: flags a word for the whole
+  input: |
+    Every host in the fleet gets it, and so does the homelab.
+  want: |
+    1:19:PlainTechnical.WholeEnvironment:Word for the whole: 'fleet'. Name the group, or write 'the environment'.
+    1:50:PlainTechnical.WholeEnvironment:Word for the whole: 'homelab'. Name the group, or write 'the environment'.
+- name: leaves a dotted name and a code span alone
+  input: |
+    The setting xpack.fleet.isAirGapped skips the registry. The word `fleet`
+    goes.
+  want: ''

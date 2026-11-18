@@ -1,0 +1,32 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.NamedAdjective (MIT).
+extends: existence
+message: 'Designation adjective: ''%s''. Write the identifier itself, or say which one.'
+level: warning
+nonword: true
+ignorecase: true
+exceptions:
+- (?i)part(?:y|ies)
+- (?i)insureds?
+- (?i)plaintiffs?
+- (?i)defendants?
+- (?i)beneficiary|beneficiaries
+- (?i)executors?
+- (?i)trustees?
+- (?i)drivers?
+- (?i)individuals?
+- (?i)persons?
+- (?i)storms?
+- (?i)hurricanes?
+- (?i)cyclones?
+tokens:
+- \b(?:the|this|that|these|those|its|their|each|every|both|all|any|only|either|neither) named (?!(?:pipes?|tuples?|groups?|types?|arguments?|args?|parameters?|params?|returns?|constants?|entity|entities|colors?|captures?|ranges?|volumes?|imports?|exports?|placeholders?|semaphores?|mutex(?:es)?|graphs?|functions?|class(?:es)?|fields?|slots?|structs?|values?|results?|keys?|nodes?|queries|query|locations?|shared|memory|and|or|after|for|by|in|as|at|with|to|the|a|an|it|them|so|below|above|here|there)\b)(?:[a-z][a-z'-]* (?!(?:and|or|but|then|that|which|who|is|are|was|were|be|in|on|at|to|for|by|with|as|of|from|into|has|have|had|can|could|may|might|must|should|will|would|does|did|do|not|also|only|so|if|when|until|before|after)\b)(?=[a-z]))?[a-z][a-z'-]*\b
+tests:
+- name: flags 'Its named target'
+  input: |
+    Its named target is a table.
+  want: |
+    1:1:PlainTechnical.DesignationAdjective:Designation adjective: 'Its named target'. Write the identifier itself, or say which one.
+- name: indefinite article
+  input: |
+    The compiler accepts a named type in this position.
+  want: ''

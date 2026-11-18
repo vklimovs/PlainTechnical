@@ -1,0 +1,34 @@
+# Source: the word swaps of SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: Leaves the robust mutex and futex of POSIX, and the Comprehensive
+# Perl, TeX and R archives, alone. Drops 'is designed to' and 'aims to', which
+# state a purpose. Names the endings of each word, so an identifier such as
+# 'robust_list_head' reads as code.
+extends: existence
+message: "Unmeasured claim: '%s'. Give the measurable property, such as 'retries three times'."
+level: warning
+ignorecase: true
+tokens:
+  - 'blazing(?:ly)? fast'
+  - 'comprehensive(?:ly)?(?! (?:Perl|TeX|R) )'
+  - 'gracefully handles'
+  - 'multifaceted'
+  - 'nuanced'
+  - 'performant(?:ly)?'
+  - 'powerful(?:ly)?'
+  - 'robust(?:ly|ness|ify|ified)?(?! (?:against|to|statistics|regression|estimators?|mutex(?:es)?|futex(?:es)?|lists?)\b)'
+  - 'vibrant(?:ly)?'
+tests:
+- name: flags an unmeasured adjective
+  input: |
+    The retry logic is robust.
+  want: |
+    1:20:PlainTechnical.UnmeasuredClaim:Unmeasured claim: 'robust'. Give the measurable property, such as 'retries three times'.
+- name: leaves the measured fact alone
+  input: |
+    The client retries three times.
+  want: ''
+- name: flags 'blazing fast'
+  input: |
+    The parser is blazing fast.
+  want: |
+    1:15:PlainTechnical.UnmeasuredClaim:Unmeasured claim: 'blazing fast'. Give the measurable property, such as 'retries three times'.

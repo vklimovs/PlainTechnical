@@ -1,0 +1,86 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.AffirmativeFormulas (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+# Leaves 'Here is why this matters', 'What this really means is', 'What this
+# shows us is', 'What this tells us is' and 'And here is why the …' to
+# ExplainerLead. Drops 'This is what … looks like', which leads in a figure.
+# Matches 'The point is' before 'that', 'to', a colon, 'simple' or 'clear'.
+# Leaves a literal key, a message and 'the power of two' alone. Matches 'Here
+# is the secret' and the like before punctuation, and 'The fact is' and the
+# like before a comma, a colon or 'that', since 'the fact is set' names an
+# Ansible fact. Adds 'Congratulations' before '!' or ',' at the start of a
+# sentence, from the wikiHow part of the M4 corpus.
+extends: existence
+message: 'Affirmation: ''%s''. Delete the flourish and state the point.'
+level: warning
+tokens:
+- '(?:\A|(?<=[.!?]\s))Congratulations(?=[!,])'
+- '[Aa]nd that is what makes it [^.!?]+'
+- '[Aa]nd that is what makes this [^.!?]+'
+- '[Aa]nd that is the (?:key|real|true) (?:insight|point|takeaway|lesson|idea|difference|question|issue|problem|reason|secret|trick)\b[^.!?]*'
+- '[Tt]hat is the key (?:insight|takeaway|point|difference)'
+- '[Tt]hat is the beauty of [^.!?]+'
+- '[Tt]hat is the power of (?!(?:two|2|ten|10)\b)[^.!?]+'
+- '[Tt]hat is the magic of [^.!?]+'
+- '[Tt]hat is the essence of [^.!?]+'
+- '[Tt]hat is the heart of [^.!?]+'
+- '[Tt]hat is the crux of [^.!?]+'
+- '[Tt]hat is the real (?:question|issue|challenge|opportunity)'
+- '[Tt]his is what it means to [^.!?]+'
+- '[Tt]hat is what it means to [^.!?]+'
+- '[Hh]ere is the deal(?=[.:,!])'
+- '[Hh]ere is the truth(?=[.:,!])'
+- '[Hh]ere is the reality(?=[.:,!])'
+- '[Hh]ere is the kicker(?=[.:,!])'
+- '[Hh]ere is the catch(?=[.:,!])'
+- '[Hh]ere is the secret(?=[.:,!])'
+- '[Hh]ere is what (?:most people|many|few) (?!miss\b)[^.!?]+'
+- '[Tt]he (?:key|fundamental|crucial|core|central|critical|essential|main|primary|underlying|basic|real|true) (?:insight|point|takeaway|lesson|idea|observation|realization|understanding|truth|principle) is'
+- '(?:[Tt]he )?(?:[Kk]ey|[Ff]undamental|[Cc]rucial|[Cc]ore|[Cc]entral|[Cc]ritical|[Ee]ssential|[Mm]ain|[Pp]rimary|[Uu]nderlying|[Bb]asic|[Rr]eal|[Tt]rue) (?:insights|points|takeaways|lessons|ideas|observations|realizations|understandings|truths|principles) are'
+- '[Tt]he lesson (?:here )?is [^.!?]+'
+- '[Tt]he point (?:here )?is(?: that| to|:| simple| clear)[^.!?]*'
+- '[Tt]he insight (?:here )?is [^.!?]+'
+- '[Aa]nd (?:this|that) is (?:exactly|precisely) (?:what|why|how) [^.!?]+'
+- '[Tt]hink about (?:it|that) for a (?:moment|second)'
+- '[Ll]et that sink in'
+- '[Rr]ead that again'
+- '[Ll]et me say that again'
+- ', and that is (?:rare|powerful|significant|remarkable|important|huge|massive)'
+- "\u2014and that is (?:rare|powerful|significant|remarkable|important|huge|massive)"
+- '[Tt]he real (?:secret|trick|answer|solution) is [^.!?]+'
+- '[Tt]he real (?:question|issue|problem|challenge) is not [^.!?]+'
+- '[Aa]nd here is (?:why(?! (?:exactly |precisely )?(?:the|this|that|these|those|a|an|each|every|your|our|its) [-''\w]+ [-''\w]+)|the kicker|the catch)'
+- '[Bb]ut here is (?:why(?! (?:exactly |precisely )?(?:the|this|that|these|those|a|an|each|every|your|our|its) [-''\w]+ [-''\w]+)|the kicker|the catch)'
+- '[Ll]et me be (?:clear|honest|direct|frank|real)'
+- '[Ll]et us be (?:clear|honest|direct|frank|real)'
+- '(?:\A|(?<=[.!?]\s))To be (?:clear|honest|direct|frank)(?=,)'
+- '[Hh]ave no doubt'
+- '[Rr]est assured'
+- '[Tt]he truth is(?=,|:| that\b)'
+- '[Tt]he reality is(?=,|:| that\b)'
+- '[Tt]he fact is(?=,|:| that\b)'
+- '[Tt]he simple truth is(?=,|:| that\b)'
+- '[Tt]he hard truth is(?=,|:| that\b)'
+- '[Tt]he uncomfortable truth is(?=,|:| that\b)'
+- '[Ss]poiler alert'
+- '[Pp]lot twist'
+- '[Ff]un fact'
+- '[Pp]ro tip'
+- '[Hh]ot take'
+tests:
+- name: flags 'that is the beauty of it'
+  input: |
+    And that is the beauty of it.
+  want: |
+    1:5:PlainTechnical.AffirmativeFormula:Affirmation: 'that is the beauty of it'. Delete the flourish and state the point.
+- name: "leaves 'The takeaway is that' to ShellNoun"
+  input: |
+    The takeaway is that the queue never blocks.
+  want: ''
+- name: leaves 'And here is why the' to ExplainerLead
+  input: |
+    And here is why the restart fails.
+  want: ''
+- name: leaves 'the power of two' alone
+  input: |
+    That is the power of two.
+  want: ''

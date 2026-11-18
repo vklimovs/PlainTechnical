@@ -1,0 +1,821 @@
+# One case for each rule that holds tokens. Each paragraph holds an input that
+# one token of the rule matches and no other token of it does. The case names
+# the alert at that line, so a case fails when its token goes.
+- name: each token of CommitBuzzword
+  input: |
+    repo: add the cache
+
+    Then the tool proper validation the cache now.
+
+    Then the tool proper error handling the cache now.
+
+    Then the tool proper error messages the cache now.
+
+    Then the tool proper type checking the cache now.
+
+    Then the tool proper cleanup the cache now.
+
+    Then the tool proper initialization the cache now.
+
+    Then the tool properly handle the cache now.
+
+    Then the tool properly validate the cache now.
+
+    Then the tool properly clean up the cache now.
+
+    Then the tool properly initialize the cache now.
+
+    Then the tool relevant components the cache now.
+
+    Then the tool relevant tests the cache now.
+
+    Then the tool relevant documentation the cache now.
+
+    Then the tool relevant files the cache now.
+
+    Then the tool relevant modules the cache now.
+
+    Then the tool relevant sections the cache now.
+
+    Then the tool update relevant the cache now.
+
+    Then the tool appropriate error messages the cache now.
+
+    Then the tool appropriate error handling the cache now.
+
+    Then the tool appropriate validation the cache now.
+
+    Then the tool appropriate handling the cache now.
+
+    Then the tool appropriate defaults the cache now.
+
+    Then the tool appropriate types the cache now.
+
+    Then the tool necessary changes the cache now.
+
+    Then the tool necessary updates the cache now.
+
+    Then the tool necessary tests the cache now.
+
+    Then the tool necessary fixes the cache now.
+
+    Then the tool necessary adjustments the cache now.
+
+    Then the tool necessary modifications the cache now.
+
+    Then the tool necessary refactoring the cache now.
+
+    Then the tool necessary cleanup the cache now.
+
+    Then the tool overall performance the cache now.
+
+    Then the tool overall quality the cache now.
+
+    Then the tool overall readability the cache now.
+
+    Then the tool overall structure the cache now.
+
+    Then the tool overall code quality the cache now.
+
+    Then the tool overall maintainability the cache now.
+
+    Then the tool overall stability the cache now.
+
+    Then the tool overall experience the cache now.
+
+    Then the tool corresponding tests the cache now.
+
+    Then the tool corresponding changes the cache now.
+
+    Then the tool corresponding updates the cache now.
+
+    Then the tool corresponding documentation the cache now.
+
+    Then the tool corresponding types the cache now.
+
+    Then the tool and related changes the cache now.
+
+    Then the tool and related updates the cache now.
+
+    Then the tool and related tests the cache now.
+
+    Then the tool and associated changes the cache now.
+
+    Then the tool and associated tests the cache now.
+
+    Then the tool proper handling the cache now.
+  format: commit
+  contains:
+    - "3:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'proper validation'. Say what changed."
+    - "5:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'proper error handling'. Say what changed."
+    - "7:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'proper error messages'. Say what changed."
+    - "9:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'proper type checking'. Say what changed."
+    - "11:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'proper cleanup'. Say what changed."
+    - "13:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'proper initialization'. Say what changed."
+    - "15:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'properly handle'. Say what changed."
+    - "17:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'properly validate'. Say what changed."
+    - "19:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'properly clean up'. Say what changed."
+    - "21:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'properly initialize'. Say what changed."
+    - "23:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'relevant components'. Say what changed."
+    - "25:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'relevant tests'. Say what changed."
+    - "27:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'relevant documentation'. Say what changed."
+    - "29:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'relevant files'. Say what changed."
+    - "31:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'relevant modules'. Say what changed."
+    - "33:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'relevant sections'. Say what changed."
+    - "35:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'update relevant'. Say what changed."
+    - "37:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'appropriate error messages'. Say what changed."
+    - "39:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'appropriate error handling'. Say what changed."
+    - "41:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'appropriate validation'. Say what changed."
+    - "43:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'appropriate handling'. Say what changed."
+    - "45:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'appropriate defaults'. Say what changed."
+    - "47:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'appropriate types'. Say what changed."
+    - "49:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'necessary changes'. Say what changed."
+    - "51:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'necessary updates'. Say what changed."
+    - "53:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'necessary tests'. Say what changed."
+    - "55:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'necessary fixes'. Say what changed."
+    - "57:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'necessary adjustments'. Say what changed."
+    - "59:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'necessary modifications'. Say what changed."
+    - "61:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'necessary refactoring'. Say what changed."
+    - "63:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'necessary cleanup'. Say what changed."
+    - "65:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'overall performance'. Say what changed."
+    - "67:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'overall quality'. Say what changed."
+    - "69:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'overall readability'. Say what changed."
+    - "71:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'overall structure'. Say what changed."
+    - "73:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'overall code quality'. Say what changed."
+    - "75:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'overall maintainability'. Say what changed."
+    - "77:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'overall stability'. Say what changed."
+    - "79:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'overall experience'. Say what changed."
+    - "81:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'corresponding tests'. Say what changed."
+    - "83:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'corresponding changes'. Say what changed."
+    - "85:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'corresponding updates'. Say what changed."
+    - "87:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'corresponding documentation'. Say what changed."
+    - "89:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'corresponding types'. Say what changed."
+    - "91:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'and related changes'. Say what changed."
+    - "93:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'and related updates'. Say what changed."
+    - "95:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'and related tests'. Say what changed."
+    - "97:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'and associated changes'. Say what changed."
+    - "99:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'and associated tests'. Say what changed."
+    - "101:15:PlainTechnical.CommitBuzzword:Commit buzzword: 'proper handling'. Say what changed."
+- name: each token of CommitHedge
+  input: |
+    repo: add the cache
+
+    Then the tool This helps to the cache now.
+
+    Then the tool This helps with the cache now.
+
+    Then the tool This helps ensure the cache now.
+
+    Then the tool This helps prevent the cache now.
+
+    Then the tool helps to ensure the cache now.
+
+    Then the tool helps to prevent the cache now.
+
+    Then the tool helps to improve the cache now.
+
+    Then the tool helps to reduce the cache now.
+
+    Then the tool helps to avoid the cache now.
+
+    Then the tool appears to fix the cache now.
+
+    Then the tool appears to resolve the cache now.
+
+    Then the tool seems to fix the cache now.
+
+    Then the tool seems to resolve the cache now.
+
+    Then the tool seems to work the cache now.
+
+    Then the tool seems to be fixed the cache now.
+
+    Then the tool seems to be resolved the cache now.
+
+    Then the tool seems to be working the cache now.
+  format: commit
+  contains:
+    - "3:15:PlainTechnical.CommitHedge:Hedge: 'This helps to'. State what you tested."
+    - "5:15:PlainTechnical.CommitHedge:Hedge: 'This helps with'. State what you tested."
+    - "7:15:PlainTechnical.CommitHedge:Hedge: 'This helps ensure'. State what you tested."
+    - "9:15:PlainTechnical.CommitHedge:Hedge: 'This helps prevent'. State what you tested."
+    - "11:15:PlainTechnical.CommitHedge:Hedge: 'helps to ensure'. State what you tested."
+    - "13:15:PlainTechnical.CommitHedge:Hedge: 'helps to prevent'. State what you tested."
+    - "15:15:PlainTechnical.CommitHedge:Hedge: 'helps to improve'. State what you tested."
+    - "17:15:PlainTechnical.CommitHedge:Hedge: 'helps to reduce'. State what you tested."
+    - "19:15:PlainTechnical.CommitHedge:Hedge: 'helps to avoid'. State what you tested."
+    - "21:15:PlainTechnical.CommitHedge:Hedge: 'appears to fix'. State what you tested."
+    - "23:15:PlainTechnical.CommitHedge:Hedge: 'appears to resolve'. State what you tested."
+    - "25:15:PlainTechnical.CommitHedge:Hedge: 'seems to fix'. State what you tested."
+    - "27:15:PlainTechnical.CommitHedge:Hedge: 'seems to resolve'. State what you tested."
+    - "29:15:PlainTechnical.CommitHedge:Hedge: 'seems to work'. State what you tested."
+    - "31:15:PlainTechnical.CommitHedge:Hedge: 'seems to be fixed'. State what you tested."
+    - "33:15:PlainTechnical.CommitHedge:Hedge: 'seems to be resolved'. State what you tested."
+    - "35:15:PlainTechnical.CommitHedge:Hedge: 'seems to be working'. State what you tested."
+- name: each token of CommitMarketingAdjective
+  input: |
+    repo: add the cache
+
+    Then the tool production-ready the cache now.
+
+    Then the tool production ready the cache now.
+
+    Then the tool enterprise-grade the cache now.
+
+    Then the tool enterprise grade the cache now.
+
+    Then the tool mission-critical the cache now.
+
+    Then the tool mission critical the cache now.
+
+    Then the tool world class the cache now.
+
+    Then the tool state of the art the cache now.
+
+    Then the tool cutting edge the cache now.
+
+    Then the tool best in class the cache now.
+
+    Then the tool industry-standard the cache now.
+
+    Then the tool industry standard the cache now.
+
+    Then the tool battle-tested the cache now.
+
+    Then the tool battle tested the cache now.
+
+    Then the tool rock-solid the cache now.
+
+    Then the tool rock solid the cache now.
+
+    Then the tool top-tier the cache now.
+
+    Then the tool top tier the cache now.
+
+    Then the tool highly scalable the cache now.
+
+    Then the tool bulletproof the cache now.
+
+    Then the tool carefully crafted the cache now.
+
+    Then the tool elegantly designed the cache now.
+  format: commit
+  contains:
+    - "3:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'production-ready'. State what changed and why."
+    - "5:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'production ready'. State what changed and why."
+    - "7:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'enterprise-grade'. State what changed and why."
+    - "9:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'enterprise grade'. State what changed and why."
+    - "11:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'mission-critical'. State what changed and why."
+    - "13:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'mission critical'. State what changed and why."
+    - "15:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'world class'. State what changed and why."
+    - "17:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'state of the art'. State what changed and why."
+    - "19:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'cutting edge'. State what changed and why."
+    - "21:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'best in class'. State what changed and why."
+    - "23:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'industry-standard'. State what changed and why."
+    - "25:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'industry standard'. State what changed and why."
+    - "27:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'battle-tested'. State what changed and why."
+    - "29:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'battle tested'. State what changed and why."
+    - "31:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'rock-solid'. State what changed and why."
+    - "33:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'rock solid'. State what changed and why."
+    - "35:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'top-tier'. State what changed and why."
+    - "37:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'top tier'. State what changed and why."
+    - "39:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'highly scalable'. State what changed and why."
+    - "41:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'bulletproof'. State what changed and why."
+    - "43:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'carefully crafted'. State what changed and why."
+    - "45:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'elegantly designed'. State what changed and why."
+- name: each token of CommitOverexplanation
+  input: |
+    repo: add the cache
+
+    Then the tool as part of this change the cache now.
+
+    Then the tool as part of this commit the cache now.
+
+    Then the tool as part of this update the cache now.
+
+    Then the tool as part of this PR the cache now.
+
+    Then the tool as part of this pull request the cache now.
+
+    Then the tool as part of this refactor the cache now.
+
+    Then the tool as part of this effort the cache now.
+
+    Then the tool as part of this migration the cache now.
+
+    Then the tool as part of this work the cache now.
+
+    Then the tool this is necessary because the cache now.
+
+    Then the tool this was necessary because the cache now.
+
+    Then the tool this is needed because the cache now.
+
+    Then the tool this was needed because the cache now.
+
+    Then the tool this is required because the cache now.
+
+    Then the tool this is necessary to ensure the cache now.
+
+    Then the tool this was necessary to ensure the cache now.
+
+    Then the tool along with necessary the cache now.
+
+    Then the tool along with corresponding the cache now.
+
+    Then the tool along with related the cache now.
+
+    Then the tool along with relevant the cache now.
+
+    Then the tool along with associated the cache now.
+
+    Then the tool along with appropriate the cache now.
+
+    Then the tool along with updated the cache now.
+
+    Then the tool the following changes were made the cache now.
+
+    Then the tool the following changes have been made the cache now.
+
+    Then the tool the following modifications were made the cache now.
+
+    Then the tool changes include the cache now.
+
+    Then the tool changes made include the cache now.
+
+    Then the tool the key changes are the cache now.
+
+    Then the tool the main changes are the cache now.
+
+    Then the tool the notable changes are the cache now.
+
+    Then the tool summary of changes the cache now.
+
+    Then the tool the goal of this change the cache now.
+
+    Then the tool the purpose of this change the cache now.
+
+    Then the tool the purpose of this commit the cache now.
+
+    Then the tool the goal of this commit the cache now.
+
+    Then the tool the intent of this change the cache now.
+
+    Then the tool the motivation for this change the cache now.
+
+    Then the tool the reason for this change the cache now.
+
+    Then the tool the rationale behind this the cache now.
+  format: commit
+  contains:
+    - "3:15:PlainTechnical.CommitOverexplanation:Filler: 'as part of this change'. Delete it. The message keeps its meaning."
+    - "5:15:PlainTechnical.CommitOverexplanation:Filler: 'as part of this commit'. Delete it. The message keeps its meaning."
+    - "7:15:PlainTechnical.CommitOverexplanation:Filler: 'as part of this update'. Delete it. The message keeps its meaning."
+    - "9:15:PlainTechnical.CommitOverexplanation:Filler: 'as part of this PR'. Delete it. The message keeps its meaning."
+    - "11:15:PlainTechnical.CommitOverexplanation:Filler: 'as part of this pull request'. Delete it. The message keeps its meaning."
+    - "13:15:PlainTechnical.CommitOverexplanation:Filler: 'as part of this refactor'. Delete it. The message keeps its meaning."
+    - "15:15:PlainTechnical.CommitOverexplanation:Filler: 'as part of this effort'. Delete it. The message keeps its meaning."
+    - "17:15:PlainTechnical.CommitOverexplanation:Filler: 'as part of this migration'. Delete it. The message keeps its meaning."
+    - "19:15:PlainTechnical.CommitOverexplanation:Filler: 'as part of this work'. Delete it. The message keeps its meaning."
+    - "21:15:PlainTechnical.CommitOverexplanation:Filler: 'this is necessary because'. Delete it. The message keeps its meaning."
+    - "23:15:PlainTechnical.CommitOverexplanation:Filler: 'this was necessary because'. Delete it. The message keeps its meaning."
+    - "25:15:PlainTechnical.CommitOverexplanation:Filler: 'this is needed because'. Delete it. The message keeps its meaning."
+    - "27:15:PlainTechnical.CommitOverexplanation:Filler: 'this was needed because'. Delete it. The message keeps its meaning."
+    - "29:15:PlainTechnical.CommitOverexplanation:Filler: 'this is required because'. Delete it. The message keeps its meaning."
+    - "31:15:PlainTechnical.CommitOverexplanation:Filler: 'this is necessary to ensure'. Delete it. The message keeps its meaning."
+    - "33:15:PlainTechnical.CommitOverexplanation:Filler: 'this was necessary to ensure'. Delete it. The message keeps its meaning."
+    - "35:15:PlainTechnical.CommitOverexplanation:Filler: 'along with necessary'. Delete it. The message keeps its meaning."
+    - "37:15:PlainTechnical.CommitOverexplanation:Filler: 'along with corresponding'. Delete it. The message keeps its meaning."
+    - "39:15:PlainTechnical.CommitOverexplanation:Filler: 'along with related'. Delete it. The message keeps its meaning."
+    - "41:15:PlainTechnical.CommitOverexplanation:Filler: 'along with relevant'. Delete it. The message keeps its meaning."
+    - "43:15:PlainTechnical.CommitOverexplanation:Filler: 'along with associated'. Delete it. The message keeps its meaning."
+    - "45:15:PlainTechnical.CommitOverexplanation:Filler: 'along with appropriate'. Delete it. The message keeps its meaning."
+    - "47:15:PlainTechnical.CommitOverexplanation:Filler: 'along with updated'. Delete it. The message keeps its meaning."
+    - "49:15:PlainTechnical.CommitOverexplanation:Filler: 'the following changes were made'. Delete it. The message keeps its meaning."
+    - "51:15:PlainTechnical.CommitOverexplanation:Filler: 'the following changes have been made'. Delete it. The message keeps its meaning."
+    - "53:15:PlainTechnical.CommitOverexplanation:Filler: 'the following modifications were made'. Delete it. The message keeps its meaning."
+    - "55:15:PlainTechnical.CommitOverexplanation:Filler: 'changes include'. Delete it. The message keeps its meaning."
+    - "57:15:PlainTechnical.CommitOverexplanation:Filler: 'changes made include'. Delete it. The message keeps its meaning."
+    - "59:15:PlainTechnical.CommitOverexplanation:Filler: 'the key changes are'. Delete it. The message keeps its meaning."
+    - "61:15:PlainTechnical.CommitOverexplanation:Filler: 'the main changes are'. Delete it. The message keeps its meaning."
+    - "63:15:PlainTechnical.CommitOverexplanation:Filler: 'the notable changes are'. Delete it. The message keeps its meaning."
+    - "65:15:PlainTechnical.CommitOverexplanation:Filler: 'summary of changes'. Delete it. The message keeps its meaning."
+    - "67:15:PlainTechnical.CommitOverexplanation:Filler: 'the goal of this change'. Delete it. The message keeps its meaning."
+    - "69:15:PlainTechnical.CommitOverexplanation:Filler: 'the purpose of this change'. Delete it. The message keeps its meaning."
+    - "71:15:PlainTechnical.CommitOverexplanation:Filler: 'the purpose of this commit'. Delete it. The message keeps its meaning."
+    - "73:15:PlainTechnical.CommitOverexplanation:Filler: 'the goal of this commit'. Delete it. The message keeps its meaning."
+    - "75:15:PlainTechnical.CommitOverexplanation:Filler: 'the intent of this change'. Delete it. The message keeps its meaning."
+    - "77:15:PlainTechnical.CommitOverexplanation:Filler: 'the motivation for this change'. Delete it. The message keeps its meaning."
+    - "79:15:PlainTechnical.CommitOverexplanation:Filler: 'the reason for this change'. Delete it. The message keeps its meaning."
+    - "81:15:PlainTechnical.CommitOverexplanation:Filler: 'the rationale behind this'. Delete it. The message keeps its meaning."
+- name: each token of CommitPastFault
+  input: |
+    repo: add the cache
+
+    The shell runs on. The doc still described a stop.
+  format: commit
+  contains:
+    - "3:20:PlainTechnical.CommitPastFault:Part of the tree in the past tense: 'The doc still described a'. State its fault in the present."
+- name: each token of CommitSelfReference
+  input: |
+    repo: add the cache
+
+    Then the tool This commit adds the cache now.
+
+    Then the tool This commit fixes the cache now.
+
+    Then the tool This commit updates the cache now.
+
+    Then the tool This commit removes the cache now.
+
+    Then the tool This commit introduces the cache now.
+
+    Then the tool This commit implements the cache now.
+
+    Then the tool This commit improves the cache now.
+
+    Then the tool This commit resolves the cache now.
+
+    Then the tool This commit addresses the cache now.
+
+    Then the tool This commit refactors the cache now.
+
+    Then the tool This commit cleans up the cache now.
+
+    Then the tool This commit moves the cache now.
+
+    Then the tool This commit renames the cache now.
+
+    Then the tool This commit modifies the cache now.
+
+    Then the tool This commit enhances the cache now.
+
+    Then the tool This commit ensures the cache now.
+
+    Then the tool This commit contains the cache now.
+
+    Then the tool This change adds the cache now.
+
+    Then the tool This change fixes the cache now.
+
+    Then the tool This change updates the cache now.
+
+    Then the tool This change removes the cache now.
+
+    Then the tool This change introduces the cache now.
+
+    Then the tool This change implements the cache now.
+
+    Then the tool This change improves the cache now.
+
+    Then the tool This change resolves the cache now.
+
+    Then the tool This change addresses the cache now.
+
+    Then the tool This change refactors the cache now.
+
+    Then the tool This change ensures the cache now.
+
+    Then the tool This change modifies the cache now.
+
+    Then the tool This change enhances the cache now.
+
+    Then the tool This PR adds the cache now.
+
+    Then the tool This PR fixes the cache now.
+
+    Then the tool This PR updates the cache now.
+
+    Then the tool This PR removes the cache now.
+
+    Then the tool This PR introduces the cache now.
+
+    Then the tool This PR implements the cache now.
+
+    Then the tool This PR improves the cache now.
+
+    Then the tool This PR resolves the cache now.
+
+    Then the tool This PR addresses the cache now.
+
+    Then the tool This PR refactors the cache now.
+
+    Then the tool This PR contains the cache now.
+
+    Then the tool This update adds the cache now.
+
+    Then the tool This update fixes the cache now.
+
+    Then the tool This update improves the cache now.
+
+    Then the tool This update introduces the cache now.
+
+    Then the tool This update implements the cache now.
+
+    Then the tool This update resolves the cache now.
+
+    Then the tool This update ensures the cache now.
+
+    Then the tool These changes add the cache now.
+
+    Then the tool These changes fix the cache now.
+
+    Then the tool These changes update the cache now.
+
+    Then the tool These changes remove the cache now.
+
+    Then the tool These changes introduce the cache now.
+
+    Then the tool These changes implement the cache now.
+
+    Then the tool These changes improve the cache now.
+
+    Then the tool These changes resolve the cache now.
+
+    Then the tool These changes address the cache now.
+
+    Then the tool These changes ensure the cache now.
+
+    Then the tool This patch fixes the cache now.
+
+    Then the tool This patch adds the cache now.
+
+    Then the tool This patch updates the cache now.
+
+    Then the tool This patch resolves the cache now.
+
+    Then the tool This patch addresses the cache now.
+
+    Then the tool This patch improves the cache now.
+
+    Then the tool In this commit the cache now.
+
+    Then the tool In this PR the cache now.
+
+    Then the tool In this change the cache now.
+
+    Then the tool In this update the cache now.
+
+    Then the tool In this patch the cache now.
+
+    Then the tool In this pull request the cache now.
+
+    I fixed the parser.
+  format: commit
+  contains:
+    - "3:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit adds'. State what you did and why."
+    - "5:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit fixes'. State what you did and why."
+    - "7:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit updates'. State what you did and why."
+    - "9:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit removes'. State what you did and why."
+    - "11:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit introduces'. State what you did and why."
+    - "13:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit implements'. State what you did and why."
+    - "15:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit improves'. State what you did and why."
+    - "17:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit resolves'. State what you did and why."
+    - "19:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit addresses'. State what you did and why."
+    - "21:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit refactors'. State what you did and why."
+    - "23:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit cleans up'. State what you did and why."
+    - "25:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit moves'. State what you did and why."
+    - "27:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit renames'. State what you did and why."
+    - "29:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit modifies'. State what you did and why."
+    - "31:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit enhances'. State what you did and why."
+    - "33:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit ensures'. State what you did and why."
+    - "35:15:PlainTechnical.CommitSelfReference:Self-reference: 'This commit contains'. State what you did and why."
+    - "37:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change adds'. State what you did and why."
+    - "39:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change fixes'. State what you did and why."
+    - "41:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change updates'. State what you did and why."
+    - "43:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change removes'. State what you did and why."
+    - "45:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change introduces'. State what you did and why."
+    - "47:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change implements'. State what you did and why."
+    - "49:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change improves'. State what you did and why."
+    - "51:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change resolves'. State what you did and why."
+    - "53:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change addresses'. State what you did and why."
+    - "55:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change refactors'. State what you did and why."
+    - "57:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change ensures'. State what you did and why."
+    - "59:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change modifies'. State what you did and why."
+    - "61:15:PlainTechnical.CommitSelfReference:Self-reference: 'This change enhances'. State what you did and why."
+    - "63:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR adds'. State what you did and why."
+    - "65:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR fixes'. State what you did and why."
+    - "67:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR updates'. State what you did and why."
+    - "69:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR removes'. State what you did and why."
+    - "71:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR introduces'. State what you did and why."
+    - "73:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR implements'. State what you did and why."
+    - "75:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR improves'. State what you did and why."
+    - "77:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR resolves'. State what you did and why."
+    - "79:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR addresses'. State what you did and why."
+    - "81:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR refactors'. State what you did and why."
+    - "83:15:PlainTechnical.CommitSelfReference:Self-reference: 'This PR contains'. State what you did and why."
+    - "85:15:PlainTechnical.CommitSelfReference:Self-reference: 'This update adds'. State what you did and why."
+    - "87:15:PlainTechnical.CommitSelfReference:Self-reference: 'This update fixes'. State what you did and why."
+    - "89:15:PlainTechnical.CommitSelfReference:Self-reference: 'This update improves'. State what you did and why."
+    - "91:15:PlainTechnical.CommitSelfReference:Self-reference: 'This update introduces'. State what you did and why."
+    - "93:15:PlainTechnical.CommitSelfReference:Self-reference: 'This update implements'. State what you did and why."
+    - "95:15:PlainTechnical.CommitSelfReference:Self-reference: 'This update resolves'. State what you did and why."
+    - "97:15:PlainTechnical.CommitSelfReference:Self-reference: 'This update ensures'. State what you did and why."
+    - "99:15:PlainTechnical.CommitSelfReference:Self-reference: 'These changes add'. State what you did and why."
+    - "101:15:PlainTechnical.CommitSelfReference:Self-reference: 'These changes fix'. State what you did and why."
+    - "103:15:PlainTechnical.CommitSelfReference:Self-reference: 'These changes update'. State what you did and why."
+    - "105:15:PlainTechnical.CommitSelfReference:Self-reference: 'These changes remove'. State what you did and why."
+    - "107:15:PlainTechnical.CommitSelfReference:Self-reference: 'These changes introduce'. State what you did and why."
+    - "109:15:PlainTechnical.CommitSelfReference:Self-reference: 'These changes implement'. State what you did and why."
+    - "111:15:PlainTechnical.CommitSelfReference:Self-reference: 'These changes improve'. State what you did and why."
+    - "113:15:PlainTechnical.CommitSelfReference:Self-reference: 'These changes resolve'. State what you did and why."
+    - "115:15:PlainTechnical.CommitSelfReference:Self-reference: 'These changes address'. State what you did and why."
+    - "117:15:PlainTechnical.CommitSelfReference:Self-reference: 'These changes ensure'. State what you did and why."
+    - "119:15:PlainTechnical.CommitSelfReference:Self-reference: 'This patch fixes'. State what you did and why."
+    - "121:15:PlainTechnical.CommitSelfReference:Self-reference: 'This patch adds'. State what you did and why."
+    - "123:15:PlainTechnical.CommitSelfReference:Self-reference: 'This patch updates'. State what you did and why."
+    - "125:15:PlainTechnical.CommitSelfReference:Self-reference: 'This patch resolves'. State what you did and why."
+    - "127:15:PlainTechnical.CommitSelfReference:Self-reference: 'This patch addresses'. State what you did and why."
+    - "129:15:PlainTechnical.CommitSelfReference:Self-reference: 'This patch improves'. State what you did and why."
+    - "131:15:PlainTechnical.CommitSelfReference:Self-reference: 'In this commit'. State what you did and why."
+    - "133:15:PlainTechnical.CommitSelfReference:Self-reference: 'In this PR'. State what you did and why."
+    - "135:15:PlainTechnical.CommitSelfReference:Self-reference: 'In this change'. State what you did and why."
+    - "137:15:PlainTechnical.CommitSelfReference:Self-reference: 'In this update'. State what you did and why."
+    - "139:15:PlainTechnical.CommitSelfReference:Self-reference: 'In this patch'. State what you did and why."
+    - "141:15:PlainTechnical.CommitSelfReference:Self-reference: 'In this pull request'. State what you did and why."
+    - "143:1:PlainTechnical.CommitSelfReference:Self-reference: 'I fixed'. State what you did and why."
+- name: each token of CommitTrailingJustification
+  input: |
+    repo: add the cache
+
+    Then the tool ensuring consistency the cache now.
+
+    Then the tool ensuring correctness the cache now.
+
+    Then the tool ensuring compatibility the cache now.
+
+    Then the tool ensuring proper handling the cache now.
+
+    Then the tool ensuring proper validation the cache now.
+
+    Then the tool ensuring type safety the cache now.
+
+    Then the tool ensuring that the the cache now.
+
+    Then the tool ensuring the application the cache now.
+
+    Then the tool ensuring the code the cache now.
+
+    Then the tool ensuring all tests the cache now.
+
+    Then the tool ensuring a clean the cache now.
+
+    Then the tool ensuring a consistent the cache now.
+
+    Then the tool improving performance the cache now.
+
+    Then the tool improving readability the cache now.
+
+    Then the tool improving maintainability the cache now.
+
+    Then the tool improving reliability the cache now.
+
+    Then the tool improving testability the cache now.
+
+    Then the tool improving type safety the cache now.
+
+    Then the tool improving code quality the cache now.
+
+    Then the tool improving the overall the cache now.
+
+    Then the tool improving developer experience the cache now.
+
+    Then the tool improving error handling the cache now.
+
+    Then the tool enhancing the overall the cache now.
+
+    Then the tool enhancing readability the cache now.
+
+    Then the tool enhancing maintainability the cache now.
+
+    Then the tool enhancing performance the cache now.
+
+    Then the tool enhancing the user experience the cache now.
+
+    Then the tool enhancing code quality the cache now.
+
+    Then the tool enhancing type safety the cache now.
+
+    Then the tool enhancing developer experience the cache now.
+
+    Then the tool maintaining consistency the cache now.
+
+    Then the tool maintaining compatibility the cache now.
+
+    Then the tool maintaining backwards compatibility the cache now.
+
+    Then the tool maintaining backward compatibility the cache now.
+
+    Then the tool maintaining type safety the cache now.
+
+    Then the tool maintaining a clean the cache now.
+
+    Then the tool providing better error the cache now.
+
+    Then the tool providing a better the cache now.
+
+    Then the tool providing a cleaner the cache now.
+
+    Then the tool providing more flexibility the cache now.
+
+    Then the tool providing a consistent the cache now.
+
+    Then the tool for improved performance the cache now.
+
+    Then the tool for improved readability the cache now.
+
+    Then the tool for improved maintainability the cache now.
+
+    Then the tool for improved reliability the cache now.
+
+    Then the tool for improved type safety the cache now.
+
+    Then the tool for improved clarity the cache now.
+
+    Then the tool for better performance the cache now.
+
+    Then the tool for better readability the cache now.
+
+    Then the tool for better maintainability the cache now.
+
+    Then the tool for better type safety the cache now.
+
+    Then the tool for better error handling the cache now.
+
+    Then the tool for better developer experience the cache now.
+
+    Then the tool for better clarity the cache now.
+
+    Then the tool for greater clarity the cache now.
+
+    Then the tool for greater flexibility the cache now.
+
+    Then the tool which improves overall the cache now.
+
+    Then the tool which provides better the cache now.
+
+    Then the tool which makes the code the cache now.
+
+    Then the tool which makes it easier the cache now.
+  format: commit
+  contains:
+    - "3:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring consistency'. Delete it. The diff shows the result."
+    - "5:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring correctness'. Delete it. The diff shows the result."
+    - "7:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring compatibility'. Delete it. The diff shows the result."
+    - "9:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring proper handling'. Delete it. The diff shows the result."
+    - "11:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring proper validation'. Delete it. The diff shows the result."
+    - "13:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring type safety'. Delete it. The diff shows the result."
+    - "15:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring that the'. Delete it. The diff shows the result."
+    - "17:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring the application'. Delete it. The diff shows the result."
+    - "19:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring the code'. Delete it. The diff shows the result."
+    - "21:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring all tests'. Delete it. The diff shows the result."
+    - "23:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring a clean'. Delete it. The diff shows the result."
+    - "25:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring a consistent'. Delete it. The diff shows the result."
+    - "27:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'improving performance'. Delete it. The diff shows the result."
+    - "29:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'improving readability'. Delete it. The diff shows the result."
+    - "31:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'improving maintainability'. Delete it. The diff shows the result."
+    - "33:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'improving reliability'. Delete it. The diff shows the result."
+    - "35:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'improving testability'. Delete it. The diff shows the result."
+    - "37:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'improving type safety'. Delete it. The diff shows the result."
+    - "39:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'improving code quality'. Delete it. The diff shows the result."
+    - "41:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'improving the overall'. Delete it. The diff shows the result."
+    - "43:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'improving developer experience'. Delete it. The diff shows the result."
+    - "45:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'improving error handling'. Delete it. The diff shows the result."
+    - "47:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'enhancing the overall'. Delete it. The diff shows the result."
+    - "49:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'enhancing readability'. Delete it. The diff shows the result."
+    - "51:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'enhancing maintainability'. Delete it. The diff shows the result."
+    - "53:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'enhancing performance'. Delete it. The diff shows the result."
+    - "55:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'enhancing the user experience'. Delete it. The diff shows the result."
+    - "57:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'enhancing code quality'. Delete it. The diff shows the result."
+    - "59:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'enhancing type safety'. Delete it. The diff shows the result."
+    - "61:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'enhancing developer experience'. Delete it. The diff shows the result."
+    - "63:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'maintaining consistency'. Delete it. The diff shows the result."
+    - "65:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'maintaining compatibility'. Delete it. The diff shows the result."
+    - "67:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'maintaining backwards compatibility'. Delete it. The diff shows the result."
+    - "69:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'maintaining backward compatibility'. Delete it. The diff shows the result."
+    - "71:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'maintaining type safety'. Delete it. The diff shows the result."
+    - "73:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'maintaining a clean'. Delete it. The diff shows the result."
+    - "75:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'providing better error'. Delete it. The diff shows the result."
+    - "77:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'providing a better'. Delete it. The diff shows the result."
+    - "79:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'providing a cleaner'. Delete it. The diff shows the result."
+    - "81:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'providing more flexibility'. Delete it. The diff shows the result."
+    - "83:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'providing a consistent'. Delete it. The diff shows the result."
+    - "85:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for improved performance'. Delete it. The diff shows the result."
+    - "87:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for improved readability'. Delete it. The diff shows the result."
+    - "89:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for improved maintainability'. Delete it. The diff shows the result."
+    - "91:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for improved reliability'. Delete it. The diff shows the result."
+    - "93:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for improved type safety'. Delete it. The diff shows the result."
+    - "95:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for improved clarity'. Delete it. The diff shows the result."
+    - "97:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for better performance'. Delete it. The diff shows the result."
+    - "99:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for better readability'. Delete it. The diff shows the result."
+    - "101:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for better maintainability'. Delete it. The diff shows the result."
+    - "103:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for better type safety'. Delete it. The diff shows the result."
+    - "105:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for better error handling'. Delete it. The diff shows the result."
+    - "107:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for better developer experience'. Delete it. The diff shows the result."
+    - "109:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for better clarity'. Delete it. The diff shows the result."
+    - "111:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for greater clarity'. Delete it. The diff shows the result."
+    - "113:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'for greater flexibility'. Delete it. The diff shows the result."
+    - "115:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'which improves overall'. Delete it. The diff shows the result."
+    - "117:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'which provides better'. Delete it. The diff shows the result."
+    - "119:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'which makes the code'. Delete it. The diff shows the result."
+    - "121:15:PlainTechnical.CommitTrailingJustification:Trailing justification: 'which makes it easier'. Delete it. The diff shows the result."

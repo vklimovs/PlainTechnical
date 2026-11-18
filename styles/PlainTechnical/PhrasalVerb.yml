@@ -1,0 +1,33 @@
+# Source: ASD-STE100 Issue 9 rule 9.3, via SimpleEnglish a6fcb4fde098 (MIT).
+extends: substitution
+message: "Phrasal verb: '%[2]s'. Write '%[1]s'."
+level: warning
+ignorecase: true
+swap:
+  set up: install
+  sets up: installs
+  go down: decrease
+  goes down: decreases
+  go up: increase
+  goes up: increases
+  find out: find
+  finds out: finds
+  figure out: find
+  figures out: finds
+  look at: examine
+  carry out: do
+  carries out: does
+  point out: show
+  points out: shows
+  come up with: make
+  speed up: make faster
+tests:
+- name: flags a phrasal verb
+  input: |
+    Find out which host failed.
+  want: |
+    1:1:PlainTechnical.PhrasalVerb:Phrasal verb: 'Find out'. Write 'find'.
+- name: leaves the single verb alone
+  input: |
+    Find the host that failed.
+  want: ''

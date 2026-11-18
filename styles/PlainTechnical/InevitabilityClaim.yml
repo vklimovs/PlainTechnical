@@ -1,0 +1,41 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.OrganicConsequence (MIT).
+extends: existence
+message: 'Inevitability claim: ''%s''. Say that the design chose it, and why.'
+level: warning
+tokens:
+- falls out naturally
+- fell out naturally
+- fall out naturally
+- \b(?:falls?|fell|falling) (?:straight|right|cleanly|directly|naturally|neatly) out of\b
+- \b(?:drops?|dropped|drop) (?:straight|right|cleanly|directly) out of\b
+- emerges naturally
+- emerged naturally
+- emerge naturally
+- emerges organically
+- emerged organically
+- arises naturally
+- arose naturally
+- arise naturally
+- arises organically
+- flows naturally
+- flowed naturally
+- flow naturally
+- a natural consequence
+- the natural consequence
+- a natural result
+- the natural result
+- naturally follows
+- naturally leads to
+- naturally results in
+- follows naturally from
+- results naturally from
+tests:
+- name: flags 'falls cleanly out of'
+  input: |
+    The proof falls cleanly out of the lemma.
+  want: |
+    1:11:PlainTechnical.InevitabilityClaim:Inevitability claim: 'falls cleanly out of'. Say that the design chose it, and why.
+- name: falls out without the adverb
+  input: |
+    The pen fell out of my pocket.
+  want: ''

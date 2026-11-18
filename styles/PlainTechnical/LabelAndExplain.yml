@@ -1,0 +1,40 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.LabelAndExplain (MIT).
+extends: existence
+message: 'Label and explanation: ''%s''. Make the label part of the sentence.'
+level: warning
+nonword: true
+scope:
+- ~heading
+tokens:
+- \b(?:The|A|An|One|Our|Their|Its) (?:[a-z][a-z'-]* ){0,3}[a-z][a-z'-]*(?<! (?:is|are|was|were|be|been|being) [a-z][a-z'-]{0,20}):(?= [a-z][^.!?:]{20,}[.!?])
+- '\bThe price:'
+- '\bThe catch:'
+- '\bThe kicker:'
+- '\bThe upshot:'
+- '\bThe tradeoff:'
+- '\bThe trade-off:'
+- '\bThe trick:'
+- '\bThe cost:'
+- '\bThe downside:'
+- '\bThe flip side:'
+- '\bThe bottom line:'
+- '\bThe takeaway:'
+- '\bThe result:'
+- '\bThe answer:'
+- '\bThe reason:'
+- '\bThe lesson:'
+- '\bThe moral:'
+- '\bThe point:'
+- '\bThe pitch:'
+- '\bThe fix:'
+- '\bThe payoff:'
+tests:
+- name: flags "The takeaway:"
+  input: |
+    The takeaway: Always check the output.
+  want: |
+    1:1:PlainTechnical.LabelAndExplain:Label and explanation: 'The takeaway:'. Make the label part of the sentence.
+- name: short value after a plain label
+  input: |
+    The output: green.
+  want: ''

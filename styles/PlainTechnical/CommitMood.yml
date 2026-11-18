@@ -1,0 +1,52 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-commits.CommitPastTense (MIT).
+# Changed: Reads the subject after any prefix and in any case. Adds the third
+# person and an opening article. Skips the subject that git writes for a
+# revert.
+extends: existence
+message: 'Subject not in the imperative: ''%s''. Order the act, as in ''parser: fix the escape''.'
+level: warning
+scope: subject
+ignorecase: true
+nonword: true
+tokens:
+- '(?<=^(?!Revert |Reapply |This commit )(?:[^:"]*:\s+)?)(?:(?:add|address|bump|chang|clean|configur|creat|delet|document|enhanc|fix|implement|improv|introduc|migrat|mov|optimiz|refactor|remov|renam|replac|resolv|retir|switch|test|updat)(?:ed|es|ing|s)\b|modif(?:ied|ies|ying)\b|verif(?:ied|ies|ying)\b|wr(?:ote|ites|iting)\b|ma(?:de|kes|king)\b|(?:this|a|an|the|one|no|each|every)(?=\s))(?!:)'
+tests:
+- name: flags 'Updated'
+  input: |
+    fix(parser): Updated the tokenizer for better performance
+
+    The new tokenizer is blazingly fast. Coverage: 92%.
+
+    - src/parser/tokenizer.ts
+    - src/parser/lexer.ts
+    - tests/parser/tokenizer.test.ts
+  want: |
+    1:14:PlainTechnical.CommitMood:Subject not in the imperative: 'Updated'. Order the act, as in 'parser: fix the escape'.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: flags a third person verb
+  input: |
+    nftables: adds the stale rule
+  want: |
+    1:11:PlainTechnical.CommitMood:Subject not in the imperative: 'adds'. Order the act, as in 'parser: fix the escape'.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: flags a subject opening on an article
+  input: |
+    repo: a label for the change
+  want: |
+    1:7:PlainTechnical.CommitMood:Subject not in the imperative: 'a'. Order the act, as in 'parser: fix the escape'.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: leaves an area that reads as a verb alone
+  input: |
+    tests: open the map
+  want: ''
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: leaves the subject of a revert alone
+  input: |
+    Revert "nftables: drop the stale rule"
+  want: ''
+  format: COMMIT_EDITMSG
+  view: Commit

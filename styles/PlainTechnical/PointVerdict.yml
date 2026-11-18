@@ -1,0 +1,19 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.PointVerdict (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Point verdict: ''%s''. Say what the thing does.'
+level: warning
+nonword: true
+tokens:
+- '(?<!\b(?:[Ww]hat|[Ww]hich|[Ww]hy) )\b(?:is|was|are|were|is not|was not|''s) (?:exactly |precisely |really |very much )?(?:the|its|their) (?:whole |entire |very |real |only |actual |main |central |key |larger |bigger |broader |deeper )?point\b(?! (?:at|where|when|in|on|from|to|of|that|which|after|before|between|beyond|past|behind|just|immediately|about|around|for|following|preceding|size|type|value|count|number|cloud|light|source|release|version|being|made|raised|I|we|you|they|he|she)\b)'
+- '\b(?:[Tt]he|its|their) (?:whole|entire) point (?:of|is|was|is not|was not)\b'
+tests:
+- name: flags 'is the point'
+  input: |
+    That is the point.
+  want: |
+    1:6:PlainTechnical.PointVerdict:Point verdict: 'is the point'. Say what the thing does.
+- name: question
+  input: |
+    So what is the point?
+  want: ''

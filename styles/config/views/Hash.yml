@@ -1,0 +1,19 @@
+# A `#` and a space open a comment, on its own line or after code. A `#` inside
+# a word or a quoted string is code, and so are the shebang, an editor modeline
+# and the directive of a linter. A `;` at the start of a line opens a comment
+# too, as in some configuration files. A `#` or a `;` with no space after it,
+# or with four spaces or more, marks a line of code.
+engine: textfsm
+template: |
+  Value List Comment (.*)
+
+  Start
+    ^\s*#\s*(?:-\*-.*-\*-|(?:vim?|ex):\s*(?:set\s|\w+=)|shellcheck\s+(?:disable|enable|source|shell)=|yamllint\s+(?:disable|enable)|ruff:\s*noqa|type:\s*ignore|noqa\b(?::|\s*$)|pylint:\s*(?:disable|enable)|mypy:\s*(?:ignore|disable|enable|allow|strict)|pyright:\s*(?:ignore|basic|strict)|hadolint\s+(?:ignore|global|shell)=|nosec\b|nolint\b(?::|\s*$)|fmt:\s*(?:off|on|skip)|isort:\s*(?:skip|off|on)|eslint-(?:disable|enable)|prettier-ignore|editorconfig-checker-(?:disable|enable)) -> Next
+    ^\s*[#;][^\s#] -> Next
+    ^\s*(?:#+|;) {4,}\S -> Next
+    ^\s*; ${Comment}
+    ^\s*(?:(?:\\.|[^"'\s#\\]|"(?:[^"\\]|\\.)*"|'[^']*')(?:\\.|[^"'\s\\]|"(?:[^"\\]|\\.)*"|'[^']*')*\s+)*#+ ${Comment}
+scopes:
+  - name: comment
+    expr: Comment
+    type: md

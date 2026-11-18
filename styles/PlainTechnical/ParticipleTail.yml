@@ -1,0 +1,27 @@
+# Source: ASD-STE100 Issue 9 rule 3.5, via SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: Adds verbs that machine-written text ends a sentence on, such as ',
+# highlighting', ', costing' and ', meaning', after
+# ai-tells.ConsequenceParticiple. Leaves a series of gerunds, as in 'without
+# reading, writing or logging', alone. Leaves the comma after an opening
+# phrase, as in 'For large files, reading', and an -ing word in a list alone.
+extends: existence
+message: "Participle tail: '%s'. End the sentence there and state the result in a sentence of its own."
+level: warning
+ignorecase: true
+nonword: true
+tokens:
+  - '(?<!(?:\A|[.!?]\s+)(?:For|On|In|At|With|After|Before|During|Under|Over|By|From|Since|Until|Unlike|Like|When|While|If|Once|Without|Within|Through|Despite|Per)\b[^,.;]{0,60})(?<!\b\w+ing\b[^,.;]{0,40}),\s*(?:highlighting|making|costing|meaning|enhancing|maintaining|allowing|enabling|ensuring|letting|leaving|causing|creating|giving|helping|keeping|leading|providing|reducing|resulting|improving|offering|returning|breaking|adding|removing|using|running|sending|writing|reading|storing|skipping|dropping|saving|exposing|starting|stopping|forcing|triggering|requiring|producing|preventing|blocking|failing|losing|generating|turning|setting|putting|yielding|throwing|raising)\b(?! (?:\w+ )?(?:and|or)\b)'
+tests:
+- name: flags a consequence tail
+  input: |
+    The role writes the file, making the daemon reload.
+  want: |
+    1:25:PlainTechnical.ParticipleTail:Participle tail: ', making'. End the sentence there and state the result in a sentence of its own.
+- name: leaves two sentences alone
+  input: |
+    The role writes the file. Then the daemon reloads.
+  want: ''
+- name: leaves a series of gerunds alone
+  input: |
+    A second instance exits without reading, writing or logging.
+  want: ''

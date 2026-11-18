@@ -1,0 +1,56 @@
+# Source: ASD-STE100 Issue 9 modal ladder, via SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: A capital May counts at the start of a sentence only, since
+# mid-sentence it is the month. Leaves a modal before a second hedge to
+# StackedHedge. Adds 'is able to' and 'has the ability to' from Voices v0.2.0
+# Voices.WeakVerbs. Leaves the noun 'might' after a word such as 'the' alone,
+# a modal in a compound or a file name, as in may-alias and should.js, the
+# should clause of a query and the month in '12 may 2020'.
+extends: existence
+message: "Modal verb: '%s'. Write 'must' for a requirement and 'can' for a possibility, or state the fact."
+level: error
+# Case matters, because an RFC 2119 keyword in capitals, such as SHOULD, is a
+# term of art.
+ignorecase: false
+tokens:
+  - '(?<![-.])(?<!\b(?:[Tt]he|[Aa]) )[Ss]hould(?!-|\.\w)(?! be (?:noted|emphasized|mentioned)\b)(?! (?:potentially|possibly|perhaps|conceivably)\b)'
+  - '(?<![-.])[Ww]ould(?!-|\.\w)(?! (?:potentially|possibly|perhaps|conceivably)\b)'
+  - '(?<![-.])(?!(?<=\b\d{1,2}\s)may(?:\s\d{4}\b|[.,;)]|\s*\z))(?:may|(?:\A|(?<=[.!?]\s))May(?= (?:I|we|you|the|a|an|it|this|they|not)\b))(?!-|\.\w|\s\d)(?! (?:be wondering|be asking)\b)(?! (?:potentially|possibly|perhaps|conceivably)\b)'
+  - '(?<!\b(?:[Tt]he|[Ii]ts|[Tt]heir|[Hh]is|[Hh]er|[Oo]ur|[Mm]y|[Yy]our|[Ff]ull|[Aa]ll|[Ww]ith) )(?<![-.])[Mm]ight(?!-|\.\w)(?! (?:expect|be wondering|be asking)\b)(?! (?:potentially|possibly|perhaps|conceivably)\b)'
+  - '(?<![-.])[Cc]ould(?!-|\.\w)(?! not be (?:higher|more|overstated|understated)\b)(?! (?:potentially|possibly|perhaps|conceivably)\b)'
+  - '(?<![-.])[Ss]hall(?!-|\.\w)'
+  - 'ought to'
+  - '(?:is|are|was|were) able to'
+  - '(?:has|have|had) the ability to'
+  - 'will be able to'
+tests:
+- name: flags a hedged requirement
+  input: |
+    You should restart the daemon.
+  want: |
+    1:5:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: flags a modal that opens a sentence
+  input: |
+    Could the daemon restart?
+  want: |
+    1:1:PlainTechnical.ModalVerb:Modal verb: 'Could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: leaves an RFC 2119 keyword alone
+  input: |
+    Section 3.2 says that a server SHOULD match the hint.
+  want: ''
+- name: leaves the approved modals alone
+  input: |
+    You must restart the daemon. The restart can take a minute.
+  want: ''
+- name: leaves the month alone
+  input: |
+    The release in May removed the flag. The May build stays.
+  want: ''
+- name: flags a capital modal that opens a question
+  input: |
+    May the job fail?
+  want: |
+    1:1:PlainTechnical.ModalVerb:Modal verb: 'May'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: leaves a stacked hedge to StackedHedge
+  input: |
+    The job could potentially fail.
+  want: ''

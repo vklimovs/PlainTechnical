@@ -1,0 +1,68 @@
+# Source: the word swaps and slop list of SimpleEnglish a6fcb4fde098 (MIT), and common fillers.
+# Changed: Leaves 'at the end of the day', 'in conclusion' and 'in summary' to
+# ConclusionMarker. Leaves 'in the heart of' to Puffery, 'game-changer' to
+# StockPhrase, 'not just' and 'not simply' to ContrastiveFormula and 'Simply
+# put', 'put it simply' and 'put it more simply' to Restatement. Leaves the
+# 'just' of 'just-in-time' alone. Leaves 'ever-evolving landscape' to
+# OpeningCliche and InflatedWord. Leaves the 'just' of 'just before' and 'just
+# below' alone, since it carries meaning there. Matches 'easily' after a modal
+# or 'to', and 'clearly' as 'Clearly,' or before a verb of showing, since
+# 'breaks easily' and 'clearly defined' keep the word for its meaning. Leaves
+# 'the very end' alone. Leaves 'not quite', 'not really', 'quite a few', 'most
+# notably', 'just compiled' and 'has just become' alone, since deletion changes
+# their meaning, and the name 'Quite OK'.
+extends: existence
+message: "Empty word: '%s'. Delete it. The sentence keeps its meaning."
+level: warning
+ignorecase: true
+tokens:
+  - 'actually\w*'
+  - 'basically\w*'
+  - '(?:\A|(?<=[.!?]\s))Clearly(?=,)|(?<!\b(?:be|been|being|is|are|was|were) )clearly(?= (?:shows?|showed|demonstrates?|demonstrated|illustrates?|illustrated|indicates?|indicated|highlights?|highlighted)\b)'
+  - '(?<=\b(?:can|cannot|could|will|would|may|might|to) )easily'
+  - 'effortlessly\w*'
+  - 'essentially\w*'
+  - 'ever-evolving(?! landscape\b)'
+  - 'genuinely\w*'
+  - '(?<!not )(?<!\b(?:has|have|had) )just(?!-in-time)(?! (?:before|after|below|above|as|once|enough|now|under|over|past|behind|ahead|in time)\b)(?! \w+(?:ed|en)\b)'
+  - 'merely\w*'
+  - 'nestled\w*'
+  - '(?<!\bmost )notably'
+  - 'obviously\w*'
+  - '(?<!\bnot )quite(?! (?:a|an|honestly|frankly|OK)\b)'
+  - '(?<!\bnot )really(?! lands\b)'
+  - 'remarkable\w*'
+  - 'seamless\w*(?! (?:tube|tubes|pipe|pipes|steel)\b)'
+  - '(?<!put )(?<!put it )(?<!put it more )(?<!not )simply(?! (?:that|put|connected|typed)\b)'
+  - 'synergy\w*'
+  - 'transformative\w*'
+  - 'unparalleled\w*'
+  - '(?<!\bthe )very'
+  - '(?:\A|(?<=[.!?]\s))Interestingly(?=,)'
+  - 'extremely'
+tests:
+- name: flags an empty word
+  input: |
+    It simply restarts.
+  want: |
+    1:4:PlainTechnical.EmptyWord:Empty word: 'simply'. Delete it. The sentence keeps its meaning.
+- name: leaves the plain sentence alone
+  input: |
+    It restarts.
+  want: ''
+- name: leaves not just to ContrastiveFormula
+  input: |
+    The tool runs the job, not just the build.
+  want: ''
+- name: leaves 'quite honestly' to FillerPhrase
+  input: |
+    Quite honestly, the cache is slow.
+  want: ''
+- name: leaves 'put it simply' to Restatement
+  input: |
+    To put it simply, the cache is cold. To put it more simply, it is empty.
+  want: ''
+- name: leaves 'ever-evolving landscape' to OpeningCliche and InflatedWord
+  input: |
+    In the ever-evolving landscape of caches, the pool grows.
+  want: ''

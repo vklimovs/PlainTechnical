@@ -1,0 +1,25 @@
+# Source: Voices v0.2.0 Voices.Puffery (MIT).
+# Changed: Adds 'highlights the importance of' and the like, from the arXiv
+# part of the M4 corpus.
+extends: existence
+message: 'Importance puffery: ''%s''. State the fact and let the reader judge it.'
+level: warning
+ignorecase: true
+tokens:
+- '\b(?:highlights|highlighted|underscores|underscored|emphasi[sz]es|emphasi[sz]ed|stresses|stressed) the (?:importance|significance) of\b'
+- stands as a testament
+- (?:marks|represents) a pivotal moment
+- (?:thrilled|excited|proud) to (?:announce|share)
+- plays a vital role
+- solidifies its position
+- underscores its significance
+tests:
+- name: flags 'marks a pivotal moment'
+  input: |
+    The release marks a pivotal moment, and the team provided support for it.
+  want: |
+    1:13:PlainTechnical.ImportancePuffery:Importance puffery: 'marks a pivotal moment'. State the fact and let the reader judge it.
+- name: leaves a plain role alone
+  input: |
+    The proxy forwards each request to the pool.
+  want: ''

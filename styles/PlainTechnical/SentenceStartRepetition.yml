@@ -1,0 +1,31 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-experimental.SentenceStartRepetition (MIT).
+extends: script
+message: Monotonous openings. Too many sentences of the section start with the same word. Vary the openings.
+level: warning
+scope: raw
+script: SentenceStartRepetition.tengo
+tests:
+- name: flags sentences that open on one word
+  input: |
+    A single sentence with an exclamation mark is fine! A question is fine? This paragraph exists to push the reply past the sentence ceiling. Sentence five. Sentence six. Sentence seven. Sentence eight. Sentence nine. Sentence ten. Sentence eleven. Sentence twelve. Sentence thirteen. Sentence fourteen. Sentence fifteen. Sentence sixteen makes the point. Sentence seventeen is the one that fires.
+  want: |
+    1:1:PlainTechnical.SentenceStartRepetition:Monotonous openings. Too many sentences of the section start with the same word. Vary the openings.
+- name: only two repeats
+  input: |
+    # Setup
+
+    The server writes logs to disk. Linters check every file in the repo. The team ships a release every Friday. Docs explain each flag with an example. Caches hold recent results in memory. Parsers read one token at a time.
+  want: ''
+- name: flags four openers in ten
+  input: |
+    Restart the host at night. Restart the host at night. Restart the host at night. Restart the host at night. Stop the host at night. Check the host at night. Read the host at night. Write the host at night. Keep the host at night. Send the host at night.
+  want: |
+    1:1:PlainTechnical.SentenceStartRepetition:Monotonous openings. Too many sentences of the section start with the same word. Vary the openings.
+- name: leaves three openers in ten alone
+  input: |
+    Restart the host at night. Restart the host at night. Restart the host at night. Stop the host at night. Check the host at night. Read the host at night. Write the host at night. Keep the host at night. Send the host at night. Move the host at night.
+  want: ''
+- name: leaves the article an alone
+  input: |
+    An the host at night. An the host at night. An the host at night. An the host at night. An the host at night. An the host at night. Stop the host at night. Check the host at night. Read the host at night. Write the host at night.
+  want: ''

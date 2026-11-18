@@ -1,0 +1,23 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.PseudoCleft (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Pseudo-cleft: ''%s''. Put the claim first, as in ''The seal decides''.'
+level: warning
+nonword: true
+tokens:
+- \bWhat(?![^.!?\n]*\?) (?!I mean is\b)(?:you|we|they|it|one|I) (?:[a-z'-]+ ){1,5}(?:is|are|was|were|comes down to) (?:the|a|an|this|that|these|those|its|their|your|our|my|one|two|three|four|five|six|seven|eight|nine|ten|\d+|some|any|all|every|each|nothing|something|anything|everything|another|both|either|enough|just|simply|only|to|whether|how|why|what|where|when|which|who)\b
+- \bWhat(?![^.!?\n]*\?) (?!(?:really|truly|actually|genuinely) matters\b)(?!matters most\b)(?:actually |really |ultimately |finally |mostly |mainly |truly )?(?:changed|changes|remains|remained|follows|followed|matters|mattered|happens|happened|works|worked|differs|differed|varies|varied|counts|counted|stays|stayed|survives|survived|breaks|broke|fails|failed|holds|held|emerges|emerged|results|resulted|comes|came|goes|went|gets|got|helps|helped|hurts|hurt|drives|drove|limits|limited|blocks|blocked|ships|shipped|lands|landed|moved|shifted|grew|shrank|improved|stands out|stood out|sets [a-z]+ apart|set [a-z]+ apart|makes [a-z]+ [a-z]+|made [a-z]+ [a-z]+|distinguishes|distinguished|separates|separated|surprised [a-z]+|struck [a-z]+|bothers [a-z]+|bothered [a-z]+|scales|scaled|wins|won|pays off|paid off|ends up [a-z]+|ended up [a-z]+|turns out|turned out|took|takes|costs?|saves|saved) (?:[a-z'-]+ ){0,4}(?:is|are|was|were|comes down to) (?:the|a|an|this|that|these|those|its|their|your|our|my|one|two|three|four|five|six|seven|eight|nine|ten|\d+|some|any|all|every|each|nothing|something|anything|everything|another|both|either|enough|just|simply|only|to|whether|how|why|what|where|when|which|who)\b
+- '\b[Aa]ll (?!that (?:really |truly |actually )?matters\b)(?:that|that is|you|we|they|it|this|one|I) (?:[a-z''-]+ ){1,4}(?:is|are|was|were) (?:the|a|an|this|that|these|those|its|their|your|our|my|one|two|three|four|five|six|seven|eight|nine|ten|\d+|some|any|all|every|each|nothing|something|anything|everything|another|both|either|enough|just|simply|only|to|whether|how|why|what|where|when|which|who)\b'
+- \b[Aa]ll (?:you|we|they|it|one|I) (?:do|does|did|have to do|need to do|had to do) is [a-z]+\b
+- \b[Tt]he only (?:[a-z-]+ ){1,2}(?!that (?:really |truly |actually )?matters\b)(?:that|which|you|we|they|it|I) (?:[a-z'-]+ ){1,4}(?:is|are|was|were) (?:the|a|an|this|that|these|those|its|their|your|our|my|one|two|three|four|five|six|seven|eight|nine|ten|\d+|some|any|all|every|each|nothing|something|anything|everything|another|both|either|enough|just|simply|only|to|whether|how|why|what|where|when|which|who)\b
+- \bWhere (?:this|that|it|things|the [a-z-]+) (?:really |actually )?(?:pays off|paid off|shines|shone|helps|helped|matters|counts|wins|won|breaks|broke|fails|failed|bites|hurts|differs|shows|showed|comes in|came in|gets [a-z]+|got [a-z]+|falls down|fell down|falls apart|goes wrong|went wrong|goes|went|ends up|ended up|lands|landed|starts|started|stops|stopped|lives|sits|hides|hid|happens|happened|changes|changed) (?:is|was) (?:the|a|an|this|that|these|those|its|their|your|our|my|one|two|three|four|five|six|seven|eight|nine|ten|\d+|some|any|all|every|each|nothing|something|anything|everything|another|both|either|enough|just|simply|only|to|whether|how|why|what|where|when|which|who)\b
+tests:
+- name: flags 'All you need is the'
+  input: |
+    All you need is the offset.
+  want: |
+    1:1:PlainTechnical.PseudoCleft:Pseudo-cleft: 'All you need is the'. Put the claim first, as in 'The seal decides'.
+- name: predicate adjective
+  input: |
+    What remains is unclear.
+  want: ''

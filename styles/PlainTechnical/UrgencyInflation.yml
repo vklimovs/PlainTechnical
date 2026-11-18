@@ -1,0 +1,56 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.UrgencyInflation (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Urgency inflation: ''%s''. Delete it or state the stakes.'
+level: warning
+ignorecase: true
+tokens:
+- cannot be overstated
+- cannot be understated
+- cannot be emphasized enough
+- more important than ever
+- more critical than ever
+- more relevant than ever
+- more urgent than ever
+- more necessary than ever
+- more essential than ever
+- more vital than ever
+- more pressing than ever
+- more significant than ever
+- has never been more important
+- has never been more critical
+- has never been more urgent
+- has never been more relevant
+- has never been more necessary
+- has never been more essential
+- has never been more vital
+- has never been more pressing
+- has never been more significant
+- have never been more important
+- have never been more critical
+- have never been more urgent
+- have never been more relevant
+- the stakes have never been higher
+- the stakes are higher than ever
+- 'the stakes could not be higher'
+- the stakes are enormous
+- the stakes are immense
+- at a crossroads
+- at an inflection point
+- at a pivotal moment
+- at a critical juncture
+- at a defining moment
+- at a turning point in history
+- at a critical moment in history
+- in an ever more complex world
+- in an ever more connected world
+tests:
+- name: flags 'The stakes could not be higher'
+  input: |
+    The stakes could not be higher.
+  want: |
+    1:1:PlainTechnical.UrgencyInflation:Urgency inflation: 'The stakes could not be higher'. Delete it or state the stakes.
+- name: ordinary comparison
+  input: |
+    The new parser is more important to the build than the old one.
+  want: ''

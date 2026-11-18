@@ -1,0 +1,20 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.EmptyPadding (MIT).
+# Changed: Drops 'given', since 'a given host' names any one host.
+extends: sequence
+message: 'Empty modifier: ''%s %s''. Delete the modifier.'
+level: warning
+ignorecase: true
+tokens:
+- pattern: various|certain|respective|particular
+  tag: JJ|VBN|DT
+- tag: NN|NNS
+tests:
+- name: flags 'certain stakeholder'
+  input: |
+    A certain stakeholder raised the issue.
+  want: |
+    1:3:PlainTechnical.EmptyModifier:Empty modifier: 'certain stakeholder'. Delete the modifier.
+- name: modifier before a verb
+  input: |
+    The retry is certain to fail.
+  want: ''

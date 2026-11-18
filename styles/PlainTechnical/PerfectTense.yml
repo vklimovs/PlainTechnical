@@ -1,0 +1,43 @@
+# Source: ASD-STE100 Issue 9 rule 3.4, via SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: Also matches a regular participle before a stop, a conjunction or a
+# number, and an irregular participle. Allows an adverb such as 'not yet'
+# before the participle. Matches a question such as 'Has the job finished?',
+# and 'Having' with a participle. Reads a participle before a stop, an adverb
+# or a time, and before a comma only when it cannot be an adjective, as
+# 'written' cannot. So 'has read, write and execute permission' and 'has fixed
+# and variable parts' hold adjectives. Reads 'Having' and an irregular
+# participle before an object or a stop alone, since 'has known issues' and
+# 'Having shared state' hold adjectives.
+extends: existence
+message: "Perfect tense: '%s'. Use the simple past or the simple present."
+level: warning
+ignorecase: true
+tokens:
+  - '(?:has|have|had) (?:(?:already|not|never|just|also|now|since|yet|often|always|ever|still|only|long|once|\w+ly) ){0,2}(?:written|given|taken|done|gone|seen|shown|chosen|eaten|fallen|forgotten|frozen|ridden|risen|spoken|stolen|thrown|woken|become|begun|brought|thought|told|said|meant|made|sent|won|grown|drawn|driven|gotten)(?=,)'
+  - '(?:has|have|had) been'
+  - '(?:has|have|had) (?:(?:already|not|never|just|also|now|since|yet|often|always|ever|still|only|long|once|\w+ly) ){0,2}(?!(?:speed|seed|need|feed|deed|greed|breed|creed|hundred|sacred|naked|wicked)\b)\w+ed(?= (?:the|a|an|its|their|this|that|these|those|it|them|to|by|from|in|into|on|with|for|out|up)\b)'
+  - '(?:has|have|had) (?:(?:already|not|never|just|also|now|since|yet|often|always|ever|still|only|long|once|\w+ly) ){0,2}(?!(?:speed|seed|need|feed|deed|greed|breed|creed|hundred|sacred|naked|wicked)\b)\w{2,}ed(?=[.;:!?)]|\s+(?:before|after|because|when|if|twice|again|once|successfully|already|recently|correctly|yet|\d)\b|\s+\d)'
+  - '(?:has|have|had) (?:(?:already|not|never|just|also|now|since|yet|often|always|ever|still|only|long|once|\w+ly) ){0,2}(?:become|begun|broken|brought|built|chosen|done|drawn|driven|found|given|gone|got|gotten|grown|held|hidden|kept|known|left|lost|made|meant|put|read|run|said|seen|sent|set|shown|split|taken|told|thought|won|written|eaten|fallen|forgotten|frozen|ridden|risen|spoken|stolen|thrown|woken)(?= (?:the|a|an|its|their|this|that|these|those|it|them|to|by|from|in|into|on|with|for|out|up|twice|again|once)\b|[.;:!?)])'
+  - '\b[Hh]aving been\b|\b[Hh]aving (?!(?:speed|seed|need|feed|deed|greed|breed|creed|hundred|sacred|naked|wicked)\b)(?:\w{2,}ed|done|made|written|run|built|sent|taken|given|seen|become|grown)\b(?= (?:the|a|an|its|their|this|that|these|those|it|them|to|by|from|in|into|on|with|for|out|up|twice|again|once)\b|[.;:!?)])'
+  - '(?:\A|(?<=[.!?]\s))(?:Has|Have|Had) (?:\w+ ){1,4}(?:\w{2,}ed|become|begun|broken|chosen|done|drawn|driven|eaten|fallen|forgotten|frozen|given|gone|gotten|grown|hidden|known|ridden|risen|seen|shown|spoken|stolen|taken|thrown|woken|written)(?=\?)'
+tests:
+- name: flags the present perfect
+  input: |
+    The role has changed the file.
+  want: |
+    1:10:PlainTechnical.PerfectTense:Perfect tense: 'has changed'. Use the simple past or the simple present.
+- name: leaves a participle used as an adjective alone
+  input: |
+    The role changed the file. The router has limited egress.
+  want: ''
+- name: flags a bare participle and an irregular verb
+  input: |
+    The migration has completed. The server has written the file, and the job has run twice.
+  want: |
+    1:15:PlainTechnical.PerfectTense:Perfect tense: 'has completed'. Use the simple past or the simple present.
+    1:41:PlainTechnical.PerfectTense:Perfect tense: 'has written'. Use the simple past or the simple present.
+    1:75:PlainTechnical.PerfectTense:Perfect tense: 'has run'. Use the simple past or the simple present.
+- name: leaves a verb before a noun alone
+  input: |
+    The user has read access to the share. The tool has built-in support for TLS. The host has limited memory.
+  want: ''

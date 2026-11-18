@@ -1,0 +1,17 @@
+# Reads a comment that fills its line, as Hash does, for the formats where a
+# `#` after a value is part of the value, such as a systemd unit, an INI file
+# and a Dockerfile.
+engine: textfsm
+template: |
+  Value List Comment (.*)
+
+  Start
+    ^\s*#\s*(?:-\*-.*-\*-|(?:vim?|ex):\s*(?:set\s|\w+=)|shellcheck\s+(?:disable|enable|source|shell)=|yamllint\s+(?:disable|enable)|ruff:\s*noqa|type:\s*ignore|noqa\b(?::|\s*$)|pylint:\s*(?:disable|enable)|mypy:\s*(?:ignore|disable|enable|allow|strict)|pyright:\s*(?:ignore|basic|strict)|(?:syntax|escape|check)=|hadolint\s+(?:ignore|global|shell)=|nosec\b|nolint\b(?::|\s*$)|fmt:\s*(?:off|on|skip)|isort:\s*(?:skip|off|on)|eslint-(?:disable|enable)|prettier-ignore|editorconfig-checker-(?:disable|enable)) -> Next
+    ^\s*[#;][^\s#] -> Next
+    ^\s*(?:#+|;) {4,}\S -> Next
+    ^\s*; ${Comment}
+    ^\s*#+ ${Comment}
+scopes:
+  - name: comment
+    expr: Comment
+    type: md

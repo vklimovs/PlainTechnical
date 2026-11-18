@@ -1,0 +1,36 @@
+# Source: PlainTechnical. Flags a part of the tree as the subject of a
+# sentence in the past tense. A run, a host, a test or a person did things in
+# the past. A doc, a file or a role states its fault in the present.
+extends: existence
+message: "Part of the tree in the past tense: '%s'. State its fault in the present."
+level: warning
+ignorecase: true
+nonword: true
+scope:
+- subject
+- body
+tokens:
+# A verb that can be a participle counts only before an object, as in
+# "the doc listed the hosts". So "the file named all.yaml holds" is no
+# report, and neither is "the row listed above". Only wrote and gave
+# count alone. A line start counts as a sentence start, because a
+# paragraph opens without a full stop before it.
+- '(?:(?m:^)|(?<=[.!?:]\s)|(?<=,\s+and\s))(?:the|its|this|that|each|every|one)\s+(?:[a-z_-]+\s+){0,2}(?:plan|doc|text|table|section|role|task|template|file|spec|row|note|comment|header|ledger|list|map|paragraph|sentence|line|heading|message|default|variable|assert|play|handler|hook|rule|entry|bullet|scenario|envelope)s?(?:\s+[0-9][0-9.]*)?\s+(?:(?:still|also|only|already|once)\s+)?(?:(?:wrote|gave)\b|(?:said|showed|described|listed|named|counted|called|cited|quoted|implied|assumed|required|promised|recorded|stated|omitted|claimed|argued|meant|missed|ended|asked)\s+(?:the|a|an|its|their|this|that|these|those|each|every|no|all|both|one|two|three|four|five|six|seven|eight|nine|ten|it|them|nothing|none|somebody|someone|[0-9]+)(?=\s|[.,!?:](?:\s|$)|$))'
+tests:
+- name: flags a part of the tree in the past
+  format: COMMIT_EDITMSG
+  view: Commit
+  input: |
+    nftables: drop the stale rule
+
+    The shell runs on. The doc still described a stop.
+  want: |
+    3:20:PlainTechnical.CommitPastFault:Part of the tree in the past tense: 'The doc still described a'. State its fault in the present.
+- name: leaves an event and a name alone
+  format: COMMIT_EDITMSG
+  view: Commit
+  input: |
+    nftables: drop the stale rule
+
+    The run wrote the file. The file named all.yaml holds the inventory.
+  want: ''

@@ -1,0 +1,19 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeTrips (MIT).
+extends: existence
+message: 'Figurative verb: ''%s''. Say that the text matches the check.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- (?<!-)\btrip(?:s|ped|ping)? (?:the|a|an|this|that|every|its|another|each) (?:[a-z]+ )?(?:rule|check|checker|linter|lint|gate|guard|hook|alarm|filter|validator|validation|threshold|alert|heuristic)s?\b
+- (?<!-)\btrip(?:s|ped|ping) (?:it|them)\b
+tests:
+- name: flags 'trips it'
+  input: |
+    Writing about the rule still trips it.
+  want: |
+    1:30:PlainTechnical.FigurativeTrips:Figurative verb: 'trips it'. Say that the text matches the check.
+- name: round-trip compound
+  input: |
+    The test will round-trip a string through the encoder.
+  want: ''

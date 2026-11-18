@@ -1,0 +1,888 @@
+# Each rule fires on its own first case. Under the error floor of the
+# configuration beside this file, an error shows, and a warning and a
+# suggestion do not.
+- name: keeps AbstractSubject at warning
+  input: |
+    This coupling is the price.
+  absent: PlainTechnical.AbstractSubject
+- name: keeps AffirmativeFormula at warning
+  input: |
+    And that is the beauty of it.
+  absent: PlainTechnical.AffirmativeFormula
+- name: keeps AnnouncementHeading at warning
+  input: |
+    ### What to Expect
+  absent: PlainTechnical.AnnouncementHeading
+- name: keeps Anthropomorphism at warning
+  input: |
+    The library decides for itself.
+  absent: PlainTechnical.Anthropomorphism
+- name: keeps BareDemonstrative at warning
+  input: |
+    The pool is full. This means the write fails.
+  absent: PlainTechnical.BareDemonstrative
+- name: keeps BritishSpelling at error
+  input: |
+    The colour is grey.
+  contains: PlainTechnical.BritishSpelling
+- name: keeps Cliche at warning
+  input: |
+    That commit crowns the release.
+  absent: PlainTechnical.Cliche
+- name: keeps ClosingPleasantry at error
+  input: |
+    I hope this helps!
+  contains: PlainTechnical.ClosingPleasantry
+- name: keeps CoinageMetaphor at warning
+  input: |
+    The step mints them on demand.
+  absent: PlainTechnical.CoinageMetaphor
+- name: keeps ColloquialAssessment at warning
+  input: |
+    This is where it lands.
+  absent: PlainTechnical.ColloquialAssessment
+- name: keeps ColonReveal at warning
+  input: |
+    ## FigurativeSurfaces: the bare verb
+  absent: PlainTechnical.ColonReveal
+- name: keeps CommitAttribution at error
+  input: |
+    fix(parser): handle empty input
+
+    An empty file returned a nil tree.
+
+    Assisted-by: Claude:claude-opus-4 mise
+  format: commit
+  contains: PlainTechnical.CommitAttribution
+- name: keeps CommitBuzzword at warning
+  input: |
+    repo: add the parser
+
+    The change adds proper error handling to the parser.
+  format: commit
+  absent: PlainTechnical.CommitBuzzword
+- name: keeps CommitHedge at warning
+  input: |
+    Fix the parser
+
+    This seems to fix the parser now.
+  format: commit
+  absent: PlainTechnical.CommitHedge
+- name: keeps CommitMarketingAdjective at warning
+  input: |
+    ✨ feat: Added battle-tested rate limiter
+
+    This change introduces a production-ready rate limiter that significantly
+    improves the auth path. All 12 tests passing.
+
+    Co-Authored-By: Claude <noreply@anthropic.com>
+  format: commit
+  absent: PlainTechnical.CommitMarketingAdjective
+- name: keeps CommitMood at warning
+  input: |
+    fix(parser): Updated the tokenizer for better performance
+
+    The new tokenizer is blazingly fast. Coverage: 92%.
+
+    - src/parser/tokenizer.ts
+    - src/parser/lexer.ts
+    - tests/parser/tokenizer.test.ts
+  format: commit
+  absent: PlainTechnical.CommitMood
+- name: keeps CommitOverexplanation at warning
+  input: |
+    Fix the parser
+
+    as part of this change the parser now.
+  format: commit
+  absent: PlainTechnical.CommitOverexplanation
+- name: keeps CommitPastFault at warning
+  input: |
+    nftables: drop the stale rule
+
+    The shell runs on. The doc still described a stop.
+  format: commit
+  absent: PlainTechnical.CommitPastFault
+- name: keeps CommitSelfReference at warning
+  input: |
+    This commit implements comprehensive validation for the new auth flow,
+    ensuring proper handling of edge cases and improving overall security.
+
+    🤖 Generated with [Claude Code](https://claude.com/claude-code)
+  format: commit
+  absent: PlainTechnical.CommitSelfReference
+- name: keeps CommitTestEnumeration at warning
+  input: |
+    ✨ feat: Added battle-tested rate limiter
+
+    This change introduces a production-ready rate limiter that significantly
+    improves the auth path. All 12 tests passing.
+
+    Co-Authored-By: Claude <noreply@anthropic.com>
+  format: commit
+  absent: PlainTechnical.CommitTestEnumeration
+- name: keeps CommitTrailingJustification at warning
+  input: |
+    parser: add a check for empty input
+
+    The change adds a check for empty files ensuring correctness.
+  format: commit
+  absent: PlainTechnical.CommitTrailingJustification
+- name: keeps CommitUnquantifiedClaim at warning
+  input: |
+    repo: add the parser
+
+    The parser is much faster now.
+  format: commit
+  absent: PlainTechnical.CommitUnquantifiedClaim
+- name: keeps CommitVagueVerb at warning
+  input: |
+    repo: rework the tests
+  format: commit
+  absent: PlainTechnical.CommitVagueVerb
+- name: keeps ConclusionMarker at warning
+  input: |
+    The bottom line is that costs dropped sharply.
+  absent: PlainTechnical.ConclusionMarker
+- name: keeps ConsequenceClause at warning
+  input: |
+    The styles ship as release assets, so the version pins itself.
+  absent: PlainTechnical.ConsequenceClause
+- name: keeps ConsequenceOpener at warning
+  input: |
+    The pool fills. So writes fail. So the daemon stops.
+  absent: PlainTechnical.ConsequenceOpener
+- name: keeps Contraction at error
+  input: |
+    The daemon doesn't restart.
+  contains: PlainTechnical.Contraction
+- name: keeps ContrastiveFormula at warning
+  input: |
+    ### A refinement, not a rivalry
+  absent: PlainTechnical.ContrastiveFormula
+- name: keeps CopulaDodge at warning
+  input: |
+    The refrain serves as an anchor for the essay.
+  absent: PlainTechnical.CopulaDodge
+- name: keeps CorrectionFrame at warning
+  input: |
+    The cache is not a database. It is a buffer for the disk.
+  absent: PlainTechnical.CorrectionFrame
+- name: keeps CrossReference at error
+  input: |
+    As mentioned above, the cache reduces read latency.
+  contains: PlainTechnical.CrossReference
+- name: keeps Dash at error
+  input: |
+    The deploy failed — the disk was full.
+  contains: PlainTechnical.Dash
+- name: keeps DefensiveHedge at warning
+  input: |
+    Admittedly, the parser is slow, but it handles every edge case cleanly.
+  absent: PlainTechnical.DefensiveHedge
+- name: keeps DepletionMetaphor at warning
+  input: |
+    The job stalls on the lock.
+  absent: PlainTechnical.DepletionMetaphor
+- name: keeps DesignationAdjective at warning
+  input: |
+    Its named target is a table.
+  absent: PlainTechnical.DesignationAdjective
+- name: keeps DespiteFormula at warning
+  input: |
+    Despite these challenges, the team shipped the release on time.
+  absent: PlainTechnical.DespiteFormula
+- name: keeps DiscoveryMetaphor at warning
+  input: |
+    Nothing surfaced this earlier.
+  absent: PlainTechnical.DiscoveryMetaphor
+- name: keeps DisguiseMetaphor at warning
+  input: |
+    The change is a rewrite in disguise.
+  absent: PlainTechnical.DisguiseMetaphor
+- name: keeps Emoji at error
+  input: |
+    ✅ The build passes. 🚀 Deploy it.
+  contains: PlainTechnical.Emoji
+- name: keeps Emphasis at warning
+  input: |
+    This design *is* intentional.
+  absent: PlainTechnical.Emphasis
+- name: keeps EmptyModifier at warning
+  input: |
+    A certain stakeholder raised the issue.
+  absent: PlainTechnical.EmptyModifier
+- name: keeps EmptyWord at warning
+  input: |
+    It simply restarts.
+  absent: PlainTechnical.EmptyWord
+- name: keeps ExplainerHeading at warning
+  input: |
+    ### Demystifying the Cache
+  absent: PlainTechnical.ExplainerHeading
+- name: keeps ExplainerLead at warning
+  input: |
+    That is where the exemption lives.
+  absent: PlainTechnical.ExplainerLead
+- name: keeps ExplainerPrompt at warning
+  input: |
+    Let us explore the available options.
+  absent: PlainTechnical.ExplainerPrompt
+- name: keeps FalseBalance at warning
+  input: |
+    In the end, each side has merit.
+  absent: PlainTechnical.FalseBalance
+- name: keeps FalseExclusivity at warning
+  input: |
+    This is the dirty secret of most caching layers.
+  absent: PlainTechnical.FalseExclusivity
+- name: keeps FigurativeBreeds at warning
+  input: |
+    Inconsistency breeds distrust.
+  absent: PlainTechnical.FigurativeBreeds
+- name: keeps FigurativeCarries at warning
+  input: |
+    No set carries the name.
+  absent: PlainTechnical.FigurativeCarries
+- name: keeps FigurativeCasts at warning
+  input: |
+    The rewrite casts a wide net.
+  absent: PlainTechnical.FigurativeCasts
+- name: keeps FigurativeDemands at warning
+  input: |
+    The migration demands care.
+  absent: PlainTechnical.FigurativeDemands
+- name: keeps FigurativeDraws at warning
+  input: |
+    The chapter draws to a close.
+  absent: PlainTechnical.FigurativeDraws
+- name: keeps FigurativeLands at warning
+  input: |
+    The patch lands in the next release.
+  absent: PlainTechnical.FigurativeLands
+- name: keeps FigurativeLends at warning
+  input: |
+    The structure lends itself to reuse.
+  absent: PlainTechnical.FigurativeLends
+- name: keeps FigurativeLives at warning
+  input: |
+    Truth lives in one place.
+  absent: PlainTechnical.FigurativeLives
+- name: keeps FigurativeNoun at warning
+  input: |
+    One wrinkle remains.
+  absent: PlainTechnical.FigurativeNoun
+- name: keeps FigurativeOwns at warning
+  input: |
+    It owns three tables.
+  absent: PlainTechnical.FigurativeOwns
+- name: keeps FigurativeQuantity at warning
+  input: |
+    A litany of errors fills the log.
+  absent: PlainTechnical.FigurativeQuantity
+- name: keeps FigurativeReaches at warning
+  input: |
+    Reach for it in a script.
+  absent: PlainTechnical.FigurativeReaches
+- name: keeps FigurativeRides at warning
+  input: |
+    The query rides the index.
+  absent: PlainTechnical.FigurativeRides
+- name: keeps FigurativeSees at warning
+  input: |
+    The quarter saw record adoption.
+  absent: PlainTechnical.FigurativeSees
+- name: keeps FigurativeShape at warning
+  input: |
+    The pass shapes the output.
+  absent: PlainTechnical.FigurativeShape
+- name: keeps FigurativeSits at warning
+  input: |
+    Beside it sit flat columns.
+  absent: PlainTechnical.FigurativeSits
+- name: keeps FigurativeStrikes at warning
+  input: |
+    This phrase strikes the right tone.
+  absent: PlainTechnical.FigurativeStrikes
+- name: keeps FigurativeTravels at warning
+  input: |
+    State travels with the session.
+  absent: PlainTechnical.FigurativeTravels
+- name: keeps FigurativeTrips at warning
+  input: |
+    Writing about the rule still trips it.
+  absent: PlainTechnical.FigurativeTrips
+- name: keeps FillerPhrase at warning
+  input: |
+    The tool reads a wide range of formats.
+  absent: PlainTechnical.FillerPhrase
+- name: keeps FormalTransition at warning
+  input: |
+    Of note, the schema gained two columns.
+  absent: PlainTechnical.FormalTransition
+- name: keeps FusionMetaphor at warning
+  input: |
+    The fix fuses the two passes.
+  absent: PlainTechnical.FusionMetaphor
+- name: keeps GrowthMetaphor at warning
+  input: |
+    A nascent market with embryonic potential.
+  absent: PlainTechnical.GrowthMetaphor
+- name: keeps Hedge at warning
+  input: |
+    This much is certain: delays are inevitable.
+  absent: PlainTechnical.Hedge
+- name: keeps HollowAcknowledgment at warning
+  input: |
+    It names the gap without filling it.
+  absent: PlainTechnical.HollowAcknowledgment
+- name: keeps HurdleMetaphor at warning
+  input: |
+    The finding clears on the next run.
+  absent: PlainTechnical.HurdleMetaphor
+- name: keeps Idiom at warning
+  input: |
+    The query fans out.
+  absent: PlainTechnical.Idiom
+- name: keeps ImportancePuffery at warning
+  input: |
+    The release marks a pivotal moment, and the team provided support for it.
+  absent: PlainTechnical.ImportancePuffery
+- name: keeps IncompleteComparison at warning
+  input: |
+    The new parser is substantially faster.
+  absent: PlainTechnical.IncompleteComparison
+- name: keeps InevitabilityClaim at warning
+  input: |
+    The proof falls cleanly out of the lemma.
+  absent: PlainTechnical.InevitabilityClaim
+- name: keeps InflatedWord at warning
+  input: |
+    We leverage the cache.
+  absent: PlainTechnical.InflatedWord
+- name: keeps InstructionLength at warning
+  input: |
+    - word word word word word word word word word word word word word word word word word word word word word.
+  absent: PlainTechnical.InstructionLength
+- name: keeps JourneyMetaphor at warning
+  input: |
+    A fix is on the way.
+  absent: PlainTechnical.JourneyMetaphor
+- name: keeps LabelAndExplain at warning
+  input: |
+    The takeaway: Always check the output.
+  absent: PlainTechnical.LabelAndExplain
+- name: keeps LatinAbbreviation at error
+  input: |
+    Use a path, e.g. /tmp.
+  contains: PlainTechnical.LatinAbbreviation
+- name: keeps ListAnnouncement at warning
+  input: |
+    Here is a breakdown of how the system works.
+  absent: PlainTechnical.ListAnnouncement
+- name: keeps Loudness at warning
+  input: |
+    The check fails loudly on bad input.
+  absent: PlainTechnical.Loudness
+- name: keeps MarketingHeading at warning
+  input: |
+    ### Mastering Vale
+  absent: PlainTechnical.MarketingHeading
+- name: keeps Metacommentary at warning
+  input: |
+    This distinction matters because the port is fixed.
+  absent: PlainTechnical.Metacommentary
+- name: keeps MicDrop at warning
+  input: |
+    Pure data.
+  absent: PlainTechnical.MicDrop
+- name: keeps MicDropHeading at warning
+  input: |
+    ### Correct, not clever
+  absent: PlainTechnical.MicDropHeading
+- name: keeps ModalVerb at error
+  input: |
+    You should restart the daemon.
+  contains: PlainTechnical.ModalVerb
+- name: keeps MoneyMetaphor at warning
+  input: |
+    The cache buys us time.
+  absent: PlainTechnical.MoneyMetaphor
+- name: keeps MotionMetaphor at warning
+  input: |
+    Nothing strands there.
+  absent: PlainTechnical.MotionMetaphor
+- name: keeps NarrativePivot at warning
+  input: |
+    The launch went out. Something shifted.
+  absent: PlainTechnical.NarrativePivot
+- name: keeps NegatedObject at warning
+  input: |
+    Most text embeds nothing.
+  absent: PlainTechnical.NegatedObject
+- name: keeps NegatedPair at warning
+  input: |
+    It runs with no database and no network.
+  absent: PlainTechnical.NegatedPair
+- name: keeps NegatedSubject at warning
+  input: |
+    Nothing downloads.
+  absent: PlainTechnical.NegatedSubject
+- name: keeps NegationDensity at warning
+  input: |
+    The build collects no telemetry, sets no cookies, and allocates no memory on the hot path.
+  absent: PlainTechnical.NegationDensity
+- name: keeps Nominalization at warning
+  input: |
+    The task performs compression of the file.
+  absent: PlainTechnical.Nominalization
+- name: keeps OpeningCliche at warning
+  input: |
+    You might be wondering why this matters.
+  absent: PlainTechnical.OpeningCliche
+- name: keeps Overclaim at warning
+  input: |
+    The single most important factor is latency.
+  absent: PlainTechnical.Overclaim
+- name: keeps OverusedWord at warning
+  input: |
+    ### Deep Dive
+  absent: PlainTechnical.OverusedWord
+- name: keeps ParagraphLength at error
+  input: |
+    One fact. One fact. One fact. One fact. One fact. One fact. One fact.
+  contains: PlainTechnical.ParagraphLength
+- name: keeps ParagraphLengthVariance at warning
+  input: |
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+  absent: PlainTechnical.ParagraphLengthVariance
+- name: keeps ParticipialPadding at warning
+  input: |
+    Shaping the direction of the API took a year.
+  absent: PlainTechnical.ParticipialPadding
+- name: keeps ParticipleTail at warning
+  input: |
+    The role writes the file, making the daemon reload.
+  absent: PlainTechnical.ParticipleTail
+- name: keeps PassiveVoice at warning
+  input: |
+    The file is deleted by the job.
+  absent: PlainTechnical.PassiveVoice
+- name: keeps PassiveVoiceAdverb at warning
+  input: |
+    The patch was not merged.
+  absent: PlainTechnical.PassiveVoiceAdverb
+- name: keeps PerfectTense at warning
+  input: |
+    The role has changed the file.
+  absent: PlainTechnical.PerfectTense
+- name: keeps PhrasalVerb at warning
+  input: |
+    Find out which host failed.
+  absent: PlainTechnical.PhrasalVerb
+- name: keeps PointVerdict at warning
+  input: |
+    That is the point.
+  absent: PlainTechnical.PointVerdict
+- name: keeps Preamble at warning
+  input: |
+    What this means is that the pin moved.
+  absent: PlainTechnical.Preamble
+- name: keeps ProceduralLength at warning
+  input: |
+    Restart the sync service on the host that runs the nightly import job after the backup of the primary database finishes.
+  absent: PlainTechnical.ProceduralLength
+- name: keeps PseudoCleft at warning
+  input: |
+    All you need is the offset.
+  absent: PlainTechnical.PseudoCleft
+- name: keeps Puffery at warning
+  input: |
+    The natural beauty of the coastline drew many visitors.
+  absent: PlainTechnical.Puffery
+- name: keeps ReadingEase at suggestion
+  input: |
+    Plain functions.
+  absent: PlainTechnical.ReadingEase
+- name: keeps RegimeOpener at warning
+  input: |
+    Under `cog` the same text is configurable twice.
+  absent: PlainTechnical.RegimeOpener
+- name: keeps RepeatedOpening at warning
+  input: |
+    Every host gets the key from the vault at boot. Every host writes the key to its disk. Every host reloads the daemon after that.
+  absent: PlainTechnical.RepeatedOpening
+- name: keeps Resonates at warning
+  input: |
+    The message resonated deeply.
+  absent: PlainTechnical.Resonates
+- name: keeps Restatement at warning
+  input: |
+    In the end, one read.
+  absent: PlainTechnical.Restatement
+- name: keeps RhetoricalDevice at warning
+  input: |
+    Ask yourself: does the abstraction earn its keep?
+  absent: PlainTechnical.RhetoricalDevice
+- name: keeps RhetoricalQuestion at warning
+  input: |
+    The result? A faster build and a smaller binary.
+  absent: PlainTechnical.RhetoricalQuestion
+- name: keeps ScopeChangeNoun at warning
+  input: |
+    This broadening adds three tokens.
+  absent: PlainTechnical.ScopeChangeNoun
+- name: keeps ScopePartition at warning
+  input: |
+    Read-side, the join is one hop.
+  absent: PlainTechnical.ScopePartition
+- name: keeps Semicolon at error
+  input: |
+    The pool is full; the write fails.
+  contains: PlainTechnical.Semicolon
+- name: keeps SentenceLength at error
+  input: |
+    word word word word word word word word word word word word word word word word word word word word word word word word word word.
+  contains: PlainTechnical.SentenceLength
+- name: keeps SentenceLengthVariance at warning
+  input: |
+    The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. 
+  absent: PlainTechnical.SentenceLengthVariance
+- name: keeps SentenceStartRepetition at warning
+  input: |
+    A single sentence with an exclamation mark is fine! A question is fine? This paragraph exists to push the reply past the sentence ceiling. Sentence five. Sentence six. Sentence seven. Sentence eight. Sentence nine. Sentence ten. Sentence eleven. Sentence twelve. Sentence thirteen. Sentence fourteen. Sentence fifteen. Sentence sixteen makes the point. Sentence seventeen is the one that fires.
+  absent: PlainTechnical.SentenceStartRepetition
+- name: keeps SettlementMetaphor at warning
+  input: |
+    The debate is settled.
+  absent: PlainTechnical.SettlementMetaphor
+- name: keeps ShellNoun at warning
+  input: |
+    The reason is simply that the pin moved.
+  absent: PlainTechnical.ShellNoun
+- name: keeps Silence at warning
+  input: |
+    It keeps the console quiet.
+  absent: PlainTechnical.Silence
+- name: keeps Staccato at warning
+  input: |
+    Workers push.
+  absent: PlainTechnical.Staccato
+- name: keeps StackedHedge at error
+  input: |
+    It can potentially be misread as a directive.
+  contains: PlainTechnical.StackedHedge
+- name: keeps StockPhrase at warning
+  input: |
+    ### A Game-Changer for Documentation
+  absent: PlainTechnical.StockPhrase
+- name: keeps StrategyBuzzword at warning
+  input: |
+    Strong network effects take over.
+  absent: PlainTechnical.StrategyBuzzword
+- name: keeps StrawmanContrast at warning
+  input: |
+    The lookup is one read, rather than a scan.
+  absent: PlainTechnical.StrawmanContrast
+- name: keeps StructureAnnouncement at warning
+  input: |
+    Here is a quick recap of what we covered.
+  absent: PlainTechnical.StructureAnnouncement
+- name: keeps SummativeAppositive at warning
+  input: |
+    It drops the header, something no caller expects.
+  absent: PlainTechnical.SummativeAppositive
+- name: keeps SuperficialAnalysis at warning
+  input: |
+    The museum expanded its collection, reflecting its new focus.
+  absent: PlainTechnical.SuperficialAnalysis
+- name: keeps Sycophancy at error
+  input: |
+    Absolutely! The daemon restarts.
+  contains: PlainTechnical.Sycophancy
+- name: keeps TermRotation at warning
+  input: |
+    Edit the configuration. Then reload the config.
+  absent: PlainTechnical.TermRotation
+- name: keeps ThroatClearing at warning
+  input: |
+    I will be honest, the migration was harder than expected.
+  absent: PlainTechnical.ThroatClearing
+- name: keeps TotalityReveal at warning
+  input: |
+    Clean data, and nothing else.
+  absent: PlainTechnical.TotalityReveal
+- name: keeps TrailingCondition at warning
+  input: |
+    - Read the log if the build fails.
+  absent: PlainTechnical.TrailingCondition
+- name: keeps UnmeasuredClaim at warning
+  input: |
+    The retry logic is robust.
+  absent: PlainTechnical.UnmeasuredClaim
+- name: keeps UnstatedCondition at warning
+  input: |
+    Restart it as needed.
+  absent: PlainTechnical.UnstatedCondition
+- name: keeps UpkeepFrame at warning
+  input: |
+    It keeps search fast.
+  absent: PlainTechnical.UpkeepFrame
+- name: keeps UrgencyInflation at warning
+  input: |
+    The stakes could not be higher.
+  absent: PlainTechnical.UrgencyInflation
+- name: keeps VagueAttribution at warning
+  input: |
+    Experts argue that caching is essential for read-heavy workloads.
+  absent: PlainTechnical.VagueAttribution
+- name: keeps ValueVerdict at warning
+  input: |
+    The complexity is worth it.
+  absent: PlainTechnical.ValueVerdict
+- name: keeps WageMetaphor at warning
+  input: |
+    The helper earns a caveat.
+  absent: PlainTechnical.WageMetaphor
+- name: keeps WholeEnvironment at warning
+  input: |
+    Every host in the fleet gets it, and so does the homelab.
+  absent: PlainTechnical.WholeEnvironment
+- name: keeps WrapUpHeading at warning
+  input: |
+    ### Wrap-Up
+  absent: PlainTechnical.WrapUpHeading
+- name: keeps UnclosedQuote at warning
+  input: |
+    The tool prints "ok and stops.
+  absent: PlainTechnical.UnclosedQuote
+- name: leaves the literal senses of the error tier alone
+  input: |
+    Everything after the option terminator is a path. The buffer is malloc'd by
+    the caller. The array uses Fibre Channel over Ethernet. The task raises
+    CancelledError on a timeout. The call returns CANCELLED to the client.
+
+    The bridge ageing time is 300 s. The site moved to example.ie last year. Escape
+    the " character with a backslash. The arrow 🡒 points right. BERT works
+    as a language model for masked tokens. The page token comes from cursor
+    order.
+  absent: PlainTechnical
+- name: leaves wrapped lines, addresses and file names alone
+  input: |
+    The build fails almost
+    certainly, and the log shows the port. The shell will
+    remember that directory for the next call. The team cut the branch in
+    early
+    May the next year.
+
+    The host at aa:bb:cc:dd:ee:ff, 2001:db8:0:1:2:3:4:5 and 10:30:45 reads the
+    key x=1 and the key y=2 at boot.
+
+    Edit the file /etc/postfix/main.cf. The page loads viz.js from the mirror.
+    The handler logs e.getMessage() and exits. Back up etc.tar.gz first.
+
+    Get a certificate from Let's Encrypt. The office is open Monday – Friday.
+    The might of the cluster is 40 nodes. Set PATH=.:bin:$PATH in the profile.
+
+    The logo of the National Cyber Security Centre is blue.
+  absent: PlainTechnical
+- name: keeps ChatReply at error
+  input: |
+    I am sorry, but the host is down.
+  contains: PlainTechnical.ChatReply
+- name: leaves an acronym, a directory and a single letter alone
+  input: |
+    The programmer programmed the job. Ask IT's help desk, and read the WHO's
+    guidance. Run vapoursynth on the clip, and set aria-labelledby on the box.
+
+    I am an AI researcher at a lab. As of my last update to the page, the package
+    was at version 2.
+
+    Add .vs/ to the ignore file. Copy the file into the etc directory. The ETC of
+    the sync is 5 pm. Call e.g(x) on the event. The ie length is 4.
+
+    Load should.js first. The should clause of the query holds two terms. With
+    all his might, he ran.
+
+    The letters a – z are valid.
+
+    — Donald Knuth
+  absent: PlainTechnical
+- name: counts an option as a word
+  input: |
+    Run the tool with --port 80 --host db --user admin --key id --verbose and read
+    the log of the job on the host at the end of the run.
+  contains: PlainTechnical.SentenceLength
+- name: leaves options, paths, compounds and concessions alone
+  input: |
+    Include wx/colour.h in the unit. Run grep with --colour=auto, and read
+    /usr/share/doc/licence first. Set $colour, and call set.colour() next. The
+    colour= key holds it. Dr. Grey wrote it.
+
+    Set may-interrupt on. Read letter-may.txt, and see the could-be list. The
+    log ends on 12 may 2020. Tag the build DU-34-may now. The release of may
+    2020 holds it. The job ran on 12 may.
+
+    Back up etc, var and home. Bind-mount dev, proc, sys, etc and run the job.
+    Free the ie, then the frame.
+
+    As of my last training run, the loss was 0.31.
+
+    Of course, the cache grows. Certainly, it stops. Remember that the disk
+    fills.
+
+    The daemon reads the file and then writes the state to the disk on each of
+    the hosts (one two three four
+    five six seven eight) now.
+
+    The daemon reads the file and calls pam_setcred() and pam_open_session() and
+    sssd(8) and cups(1) and foo(a, b) and bar(c, d) on each host now.
+  absent: PlainTechnical
+- name: flags a modal after a number
+  input: |
+    Any of the 3 may fail in the run.
+  contains: PlainTechnical.ModalVerb
+- name: counts a number with separators as one word
+  input: |
+    The first run of the tool makes an index of more than 1,000,000 files on the
+    disk, and each later run reads 10,000 files.
+  absent: PlainTechnical
+- name: leaves a semicolon named as a character alone
+  input: |
+    Separate the entries with a semicolon (;) in the list. Set PATH to
+    C:\bin;C:\tools on the host.
+  absent: PlainTechnical
+- name: leaves names, fields and commands alone
+  input: |
+    The tool copies C:\Users\admin\data and C:\Users\admin\logs and
+    C:\Users\admin\tmp and D:\backup\host\a to the share on each host in the
+    rack now.
+
+    :license: BSD, see the file for more details.
+
+    The talk is by Prof. Grey of the institute.
+
+    - Grey, Jim
+    - Centre Pompidou hosts the server.
+
+    Can I use the tool at work? Of course. The license permits it.
+
+    Use :vs to split the window. Deploy the app with cf. Then read the log.
+  absent: PlainTechnical
+- name: leaves a variable, a field and a key of code alone
+  input: |
+    Pass --backend=vs to Meson. Mail linux-distros@vs.openwall.org with it. Sum
+    the values in vs and return the total. The vs variable holds them.
+
+    :gutter: 2
+    :email: a@b.org
+    :warning: slow
+
+    The colour[i] entry, ptr->colour and wx::colour hold the hue.
+
+    ## Acknowledgements
+
+    The tool is a.k.a. Foo. The limit is max. TCP size. Lt. Smith ran it. One
+    fact. One fact. One fact.
+  absent: PlainTechnical
+- name: leaves a variable and a backend named vs alone
+  input: |
+    Detect which vs backend version the project needs. Sort sorts vs by key
+    first. The slice vs must stay sorted. Compare TCP vs UDP for the link.
+
+    Mail honour@example.org for help. The tool [colour] takes a name.
+  contains: PlainTechnical.LatinAbbreviation
+- name: reads vs between two capitalized terms alone
+  input: |
+    Detect which vs backend version the project needs. Sort sorts vs by key
+    first. The slice vs must stay sorted.
+
+    Mail honour@example.org for help. The tool [colour] takes a name.
+
+    The file is amongst the logs, whilst the job runs. The team learnt the
+    judgement and the acknowledgement of each storey and dependant. The cheque
+    clears.
+  absent: PlainTechnical
+- name: reads a capital after a short word and a full stop
+  input: |
+    Run the test. Colour the output by level.
+  contains: PlainTechnical.BritishSpelling
+- name: skips the attributes of a block of HTML
+  input: |
+    <p align="center">
+      <img src="logo.png" alt="Project logo">
+    </p>
+
+    <h2 align="center">The "X" tool</h2>
+
+    Press the (“) key twice.
+
+    The ” character closes a string.
+
+    Build with --backend=vs. A line that starts with ; is a comment.
+    Set the type to text/html; charset=utf-8 for the page.
+  absent: PlainTechnical
+- name: pairs a quotation after a literal quote mark
+  input: |
+    Skip the '"' form here. It prints "hello" there.
+
+    Escape a quote (") in a value. The log says "done" then.
+
+    The " character opens a string. The log says "done" then.
+
+    The cookie is a=1; Path=/ there.
+  absent: PlainTechnical
+- name: pairs a quotation after a shell variable
+  input: |
+    Copy $src to "$dst" on the host.
+
+    Then copy ${x} and "${y}" too.
+  absent: PlainTechnical
+- name: leaves terms and code of a comment alone
+  input: |
+    // for (i = 0; i < n; i++) walks the list
+    // The Don't Fragment bit is set. A don't-care bit matches both values.
+    /** @param colour the hue of the pixel */
+    int x;
+  absent: PlainTechnical
+  format: c
+- name: reads a plain don't care and don't fragment as contractions
+  input: |
+    In IPv6, routers don't fragment packets. We don't care about the result.
+  contains: PlainTechnical.Contraction
+- name: leaves a nested for header and a Doxygen parameter alone
+  input: |
+    // for (auto it = v.begin(); it != v.end(); ++it) walks the list
+    /** @param[in] colour the hue of the pixel */
+    /// \param colour the hue of the pixel
+    // Set the IPv4 don't-fragment bit.
+    int x;
+  absent: PlainTechnical
+  format: c
+- name: reads a line of 50 KB
+  input: |
+    The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The pool holds the data and the host reads it. The key is QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ here. The pool is full; the write fails.
+  contains: PlainTechnical.Semicolon
+- name: leaves a compact for header and a plural don't-cares alone
+  input: |
+    // for(i = 0; i < n; i++) is the usual loop here.
+    // Mark the don't-cares in the map as X.
+    int x;
+  absent: PlainTechnical
+  format: c
+- name: leaves the header of an arithmetic for loop of the shell alone
+  input: |
+    # The loop for ((i = 0; i < n; i++)) counts the hosts here.
+    echo
+  absent: PlainTechnical
+  format: sh

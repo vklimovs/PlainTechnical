@@ -1,0 +1,42 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FalseExclusivity (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+# Leaves 'The uncomfortable truth' to AffirmativeFormula. Drops 'the hidden
+# cost', a term of performance analysis.
+extends: existence
+message: 'False exclusivity: ''%s''. State the point.'
+level: warning
+ignorecase: true
+tokens:
+- nobody talks about
+- no one talks about
+- nobody mentions
+- no one mentions
+- nobody is talking about
+- no one is talking about
+- nobody discusses
+- no one discusses
+- what nobody tells you
+- what no one tells you
+- what most people miss
+- 'what most people do not'
+- what most people overlook
+- what most people forget
+- the dirty secret
+- the dirty little secret
+- the open secret
+- the inconvenient truth
+- the elephant in the room
+- the unspoken truth
+- the unspoken reality
+- the hidden truth
+- the silent killer
+tests:
+- name: flags 'the dirty secret'
+  input: |
+    This is the dirty secret of most caching layers.
+  want: |
+    1:9:PlainTechnical.FalseExclusivity:False exclusivity: 'the dirty secret'. State the point.
+- name: plain statement
+  input: |
+    The docs describe the retry cost and the lock contention.
+  want: ''

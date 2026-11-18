@@ -1,0 +1,32 @@
+# Source: PlainTechnical, from the ChatGPT answers of the HC3 corpus, where a
+# chat reply ends up in place of the text. Matches the full form alone, since
+# Contraction flags a contraction. Leaves 'I apologize' alone, since a person
+# writes it in a release note too. Reads 'I do not have any information' after
+# 'sorry, but' alone, and 'I am an AI' before a comma, a full stop, 'model' or
+# 'assistant' alone, since 'I am an AI researcher' is plain.
+extends: existence
+message: "Chat reply: '%s'. Delete it, and write for the reader of the page."
+level: error
+ignorecase: true
+tokens:
+- 'I am sorry, but'
+- '(?<=sorry, but )I (?:do not|cannot|am not able to) (?:have|find|provide)(?: any| enough)? information\b'
+- 'I am (?:a|an) (?:large )?(?:language model|AI(?=[,.]| (?:language )?model\b| assistant\b))'
+- 'As of my (?:last|latest) (?:knowledge update|training (?:data|cut-?off|update))\b'
+- 'my knowledge cutoff'
+tests:
+- name: flags the reply of a chat
+  input: |
+    I am sorry, but I do not have any information about the host.
+  want: |
+    1:1:PlainTechnical.ChatReply:Chat reply: 'I am sorry, but'. Delete it, and write for the reader of the page.
+    1:17:PlainTechnical.ChatReply:Chat reply: 'I do not have any information'. Delete it, and write for the reader of the page.
+- name: flags a model that names itself
+  input: |
+    I am a large language model, so the host is unknown.
+  want: |
+    1:1:PlainTechnical.ChatReply:Chat reply: 'I am a large language model'. Delete it, and write for the reader of the page.
+- name: leaves a plain statement alone
+  input: |
+    The tool does not have the information it needs, so it stops.
+  want: ''

@@ -1,0 +1,40 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.JourneyMetaphors (MIT).
+extends: existence
+message: 'Journey metaphor: ''%s''. Say what happened and what the next step is.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \balong the way\b
+- \bevery step of the way\b
+- \bof the way there\b
+- \bhalfway there\b
+- \bon (?:its|their|our|your) way\b
+- \b(?:is|are|was|were) on the way\b
+- \bmore on the way\b
+- \bwell on the way\b
+- \ben route to\b
+- \b(?:finds?|found|finding|makes?|made|making|works?|worked|working|winds?|wound|winding|weaves?|wove|weaving) (?:its|their) way\b
+- \bpav(?:es?|ed) the way\b
+- \bma(?:de|kes?|king) it (?:through|past|to|into|out|in|over|across)\b
+- \bwalk(?:s|ed|ing)? (?:the|each|every|all|its|their|up|down|two|three|four|five|\d+) (?:[a-z]+ )?(?:workflow|pipeline|stages?|steps?|process|procedure|tiers?|levels?|ladder|rungs?|precedence)\b
+- \ba long way\b
+- \bpath forward\b
+- \bon a path to\b
+- \bon the road to\b
+- \b(?:the|a) (?:long )?road ahead\b
+- \bbumps? in the road\b
+- \bdown the road\b
+- \bdown the line\b
+- '(?<!enjoy )\b(?:the|a|our|this|that|its) (?:own )?journey\b'
+- \bjourney (?:from|to|into|toward|towards)\b
+tests:
+- name: flags 'is on the way'
+  input: |
+    A fix is on the way.
+  want: |
+    1:7:PlainTechnical.JourneyMetaphor:Journey metaphor: 'is on the way'. Say what happened and what the next step is.
+- name: manner sense of way
+  input: |
+    The result depends on the way the cache is built.
+  want: ''

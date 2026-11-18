@@ -1,0 +1,18 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.NominalizedScopeChange (MIT).
+extends: existence
+message: 'Nominalized change: ''%s''. Make the changed rule the subject and state what it catches.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \b(?:the|this|that|its|a|an|each) (?:widening|narrowing|tightening|loosening|broadening)(?=[,.;:!?)]|\s+(?:of|to|in|on|for|with|at|by|from|into|over|across|against|around)\b|\s+(?:is|was|does|did|covers?|covered|catches|caught|keeps?|kept|drops?|dropped|adds?|added|applies|applied|holds?|held|survives?|survived|stays?|stayed|lands?|landed|flags?|flagged|fires?|fired|matches|matched|misses|missed|costs?|means|meant|makes|made|leaves?|left|brings?|brought|touches|touched|remains?|remained|needs?|needed|trades?|traded|turns?|turned|extends?|extended|loses|lost|gains?|gained)\b)
+tests:
+- name: flags 'This broadening'
+  input: |
+    This broadening adds three tokens.
+  want: |
+    1:1:PlainTechnical.ScopeChangeNoun:Nominalized change: 'This broadening'. Make the changed rule the subject and state what it catches.
+- name: adjectival widening
+  input: |
+    The widening gap between the two builds worries the team.
+  want: ''

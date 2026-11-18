@@ -1,0 +1,26 @@
+# Source: Voices v0.2.0 Direct.Ease (MIT).
+extends: metric
+message: Reading ease of %s. Use shorter words and shorter sentences.
+level: suggestion
+scope: paragraph
+formula: round(flesch_reading_ease)
+condition: < 50
+tests:
+- name: flags long words in long sentences
+  input: |
+    Plain functions.
+  want: |
+    1:1:PlainTechnical.ReadingEase:Reading ease of 36.00. Use shorter words and shorter sentences.
+- name: leaves short words alone
+  input: |
+    Stop the pump. Open the drain. Close the valve. Then start the pump.
+  want: ''
+- name: flags an ease of 48
+  input: |
+    The daemon reads the configuration file and writes the records to the database every night today.
+  want: |
+    1:1:PlainTechnical.ReadingEase:Reading ease of 48.00. Use shorter words and shorter sentences.
+- name: leaves an ease just over 50 alone
+  input: |
+    The daemon reads the configuration file and writes the records to the database every night.
+  want: ''

@@ -1,0 +1,13 @@
+# Reads a comment, the text of an element, and an attribute that a person
+# reads. A comment marker with no space after it, or with four spaces or more,
+# marks a line of code, and so does a comment that ends on a `;` or a brace.
+engine: tree-sitter
+lang: tsx
+scopes:
+  - name: comment
+    expr: '((comment) @comment (#match? @comment "^(// {1,3}\\S|/\\*[*!]?\\s)") (#not-match? @comment "(;|[{}])\\s*(\\*/)?$"))'
+    type: md
+  - name: text
+    expr: (jsx_text) @text
+  - name: attribute
+    expr: ((jsx_attribute (property_identifier) @name (string (string_fragment) @value)) (#match? @name "^(title|alt|aria-label|placeholder)$"))

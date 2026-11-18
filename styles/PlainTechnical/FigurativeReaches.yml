@@ -1,0 +1,41 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeReaches (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Figurative verb: ''%s''. Say ''uses'' or ''resorts to''.'
+level: warning
+nonword: true
+ignorecase: true
+exceptions:
+- (?i)hands?
+- (?i)arms?
+- (?i)fingers?
+- (?i)m[ae]n
+- (?i)wom[ae]n
+- (?i)child(?:ren)?
+- (?i)kids?
+- (?i)bab(?:y|ies)
+- (?i)toddlers?
+- (?i)patients?
+- (?i)players?
+- (?i)climbers?
+- (?i)swimmers?
+- (?i)cats?
+- (?i)dogs?
+- (?i)monkeys?
+- (?i)robots?
+tokens:
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all) (?:[a-z]+ )?[a-z]+ reach(?:es|ed|ing) for\b
+- \b(?:AI|LLMs?|models?|agents?|prose|writing|copy|documentation|docs|drafts?) reach(?:es|ed|ing)? for\b
+- "\\breach(?:es|ed|ing)? for (?:(?:a|an|the|this|that|its|their|the same) )?(?:[a-z]+ )?(?:word|verb|noun|adjective|phrase|phrasing|metaphor|simile|idiom|clich\xE9|cliche|superlative|intensifier|qualifier|hedge|euphemism|trope|formula|template|structure|construction|crutch|shorthand)s?\\b"
+- (?:\A|(?<=[.!?:;] )|(?<=^[-*] )|(?<=^\d+\. ))reach for\b
+- '\b(?:you|you would|you will|we|we would|one|people|users|developers|programmers|engineers|maintainers|authors|readers|teams|folks|someone|anyone|everyone) (?:(?:might|may|could|would|should|can|will|often|usually|typically|naturally|instinctively|immediately|first|just|simply|then|always|never|tend to|want to|need to|have to|had to|used to) )?reach(?:es|ed|ing)? for\b'
+tests:
+- name: flags 'Reach for'
+  input: |
+    Reach for it in a script.
+  want: |
+    1:1:PlainTechnical.FigurativeReaches:Figurative verb: 'Reach for'. Say 'uses' or 'resorts to'.
+- name: child reaching literally
+  input: |
+    The child reaches for the shelf.
+  want: ''

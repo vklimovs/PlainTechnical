@@ -1,0 +1,54 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.MotionMetaphors (MIT).
+# Changed: Leaves 'shapes' to FigurativeShape.
+extends: existence
+message: 'Motion metaphor: ''%s''. Use the literal operation, such as ''is passed to'' or ''depends on''.'
+level: warning
+nonword: true
+ignorecase: true
+exceptions:
+- (?i)people
+- (?i)person
+- (?i)m[ae]n
+- (?i)wom[ae]n
+- (?i)child(?:ren)?
+- (?i)kids?
+- (?i)bab(?:y|ies)
+- (?i)parents?
+- (?i)mothers?
+- (?i)fathers?
+- (?i)birds?
+- (?i)cats?
+- (?i)dogs?
+- (?i)animals?
+- (?i)ladders?
+- (?i)walls?
+tokens:
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no|nothing) (?:[a-z'-]+ )?[a-z]+ (?:then |also |never |still |only |always )?feeds? (?:the|a|an|its|their|this|that|these|those|each|every|into|both|all)\b
+- \bfeeds? (?:directly |straight |back )?into (?:the|a|an|its|their|this|that|each|every)\b
+- \bstrand(?:s|ed|ing)\b(?! (?:of|from)\b)
+- \bswamp(?:s|ed|ing)?\b(?! (?:of|land|water|cooler|cabbage|thing)\b)
+- \bdwarf(?:s|ed|ing)\b
+- \b(?:crowds?|crowded|crowding) out\b
+- \blean(?:s|ed|ing)? (?:on|heavily on|hard on|entirely on) (?:the|a|an|its|their|this|that|each|every|one|[a-z]+)\b(?! (?:wall|walls|fence|fences|railing|railings|counter|doorframe|post|posts|tree|trees|car|truck|desk|table|shoulder|shoulders|arm|arms)\b)
+- \bbak(?:es?|ed|ing) (?:in|into)\b(?! (?:the oven|a pan|an oven)\b)
+- \bbak(?:es?|ed|ing) (?:the|a|an|its|this|that|every|each) (?:[a-z]+ )?[a-z]+ (?:in|into)\b
+- '\b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no) (?:[a-z''-]+ )?[a-z]+ (?:then |also |never |still |only |always )?(?:drives?|drove|driven|shape|shaped) (?:the|a|an|its|their|this|that|these|those|each|every|both|all|what|which|how|whether)\b'
+- \bcrack(?:s|ed|ing)? open\b
+- \bsheds? (?:the|a|an|its|this|that|every|each|most|all|any|some|those|these|light|weight)\b
+- \bseat(?:s|ed|ing)? (?:the|a|an|its|their|this|that|each|every|it|them)\b
+- \btrail(?:s|ed|ing)? (?:the|a|an|its|their|this|that) (?:[a-z]+ )?(?:value|version|release|tag|pin|newest|latest|head|tip|main)\b
+tests:
+- name: flags 'strands'
+  input: |
+    Nothing strands there.
+  want: |
+    1:9:PlainTechnical.MotionMetaphor:Motion metaphor: 'strands'. Use the literal operation, such as 'is passed to' or 'depends on'.
+- name: flags 'will shape the'
+  input: |
+    The policy will shape the release.
+  want: |
+    1:1:PlainTechnical.MotionMetaphor:Motion metaphor: 'The policy will shape the'. Use the literal operation, such as 'is passed to' or 'depends on'.
+- name: strand of fiber
+  input: |
+    Three strands of fiber run through the cable.
+  want: ''

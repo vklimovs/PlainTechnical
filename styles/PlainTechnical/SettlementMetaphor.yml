@@ -1,0 +1,31 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeSettles (MIT).
+extends: existence
+message: 'Settlement metaphor: ''%s''. State the conclusion and the evidence.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bsettl(?:es?|ed) the (?:question|debate|matter|argument|issue|dispute)\b
+- \b(?:settles|settled) (?:it|that|this|which|what|whether|those|them)\b
+- \bthe dust settl(?:es|ed)\b(?!\s+(?:on|onto|over|in|into|across|out)\b)
+- \bthe dust (?:has|had) (?:finally |never |already )?settled\b
+- \bfor the dust to settle\b
+- \blet(?:s|ting)? the dust settle\b
+- \bsettl(?:es?|ed|ing) into place\b
+- \bsettl(?:es?|ed|ing) into (?:a|an|the|its|their) (?:[a-z]+ )?(?:rhythm|groove|pattern|routine|shape|form|normal)\b
+- \b(?:question|debate|matter|issue|dispute) (?:is|was|remains|seems) (?:now |long |mostly |largely )?settled\b
+- \bconsider(?:s|ed)? (?:it|that|this|the matter) settled\b
+- \b(?:a|the) settled (?:question|matter|debate|issue)\b
+- \bsettled (?:law|science)\b
+- \bfar from settled\b
+- \bsettl(?:es?|ed|ing) (?:a|an|the|old) (?:old )?scores?\b
+tests:
+- name: flags 'debate is settled'
+  input: |
+    The debate is settled.
+  want: |
+    1:5:PlainTechnical.SettlementMetaphor:Settlement metaphor: 'debate is settled'. State the conclusion and the evidence.
+- name: settling on a choice
+  input: |
+    The team settled on a heuristic for ranking.
+  want: ''

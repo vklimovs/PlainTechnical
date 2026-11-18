@@ -1,0 +1,87 @@
+# Each commit rule fires on its own first case, at the warning floor.
+- name: keeps CommitBuzzword at warning
+  input: |
+    repo: add the parser
+
+    The change adds proper error handling to the parser.
+  format: commit
+  contains: PlainTechnical.CommitBuzzword
+- name: keeps CommitHedge at warning
+  input: |
+    Fix the parser
+
+    This seems to fix the parser now.
+  format: commit
+  contains: PlainTechnical.CommitHedge
+- name: keeps CommitMarketingAdjective at warning
+  input: |
+    ✨ feat: Added battle-tested rate limiter
+
+    This change introduces a production-ready rate limiter that significantly
+    improves the auth path. All 12 tests passing.
+
+    Co-Authored-By: Claude <noreply@anthropic.com>
+  format: commit
+  contains: PlainTechnical.CommitMarketingAdjective
+- name: keeps CommitMood at warning
+  input: |
+    fix(parser): Updated the tokenizer for better performance
+
+    The new tokenizer is blazingly fast. Coverage: 92%.
+
+    - src/parser/tokenizer.ts
+    - src/parser/lexer.ts
+    - tests/parser/tokenizer.test.ts
+  format: commit
+  contains: PlainTechnical.CommitMood
+- name: keeps CommitOverexplanation at warning
+  input: |
+    Fix the parser
+
+    as part of this change the parser now.
+  format: commit
+  contains: PlainTechnical.CommitOverexplanation
+- name: keeps CommitPastFault at warning
+  input: |
+    nftables: drop the stale rule
+
+    The shell runs on. The doc still described a stop.
+  format: commit
+  contains: PlainTechnical.CommitPastFault
+- name: keeps CommitSelfReference at warning
+  input: |
+    This commit implements comprehensive validation for the new auth flow,
+    ensuring proper handling of edge cases and improving overall security.
+
+    🤖 Generated with [Claude Code](https://claude.com/claude-code)
+  format: commit
+  contains: PlainTechnical.CommitSelfReference
+- name: keeps CommitTestEnumeration at warning
+  input: |
+    ✨ feat: Added battle-tested rate limiter
+
+    This change introduces a production-ready rate limiter that significantly
+    improves the auth path. All 12 tests passing.
+
+    Co-Authored-By: Claude <noreply@anthropic.com>
+  format: commit
+  contains: PlainTechnical.CommitTestEnumeration
+- name: keeps CommitTrailingJustification at warning
+  input: |
+    parser: add a check for empty input
+
+    The change adds a check for empty files ensuring correctness.
+  format: commit
+  contains: PlainTechnical.CommitTrailingJustification
+- name: keeps CommitUnquantifiedClaim at warning
+  input: |
+    repo: add the parser
+
+    The parser is much faster now.
+  format: commit
+  contains: PlainTechnical.CommitUnquantifiedClaim
+- name: keeps CommitVagueVerb at warning
+  input: |
+    repo: rework the tests
+  format: commit
+  contains: PlainTechnical.CommitVagueVerb

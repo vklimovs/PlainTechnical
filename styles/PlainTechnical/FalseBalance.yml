@@ -1,0 +1,41 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FalseBalance (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+# Leaves 'It is important to consider' to Hedge. Drops 'varies depending on',
+# 'depends on many factors', 'case-by-case basis', 'strike a balance' and
+# 'find a balance', which are plain in systems prose, as in 'the default
+# varies depending on the level'.
+extends: existence
+message: 'False balance: ''%s''. Take a position or delete the hedge.'
+level: warning
+ignorecase: true
+tokens:
+- both sides of the argument
+- both sides present valid points
+- there are valid points on both sides
+- each perspective has merit
+- each side has merit
+- important to consider the perspectives
+- consider all stakeholders
+- perspectives of all stakeholders
+- a balanced approach
+- nuanced understanding
+- nuanced approach
+- the answer is not straightforward
+- not a simple answer
+- there is no simple answer
+- the issue is complex
+- this is a complex issue
+tests:
+- name: flags 'each side has merit'
+  input: |
+    In the end, each side has merit.
+  want: |
+    1:13:PlainTechnical.FalseBalance:False balance: 'each side has merit'. Take a position or delete the hedge.
+- name: leaves 'varies depending on' alone
+  input: |
+    The block size varies depending on the level.
+  want: ''
+- name: concrete dependency
+  input: |
+    The timeout depends on the region setting in the config file.
+  want: ''

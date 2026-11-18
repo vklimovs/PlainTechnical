@@ -1,0 +1,58 @@
+// Source: ASD-STE100 Issue 9 rules 5.1 and 8.4, via SimpleEnglish a6fcb4fde098 (MIT).
+// Reports a sentence of more than 20 words in a list item. A code span counts as
+// one word, as rule 8.6 counts an identifier. So does a parenthesis, after rule
+// 8.5, and a number with its unit. SentenceLength sees no code span or
+// quotation and reports 26 words and more by its own count. So the script
+// leaves an item that SentenceLength reports, and a long step draws one alert.
+// A code block holds no list. A sentence ends on a stop, after any closing mark
+// of emphasis, code or quotation.
+text := import("text")
+
+matches := []
+
+masked := scope
+blocks := text.re_find("(?s)```.*?```", scope, -1)
+if blocks != undefined {
+    for b in blocks {
+        m := b[0]
+        masked = masked[:m.begin] + text.repeat(" ", m.end - m.begin) + masked[m.end:]
+    }
+}
+
+items := text.re_find(`(?m)^[ \t]*(?:[-*+]|\d+[.)])[ \t]+`, masked, -1)
+if items != undefined {
+    for i, it in items {
+        start := it[0].end
+        end := len(masked)
+        if i + 1 < len(items) {
+            end = items[i + 1][0].begin
+        }
+        gap := text.re_find(`\n[ \t]*\n`, masked[start:end], 1)
+        if gap != undefined {
+            end = start + gap[0][0].begin
+        }
+        sentences := text.re_find(`(?s)\S.*?(?:[.!?][*_`+"`"+`'"’”)]*(?:\s|$)|$)`, masked[start:end], -1)
+        if sentences == undefined {
+            continue
+        }
+        for s in sentences {
+            words := text.join(text.re_split("`[^`]*`", s[0].text, -1), "x")
+            words = text.join(text.re_split(`\]\([^)]*\)`, words, -1), "]")
+            found := text.re_find(`\([^()]*\)|\d[\d.,]*[  ]?(?:%|°[CF]|[kMGT]?Hz|[kKMGT]i?B|[kMG]?bit|[kMG]?bps|GbE|[mk]?V|[mk]?W|[kM]?Pa|psi|bar|[mck]?m|ft|[mk]?g|lb|[mnµ]?s|min|rpm)\b|[/~.]*[\w'’](?:[\w'’./:=@\\-]|,\d{3})*(?:\([^()]*\))?`, words, -1)
+            n := 0
+            if found != undefined {
+                n = len(found)
+            }
+            bare := text.join(text.re_split(`(?:^|[^\d])"(?:[^"\n]|\n[ \t]*[^ \t\n"])*"|“(?:[^”\n]|\n[ \t]*[^ \t\n”])*”`, text.join(text.re_split("`[^`]*`", s[0].text, -1), " "), -1), " ")
+            bare = text.join(text.re_split(`\]\([^)]*\)`, bare, -1), "]")
+            seen := text.re_find(`\([^()]*\)|\d[\d.,]*[  ]?(?:%|°[CF]|[kMGT]?Hz|[kKMGT]i?B|[kMG]?bit|[kMG]?bps|GbE|[mk]?V|[mk]?W|[kM]?Pa|psi|bar|[mck]?m|ft|[mk]?g|lb|[mnµ]?s|min|rpm)\b|[/~.]*[\w'’](?:[\w'’./:=@\\-]|,\d{3})*(?:\([^()]*\))?`, bare, -1)
+            m := 0
+            if seen != undefined {
+                m = len(seen)
+            }
+            if n >= 21 && m <= 25 {
+                matches = append(matches, {begin: start + s[0].begin, end: start + s[0].end})
+            }
+        }
+    }
+}

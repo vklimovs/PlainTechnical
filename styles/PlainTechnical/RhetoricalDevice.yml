@@ -1,0 +1,34 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.RhetoricalDevices (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+# Leaves a label such as 'The test:' to LabelAndExplain and ColonReveal, and
+# 'This gives you a test' to Metacommentary. Leaves 'The test is:' before a
+# long explanation to LabelAndExplain.
+extends: existence
+message: 'Rhetorical device: ''%s''. Write it as a plain statement.'
+level: warning
+nonword: true
+tokens:
+- '\bWhen \w+ing [^,]+, ask:'
+- '\bWhen you \w+ [^,]+, ask:'
+- '\bBefore \w+ing [^,]+, ask:'
+- '\bThe test is:(?! [a-z][^.!?:]{20,}[.!?])'
+- '\bA good test:'
+- '\bThe acid test:'
+- '\bAsk yourself:'
+- \bAsk yourself whether\b
+- \bAsk yourself if\b
+- '\bThe question to ask:'
+tests:
+- name: flags "Ask yourself:"
+  input: |
+    Ask yourself: does the abstraction earn its keep?
+  want: |
+    1:1:PlainTechnical.RhetoricalDevice:Rhetorical device: 'Ask yourself:'. Write it as a plain statement.
+- name: ask without a colon
+  input: |
+    When reviewing a change, ask a maintainer about the lock order.
+  want: ''
+- name: leaves 'The test is:' before a long explanation to LabelAndExplain
+  input: |
+    The test is: a key that the server holds for each host.
+  want: ''

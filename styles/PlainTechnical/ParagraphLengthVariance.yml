@@ -1,0 +1,44 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-experimental.ParagraphLengthVariance (MIT).
+extends: script
+message: Uniform paragraphs. The paragraphs of the section have about the same length. Vary them by what each one says.
+level: warning
+scope: raw
+script: ParagraphLengthVariance.tengo
+tests:
+- name: flags paragraphs of one length
+  input: "The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. \n\nThe daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. \n\nThe daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. \n\nThe daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. \n\nThe daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. \n\nThe daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. \n\n"
+  want: |
+    1:1:PlainTechnical.ParagraphLengthVariance:Uniform paragraphs. The paragraphs of the section have about the same length. Vary them by what each one says.
+- name: paragraphs of varied length
+  input: |
+    # Setup
+
+    The installer copies the binary into the local bin directory of the user and sets the permissions on the file so that the shell can run it without any extra steps from the person doing the install.
+
+    The updater downloads the archive into the cache directory of the project and checks the signature on the bundle so that the pipeline can trust it without any manual steps from the person doing the release. The linter reads the config from the root folder of the repository and reports the findings on each line so that the reviewer can fix them without any extra tools from the person who wrote the change.
+
+    The installer copies the binary into the local bin directory of the user and sets the permissions on the file so that the shell can run it without any extra steps from the person doing the install. The updater downloads the archive into the cache directory of the project and checks the signature on the bundle so that the pipeline can trust it without any manual steps from the person doing the release. The linter reads the config from the root folder of the repository and reports the findings on each line so that the reviewer can fix them without any extra tools from the person who wrote the change. The scheduler starts the worker at the top of the hour and records the exit status in the log so that the operator can inspect it without any special access from the person running the cluster.
+
+    The scheduler starts the worker at the top of the hour and records the exit status in the log so that the operator can inspect it without any special access from the person running the cluster.
+  want: ''
+- name: flags a cv of 0.18
+  input: |
+    The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes.
+
+    The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each.
+
+    The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from.
+
+    The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue.
+  want: |
+    1:1:PlainTechnical.ParagraphLengthVariance:Uniform paragraphs. The paragraphs of the section have about the same length. Vary them by what each one says.
+- name: leaves a cv over 0.25 alone
+  input: |
+    The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes.
+
+    The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes.
+
+    The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each.
+
+    The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host reads each record from the queue and writes. The host.
+  want: ''

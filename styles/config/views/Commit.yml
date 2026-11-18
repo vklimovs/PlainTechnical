@@ -1,0 +1,39 @@
+# Source: the Commit View of the Vale TextFSM guide.
+# Changed: Reads the subject and the body as Markdown, so Vale skips a code
+# span and a quotation in them. Reads a trailer that names a writing tool, for
+# CommitAttribution. Skips a trailer that has the form of one: a person and an
+# address after a key such as Signed-off-by, an issue, a hash or a link after
+# Fixes, or a single word after Link, Bug or Change-Id. Skips a subject that
+# git writes for a merge or a fixup, since it names another branch or commit.
+# The subject of a revert is a quotation, which Markdown skips.
+engine: textfsm
+template: |
+  Value Subject (.+)
+  Value List Body (.*)
+  Value List Trailer ((?i:co-authored-by|assisted-by|generated-by|written-by):.*(?i:claude|anthropic|chatgpt|gpt|openai|copilot|cursor|gemini|codex).*)
+
+  Start
+    ^# -> Next
+    ^(?:Merge (?:branch|branches|tag|tags|pull request|remote-tracking branch|commit) |fixup! |squash! |amend! ) -> Body
+    ^${Subject} -> Body
+
+  Body
+    ^# -+ >8 -+$ -> End
+    ^# -> Next
+    ^${Trailer}
+    ^(?i:[a-z]+(?:-[a-z]+)*-by): .*<[^>]+>\s*$ -> Next
+    ^Cc: .*<[^>]+>\s*$ -> Next
+    ^(?:Fixes|Closes|Resolves|Refs|See-also): (?:#\d+|[0-9a-f]{7,40}\b|[\w.-]+/[\w.-]+#\d+|https?://\S+).*$ -> Next
+    ^(?:Link|Bug|Change-Id): \S+\s*$ -> Next
+    ^${Body}
+scopes:
+  - name: subject
+    expr: Subject
+    type: md
+
+  - name: body
+    expr: Body
+    type: md
+
+  - name: trailer
+    expr: Trailer

@@ -1,0 +1,79 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.VagueAttributions (MIT).
+# Changed: Holds the three tokens of Voices.Weasel. Drops 'the data suggests'
+# and 'the evidence suggests', which point at data in the text.
+extends: existence
+message: 'Vague attribution: ''%s''. Name the source or delete the claim.'
+level: warning
+ignorecase: true
+tokens:
+- experts argue
+- experts suggest
+- experts believe
+- experts say
+- experts agree
+- experts warn
+- experts note
+- experts predict
+- experts contend
+- experts recommend
+- experts have noted
+- experts have argued
+- experts have suggested
+- experts have warned
+- industry reports suggest
+- industry reports indicate
+- industry reports show
+- industry experts
+- industry observers
+- industry analysts
+- observers have cited
+- observers have noted
+- observers note
+- critics argue
+- critics suggest
+- critics contend
+- critics have noted
+- critics have argued
+- some analysts
+- some observers
+- some researchers
+- many experts
+- many analysts
+- many observers
+- many researchers
+- studies show
+- many argue
+- widely regarded as
+- studies suggest that
+- studies indicate that
+- studies have shown that
+- studies have found that
+- research shows that
+- research suggests that
+- research indicates that
+- research has shown that
+- research has found that
+- several studies
+- several experts
+- several analysts
+- several observers
+- a growing body of research
+- a growing body of evidence
+- a growing number of experts
+- the research suggests
+tests:
+- name: flags 'Experts argue'
+  input: |
+    Experts argue that caching is essential for read-heavy workloads.
+  want: |
+    1:1:PlainTechnical.VagueAttribution:Vague attribution: 'Experts argue'. Name the source or delete the claim.
+- name: flags the tokens of Voices.Weasel
+  input: |
+    Studies show that caching helps. Many argue for it.
+  want: |
+    1:1:PlainTechnical.VagueAttribution:Vague attribution: 'Studies show'. Name the source or delete the claim.
+    1:34:PlainTechnical.VagueAttribution:Vague attribution: 'Many argue'. Name the source or delete the claim.
+- name: named source
+  input: |
+    The Go team argues for small interfaces in the 2015 proverbs talk.
+  want: ''

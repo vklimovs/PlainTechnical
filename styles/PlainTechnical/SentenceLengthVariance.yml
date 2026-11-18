@@ -1,0 +1,31 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-experimental.SentenceLengthVariance (MIT).
+# Changed: A warning, because ASD-STE100 caps sentence length.
+extends: script
+message: Uniform sentences. The sentences of the section have about the same length. Mix short and long sentences.
+level: warning
+scope: raw
+script: SentenceLengthVariance.tengo
+tests:
+- name: flags sentences of one length
+  input: "The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. The daemon reads its settings from the disk at every start of the host. \n"
+  want: |
+    1:1:PlainTechnical.SentenceLengthVariance:Uniform sentences. The sentences of the section have about the same length. Mix short and long sentences.
+- name: uniform short sentences stay under the mean floor
+  input: |
+    # Setup
+
+    The cat sat down here. The dog ran off then. The bird flew up high. The fish swam past us. The fox hid in grass.
+  want: ''
+- name: flags a cv of 0.23 and a mean of 13
+  input: |
+    The host reads each record from the queue and. The host reads each record from the queue and writes it to. The host reads each record from the queue and writes it to the store for the job. The host reads each record from the queue and writes it. The host reads each record from the queue and writes it to the store for the.
+  want: |
+    1:1:PlainTechnical.SentenceLengthVariance:Uniform sentences. The sentences of the section have about the same length. Mix short and long sentences.
+- name: leaves a mean under 12 alone
+  input: |
+    The host reads each record from the queue and writes. The host reads each record from the queue and writes it. The host reads each record from the queue and writes. The host reads each record from the queue and writes it. The host reads each record from the queue and writes.
+  want: ''
+- name: leaves a cv over 0.30 alone
+  input: |
+    The host reads each record from. The host reads each record from the queue and writes it to. The host reads each record from the queue and writes it to the store for the job on the node. The host reads each record from the queue and. The host reads each record from the queue and writes it to the store for the job on.
+  want: ''

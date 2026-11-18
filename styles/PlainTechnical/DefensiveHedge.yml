@@ -1,0 +1,45 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.DefensiveHedges (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+# Leaves 'To be honest' to AffirmativeFormula. Drops the tokens for any clause
+# that opens on 'While' or 'Although', since a concession is plain.
+extends: existence
+message: 'Defensive hedge: ''%s''. State the point.'
+level: warning
+nonword: true
+tokens:
+- \b[Tt]his is more of [^,]+ than [^,]+, but [^.!?]+
+- '\b[Ii]t is more of [^,]+ than [^,]+, but [^.!?]+'
+- '\b[Ii]t is not the most [^,]+, but [^.!?]+'
+- '\b[Tt]his is not the most [^,]+, but [^.!?]+'
+- \b[Tt]his may seem [^,]+, but [^.!?]+
+- \b[Tt]his might seem [^,]+, but [^.!?]+
+- \b[Ii]t may seem [^,]+, but [^.!?]+
+- \b[Ii]t might seem [^,]+, but [^.!?]+
+- \b[Tt]his might sound [^,]+, but [^.!?]+
+- \b[Ii]t might sound [^,]+, but [^.!?]+
+- \b[Tt]hat might sound [^,]+, but [^.!?]+
+- \bAdmittedly, [^,]+, but [^.!?]+
+- \bGranted, [^,]+, but [^.!?]+
+- \bTo be fair, [^,]+, but [^.!?]+
+- \bWhile this might appear [^,]+, [^.!?]+
+- \bWhile it might appear [^,]+, [^.!?]+
+- '\b[Tt]his is not meant to be [^,]+, but [^.!?]+'
+- '\b[Ii]t is not meant to be [^,]+, but [^.!?]+'
+- \bOn the surface, [^,]+, but [^.!?]+
+- \bOn the surface this [^,]+, but [^.!?]+
+- \bAt first glance, [^,]+, but [^.!?]+
+- \bAt first glance this [^,]+, but [^.!?]+
+- \bI know this seems [^,]+, but [^.!?]+
+- \bI know this sounds [^,]+, but [^.!?]+
+- \bI know it seems [^,]+, but [^.!?]+
+- \bI know it sounds [^,]+, but [^.!?]+
+tests:
+- name: flags 'Admittedly, the parser is slow, but it handles e'
+  input: |
+    Admittedly, the parser is slow, but it handles every edge case cleanly.
+  want: |
+    1:1:PlainTechnical.DefensiveHedge:Defensive hedge: 'Admittedly, the parser is slow, but it handles every edge case cleanly'. State the point.
+- name: plain statement with a conjunction
+  input: |
+    The build is green, but the release waits for review.
+  want: ''

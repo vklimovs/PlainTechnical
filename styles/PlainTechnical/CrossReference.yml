@@ -1,0 +1,61 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.SelfReference (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+# Leaves 'Recall that' and 'Remember that' to ThroatClearing, since a reminder
+# does not point to another part of the text.
+extends: existence
+message: 'Cross-reference: ''%s''. Make the passage work without it.'
+level: error
+ignorecase: true
+tokens:
+- as mentioned above
+- as mentioned earlier
+- as mentioned before
+- as noted above
+- as noted earlier
+- as noted before
+- as discussed above
+- as discussed earlier
+- as discussed before
+- as stated above
+- as stated earlier
+- as stated before
+- as outlined above
+- as outlined earlier
+- as described above
+- as described earlier
+- as referenced above
+- as referenced earlier
+- as we saw
+- 'as we will see'
+- 'as we will explore'
+- 'as we will discuss'
+- as we discussed
+- as we explored
+- as we covered
+- as covered above
+- as covered earlier
+- as shown above
+- as shown earlier
+- as explained above
+- as explained earlier
+- as we noted
+- as previously mentioned
+- as previously noted
+- as previously discussed
+- as previously stated
+- as previously described
+- as I mentioned
+- as I noted
+- as I discussed
+- as I said
+- as I explained
+tests:
+- name: flags 'As mentioned above'
+  input: |
+    As mentioned above, the cache reduces read latency.
+  want: |
+    1:1:PlainTechnical.CrossReference:Cross-reference: 'As mentioned above'. Make the passage work without it.
+- name: plain pointer to a section
+  input: |
+    The cache expires after an hour; the limits table lists every flag.
+  want: ''

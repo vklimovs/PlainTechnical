@@ -1,0 +1,34 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.WrapUpHeadings (MIT).
+extends: existence
+message: 'Wrap-up heading: ''%s''. Delete the section or name its topic.'
+level: warning
+ignorecase: true
+scope: heading
+tokens:
+- Final Thoughts
+- Closing Thoughts
+- Parting Thoughts
+- Wrapping Up
+- Wrap-Up
+- Wrap Up
+- Putting It All Together
+- Bringing It All Together
+- Tying It All Together
+- The Big Picture
+- The Bottom Line
+- The Takeaway
+- Final Word
+- Last Word
+- Final Take
+tests:
+- name: flags 'Wrap-Up'
+  input: |
+    ### Wrap-Up
+  want: |
+    1:5:PlainTechnical.WrapUpHeading:Wrap-up heading: 'Wrap-Up'. Delete the section or name its topic.
+- name: topic heading
+  input: |
+    ## Parser Design
+
+    The parser handles every case.
+  want: ''

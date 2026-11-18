@@ -1,0 +1,94 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FormalTransitions (MIT).
+# Changed: Keeps 'as a result', 'in addition' and 'for example', the connectors
+# that ASD-STE100 rule 4.4 and GR-6 ask for. Keeps 'thus', an approved
+# connecting word of rule 4.4. Leaves 'therefore', 'consequently',
+# 'furthermore', 'moreover' and 'crucially' to InflatedWord. Leaves 'notably'
+# and 'Essentially' to EmptyWord, and 'significantly' to OverusedWord. Anchors
+# 'Specifically', 'Fundamentally' and 'Of note' at the start of a sentence,
+# after vale-ai-tells a96c5fe. Matches a token with a plain sense, such as 'in
+# turn', 'given that', 'in contrast' or 'by extension', at the start of a
+# sentence or after a comma, and before a comma, as in 'files by extension'.
+# Adds 'Firstly', 'Secondly', 'Thirdly' and 'Lastly' from
+# ai-tells.SequencingMarkers, at the start of a sentence. Matches the full form
+# alone, since Contraction flags a contraction. Takes 'On the other hand' from
+# Hedge, since 'but' keeps its contrast. Leaves 'Hence the name' alone. Matches
+# 'Importantly' and 'More importantly' at the start of a sentence and before a
+# comma, and 'What is more' before a comma. Leaves 'For instance' to
+# InflatedWord, which writes 'for example'.
+extends: existence
+message: 'Formal transition: ''%s''. Delete it, or use ''and'', ''but'', ''then'' or ''as a result''.'
+level: warning
+ignorecase: true
+tokens:
+- On the other hand
+- Additionally
+- Subsequently
+- Nevertheless
+- Nonetheless
+- Conversely
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))Accordingly(?=,)'
+- 'Hence(?! the name\b)'
+- Thereby
+- '(?<!\()Henceforth'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))Likewise(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))Similarly(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))In contrast(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))On the contrary(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))By contrast(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))In particular(?=,)'
+- (?:\A|(?<=[.!?]\s))Specifically(?=,)
+- '(?:\A|(?<=[.!?]\s))(?:(?:More|Most) )?Importantly(?=,)'
+- (?:\A|(?<=[.!?]\s))Fundamentally(?=,)
+- With that in mind
+- With this in mind
+- To that end
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))In turn(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))Building on this(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))Building on that(?=,)'
+- 'That is why'
+- This is why
+- Which is why
+- 'That is because'
+- This is because
+- 'What is more(?=,)'
+- Not to mention
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))To that point(?=,)'
+- On that note
+- On a related note
+- Case in point
+- (?:\A|(?<=[.!?]\s))Of note
+- Along the same lines
+- In the same vein
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))By extension(?=,)'
+- To top it off
+- 'That is not all'
+- Better yet
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))Even better(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))Equally important(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))Equally crucial(?=,)'
+- That is to say
+- In light of this
+- In light of that
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))Given this(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))Given that(?=,)'
+- Given the above
+- '(?:\A|(?<=[.!?]\s))(?:Firstly|Secondly|Thirdly|Lastly)(?=,)'
+tests:
+- name: flags 'Of note'
+  input: |
+    Of note, the schema gained two columns.
+  want: |
+    1:1:PlainTechnical.FormalTransition:Formal transition: 'Of note'. Delete it, or use 'and', 'but', 'then' or 'as a result'.
+- name: leaves thus alone
+  input: |
+    The pressure increases. Thus, the pump stops.
+  want: ''
+- name: flags a transition after the first sentence
+  input: |
+    The schema grows. Specifically, it gains two columns.
+  want: |
+    1:19:PlainTechnical.FormalTransition:Formal transition: 'Specifically'. Delete it, or use 'and', 'but', 'then' or 'as a result'.
+- name: leaves the plain sense of 'accordingly', 'similarly' and 'by extension' alone
+  input: |
+    Set the flag accordingly, then restart. Two similarly named hosts share it. Sort the files by extension.
+  want: ''

@@ -1,0 +1,54 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.PromotionalPuffery (MIT).
+# Changed: Leaves 'widely regarded as' to VagueAttribution, and 'a testament to
+# the' to StockPhrase. Matches 'indelible mark', 'impact' and 'impression'
+# after any verb. Drops 'a hub for' and 'continues to grow', and matches 'a hub
+# of' before a word such as 'activity' alone, since a network hub and a growing
+# table are plain.
+extends: existence
+message: 'Puffery: ''%s''. Use neutral, specific words.'
+level: warning
+ignorecase: true
+tokens:
+- in the heart of
+- at the heart of
+- rich cultural heritage
+- rich history and
+- rich and diverse
+- rich and vibrant
+- vibrant community
+- vibrant culture
+- vibrant ecosystem
+- vibrant atmosphere
+- natural beauty
+- 'a hub of (?:activity|innovation|creativity|culture|commerce|excitement)'
+- a dynamic hub
+- a thriving hub
+- a cultural hub
+- a treasure trove of
+- a treasure trove for
+- a shining example
+- a prime example
+- a masterclass in
+- widely recognized as
+- widely considered
+- is home to
+- has emerged as a
+- has emerged as the
+- has established itself as
+- continues to thrive
+- continues to inspire
+- indelible (?:mark|impact|impression)s?
+- left a lasting impact
+- left a lasting impression
+- leaving a lasting impact
+- a lasting legacy
+tests:
+- name: flags 'natural beauty'
+  input: |
+    The natural beauty of the coastline drew many visitors.
+  want: |
+    1:5:PlainTechnical.Puffery:Puffery: 'natural beauty'. Use neutral, specific words.
+- name: neutral statement
+  input: |
+    The repository contains three packages and a shared test suite.
+  want: ''

@@ -1,0 +1,20 @@
+# Source: Voices v0.2.0 Voices.SuperficialAnalysis (MIT).
+# Changed: Leaves 'highlighting' to ParticipleTail and 'showcasing' to
+# InflatedWord.
+extends: existence
+message: 'Superficial analysis: ''%s''. Say what it does for the reader.'
+level: warning
+ignorecase: true
+nonword: true
+tokens:
+- ',\s+(?:underscoring|reflecting|demonstrating)\b'
+tests:
+- name: flags ', reflecting'
+  input: |
+    The museum expanded its collection, reflecting its new focus.
+  want: |
+    1:35:PlainTechnical.SuperficialAnalysis:Superficial analysis: ', reflecting'. Say what it does for the reader.
+- name: leaves a plain clause after a comma alone
+  input: |
+    The tool reads the file, and then it writes the log.
+  want: ''

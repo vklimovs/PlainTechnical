@@ -1,0 +1,33 @@
+# Source: SimpleEnglish a6fcb4fde098 (MIT), the rule against dashes between statements.
+# Changed: Matches the em dash and the spaced en dash alone, since '--' and a
+# spaced hyphen also mark the end of the options, stdin and a minus. Matches an
+# em dash with a word on a side alone, so the dash of an empty table cell or a
+# 'Default: —' stays. Leaves an en dash between two numbers alone, as in a
+# range or a version and its date. Leaves an en dash between two capitalized
+# words alone, as in 'Monday – Friday', and one beside a single letter, as in
+# 'a – z'. Leaves an em dash before a capital at the start of a line alone, as
+# in an attribution.
+extends: existence
+message: "Dash: '%s'. Name the relation with 'because', 'but' or 'for example', or write two sentences."
+level: error
+nonword: true
+tokens:
+  - '(?<=[\w)''"\u2019\u201d][ \t]?)\u2014|\u2014(?=[ \t]?[\w(''"\u2018\u201c])(?!(?<=(?:\A|\n)[ \t]*\u2014)[ \t]?[A-Z])'
+  - '(?<=[^\d\s]\s)(?<!\b\w\s)\u2013(?=\s[^\d\s])(?!\s\w\b)(?!(?<=\b[A-Z]\w*\s\u2013)\s[A-Z])'
+tests:
+- name: flags an em dash
+  input: "The deploy failed \u2014 the disk was full.\n"
+  want: "1:19:PlainTechnical.Dash:Dash: '\u2014'. Name the relation with 'because', 'but' or 'for example', or write two sentences.\n"
+- name: leaves a range and a flag alone
+  input: "The window is 5\u201310 minutes. Use the `--force` flag.\n"
+  want: ''
+- name: leaves the bullets of a docstring list alone
+  format: py
+  input: |
+    def check():
+        """Read the mapping, which gets two fields wrong:
+
+        - event.severity is a long.
+        - url.path is a wildcard.
+        """
+  want: ''

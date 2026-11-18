@@ -1,0 +1,19 @@
+# Source: ASD-STE100 Issue 9 rule 3.7, via SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: Adds 'make a decision' from Voices v0.2.0 Voices.WeakVerbs.
+extends: existence
+message: "Nominalized action: '%s'. Use the verb, as in 'compress the file'."
+level: warning
+ignorecase: true
+tokens:
+  - '(?:perform|performs|performed|performing|conduct|conducts|conducted|carry out|carries out|carried out|undertake|undertakes|undertook|execute|executes|executed) (?:a |an |the )?\w+(?:tion|sion|ment|ance|ence|ysis)s? of'
+  - '(?:make|makes|made|making) a decision'
+tests:
+- name: flags a nominalized action
+  input: |
+    The task performs compression of the file.
+  want: |
+    1:10:PlainTechnical.Nominalization:Nominalized action: 'performs compression of'. Use the verb, as in 'compress the file'.
+- name: leaves the verb alone
+  input: |
+    The task compresses the file.
+  want: ''

@@ -1,0 +1,92 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.AnthropomorphicCognition (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Anthropomorphism: ''%s''. State what the tool checks or does.'
+level: warning
+nonword: true
+ignorecase: true
+exceptions:
+- (?i)\bwe\b
+- (?i)\byou\b
+- (?i)\bi\b
+- (?i)\bthey\b
+- (?i)\bhe\b
+- (?i)\bshe\b
+- (?i)\bme\b
+- (?i)\bus\b
+- (?i)\bhim\b
+- (?i)\bher\b
+- (?i)everyone
+- (?i)everybody
+- (?i)anyone
+- (?i)someone
+- (?i)nobody
+- (?i)users?
+- (?i)callers?
+- (?i)clients?
+- (?i)readers?
+- (?i)authors?
+- (?i)writers?
+- (?i)operators?
+- (?i)maintainers?
+- (?i)developers?
+- (?i)programmers?
+- (?i)contributors?
+- (?i)reviewers?
+- (?i)engineers?
+- (?i)students?
+- (?i)teachers?
+- (?i)child(?:ren)?
+- (?i)kids?
+- (?i)people
+- (?i)person
+- (?i)teams?
+- (?i)folks?
+- (?i)customers?
+- (?i)applications?
+- (?i)schools?
+- (?i) it want(?:s|ed)?\b
+tokens:
+- (?<!ing )\b(?:a|an|the|this|that|these|those|each|every|its|their) (?:[a-z]+ )?[a-z]+ (?:really |only |always |never |still |also |just |often |actually )?want(?:s|ed)?\b
+- \bt(?:each(?:es|ing)?|aught)(?= (?:the|a|an|its|this|that|every|each) (?:[a-z]+ )?[a-z]+ (?:a|an|the|its|this|that|which|what|how|to|about|nothing|something|everything|one)\b)
+- \bt(?:each(?:es|ing)?|aught) (?:the |a |an |its |this |that |every |each )?(?!in |at |by |about |over |during |through |for |with |from )[a-z][a-z-]*
+- \b(?:can|could|must|has to|have to|had to) be taught\b
+- \blearns (?:a|an|the|its|this|that|these|those)\b
+- \bknows? nothing (?:about|of)\b
+- \bha(?:s|ve|d) no idea\b
+- \basks whether\b
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no) (?:[a-z'-]+ )?[a-z]+ (?:then |also |never |still |only |always |often |rarely |actually )?asks? (?:for|the|a|an|its|this|that|whether|if|what|which|how|when|where|why|about|it|them|nothing|only)\b
+- \btrusts (?:the|its|a|an|this|that|whatever|inlined)\b
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no) (?:[a-z'-]+ )?[a-z]+ (?:then |also |never |still |only |always |itself |alone )?(?:decides?|decided|deciding) (?:which|whether|what|how|when|where|if|for itself|on|to|the|a|an|that|between|among)\b
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no) (?:[a-z'-]+ )?[a-z]+ (?:then |also |never |still |only |always )?answers (?:questions?|a|an|the|its|this|that|every|each|from|with|by)\b
+- \banswers? questions\b
+- \b(?:(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no|which|what) (?:[a-z'-]+ ){0,2}[a-z]+|it|which|that|this|nothing|everything) (?:then |also |never |still |only |always )?answers to\b(?! (?:(?:the |a |an |this |that |these |those |these two |those two |such |all |some |any |both |each |every |many |several |the same |those same |your |my |our |their |its |his |her |one |two |three |\d+ )?(?:[a-z'-]+ )?(?:questions?|problems?|issues?|queries|requests?|riddles?|puzzles?|prompts?|objections?|concerns?|criticisms?)\b|\(|\d|`))
+- \banswers? to (?:nothing|nobody|no one|none)\b
+- \banswers? to(?= ?[.,;:!?]|$)
+- \b(?!(?:we|i|you|they|he|she|who|which|that|it|this)\b)[a-z-]+ forbids\b
+- \barbitrat(?:es?|ed|ing)\b
+- \bced(?:es?|ed|ing)\b
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no) (?:[a-z'-]+ )?[a-z]+ (?:then |also |never |still |only |always |simply |just )?adopts? (?:a|an|the|its|this|that|these|those|every|each|any|no|whatever|what)\b
+- \btells?(?= (?:you|us) to\b)
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no) (?:[a-z'-]+ )?[a-z]+ (?:could|might|may|would|can|will|should) (?:easily |then |also |still )?mistake (?:a|an|the|its|this|that|these|those|it|them|one|for)\b
+- '\b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no) (?:[a-z''-]+ )?[a-z]+ (?:cannot|can not|could not|will not) (?:then |also |still |yet |always |reliably |easily )?(?:tell|prove|distinguish|guess|judge|decide)\b'
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no) (?:[a-z'-]+ )?[a-z]+ (?:then |also |never |still |only |always |simply |just )?guess(?:es|ing)\b
+- \b(?:rather than|instead of|without|while|by|before) pretending\b
+- \b(?:it|they|which|that|this) (?:then |also |just |simply |still )?pretends?\b(?! (?:otherwise|not to|to be)\b)
+- \bhunt(?:s|ed)\b
+- \b(?:gets?|got|getting) confused\b
+- \bconfus(?:es?|ed|ing) (?:the|a|an|its|this|that|every|each) (?:[a-z]+ )?[a-z]+\b
+- \bconfus(?:es?|ing) (?:tokeni[sz]ation|parsing|matching|detection|scoring|ranking|indexing|rendering|resolution|lookup|dispatch)\b
+- \bmisbehav(?:es|ed)\b
+- \btell(?:s|ing)? the truth\b
+- \btold the truth\b
+tests:
+- name: flags 'The library decides for itself'
+  input: |
+    The library decides for itself.
+  want: |
+    1:1:PlainTechnical.Anthropomorphism:Anthropomorphism: 'The library decides for itself'. State what the tool checks or does.
+- name: person wanting
+  input: |
+    The user wants a faster build.
+  want: ''

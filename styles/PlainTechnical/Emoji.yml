@@ -1,0 +1,54 @@
+# Source: SimpleEnglish a6fcb4fde098 (MIT), the rule against emoji in a document.
+# Changed: Matches a character that shows as an emoji by default, and a
+# character with the emoji variation selector. Takes in the marks that join such
+# characters into one emoji. Matches the code points that show as an emoji, and
+# not an arrow or an enclosed letter of the same planes, so a text symbol such
+# as a check mark, a star or an arrow stays. Matches a shortcode from a closed
+# list, the gitmoji set and the common emoji of a README or a chat, such as
+# ':rocket:'. So a role, a field or an option such as ':ref:', ':license:' or
+# ':gutter:' stays, and so do ':key:', ':label:', ':link:', ':date:', ':email:'
+# and ':warning:', which name a field as often as an emoji. Reads a commit too,
+# in place of ai-tells.CommitEmoji. Leaves a name in a path or a variable alone,
+# as in 'PATH=.:bin:$PATH'.
+extends: existence
+message: "Emoji: '%s'. Delete it, or write the word."
+level: error
+nonword: true
+tokens:
+  - '(?:[\x{1F1E6}-\x{1F1FF}]{2}|[\x{231A}-\x{231B}\x{23E9}-\x{23EC}\x{23F0}\x{23F3}\x{25FD}-\x{25FE}\x{2614}-\x{2615}\x{2648}-\x{2653}\x{267F}\x{2693}\x{26A1}\x{26AA}-\x{26AB}\x{26BD}-\x{26BE}\x{26C4}-\x{26C5}\x{26CE}\x{26D4}\x{26EA}\x{26F2}-\x{26F3}\x{26F5}\x{26FA}\x{26FD}\x{2705}\x{270A}-\x{270B}\x{2728}\x{274C}\x{274E}\x{2753}-\x{2755}\x{2757}\x{2795}-\x{2797}\x{27B0}\x{27BF}\x{2B1B}-\x{2B1C}\x{2B50}\x{2B55}\x{1F004}\x{1F0CF}\x{1F18E}\x{1F191}-\x{1F19A}\x{1F201}\x{1F21A}\x{1F22F}\x{1F232}-\x{1F236}\x{1F238}-\x{1F23A}\x{1F250}-\x{1F251}\x{1F300}-\x{1F64F}\x{1F680}-\x{1F6FF}\x{1F7E0}-\x{1F7EB}\x{1F7F0}\x{1F90C}-\x{1F9FF}\x{1FA70}-\x{1FAFF}]|\S\x{FE0F})(?:[\x{1F3FB}-\x{1F3FF}\x{FE0F}\x{20E3}]|\x{200D}(?:[\x{231A}-\x{231B}\x{23E9}-\x{23EC}\x{23F0}\x{23F3}\x{25FD}-\x{25FE}\x{2614}-\x{2615}\x{2648}-\x{2653}\x{267F}\x{2693}\x{26A1}\x{26AA}-\x{26AB}\x{26BD}-\x{26BE}\x{26C4}-\x{26C5}\x{26CE}\x{26D4}\x{26EA}\x{26F2}-\x{26F3}\x{26F5}\x{26FA}\x{26FD}\x{2705}\x{270A}-\x{270B}\x{2728}\x{274C}\x{274E}\x{2753}-\x{2755}\x{2757}\x{2795}-\x{2797}\x{27B0}\x{27BF}\x{2B1B}-\x{2B1C}\x{2B50}\x{2B55}\x{1F004}\x{1F0CF}\x{1F18E}\x{1F191}-\x{1F19A}\x{1F201}\x{1F21A}\x{1F22F}\x{1F232}-\x{1F236}\x{1F238}-\x{1F23A}\x{1F250}-\x{1F251}\x{1F300}-\x{1F64F}\x{1F680}-\x{1F6FF}\x{1F7E0}-\x{1F7EB}\x{1F7F0}\x{1F90C}-\x{1F9FF}\x{1FA70}-\x{1FAFF}]|\S\x{FE0F})){0,20}'
+  - '(?<![\w:\[>.=})]):(?:\+1|-1|100|adhesive_bandage|airplane|alarm_clock|alembic|alien|ambulance|arrow_down|arrow_forward|arrow_left|arrow_right|arrow_up|arrows_counterclockwise|art|balloon|ballot_box_with_check|bar_chart|battery|beer|beers|bell|bento|black_circle|blue_heart|blush|bomb|book|bookmark|bookmark_tabs|books|boom|brain|bricks|bug|building_construction|bulb|busts_in_silhouette|calendar|camera_flash|card_file_box|card_index|chart_with_downwards_trend|chart_with_upwards_trend|children_crossing|clap|clipboard|closed_lock_with_key|cloud|clown_face|coffee|coffin|computer|confetti_ball|construction|construction_worker|crab|cry|crystal_ball|dart|desktop_computer|dizzy|e-mail|earth_africa|earth_americas|earth_asia|egg|electric_plug|envelope|exclamation|eyes|facepalm|file_folder|fire|fireworks|floppy_disk|gear|ghost|gift|globe_with_meridians|goal_net|green_circle|green_heart|grey_exclamation|grey_question|grin|grinning|hammer|hammer_and_wrench|handshake|hear_no_evil|heart|heart_eyes|hearts|heavy_check_mark|heavy_exclamation_mark|heavy_minus_sign|heavy_multiplication_x|heavy_plus_sign|hourglass|hourglass_flowing_sand|inbox_tray|incoming_envelope|information_source|iphone|joy|keyboard|large_blue_circle|large_orange_diamond|laughing|lipstick|lock|loud_sound|loudspeaker|mag|mag_right|magic_wand|mega|memo|microscope|money_with_wings|monocle_face|muscle|mute|necktie|no_entry|no_entry_sign|notebook|ok_hand|open_book|open_file_folder|outbox_tray|package|page_facing_up|page_with_curl|paperclip|partying_face|passport_control|pencil2|penguin|pizza|point_down|point_left|point_right|point_up|poop|pray|purple_heart|pushpin|question|rage|rainbow|raised_hands|raising_hand|recycle|red_circle|rewind|robot|rocket|rotating_light|round_pushpin|safety_vest|satellite|scream|scroll|see_no_evil|seedling|shield|shrug|skull|small_blue_diamond|smile|smiley|snake|snowflake|sob|sparkle|sparkles|sparkling_heart|speak_no_evil|speech_balloon|spiral_calendar|star|star2|star_struck|stethoscope|stop_sign|stopwatch|sunglasses|sunny|sweat_smile|tada|technologist|telescope|test_tube|thinking|thread|thumbsdown|thumbsup|triangular_flag_on_post|trophy|truck|twisted_rightwards_arrows|unlock|wastebasket|wave|whale|wheelchair|white_check_mark|white_circle|wink|wrench|x|yellow_circle|yellow_heart|zap):(?![\w:`\]$]| \*)'
+tests:
+- name: flags an emoji
+  input: |
+    ✅ The build passes. 🚀 Deploy it.
+  want: |
+    1:1:PlainTechnical.Emoji:Emoji: '✅'. Delete it, or write the word.
+    1:21:PlainTechnical.Emoji:Emoji: '🚀'. Delete it, or write the word.
+- name: leaves a sign and an arrow alone
+  input: |
+    The text is © 2026. Press Enter → Tab.
+  want: ''
+- name: flags an emoji and a shortcode in a commit
+  input: |
+    repo: drop the cache 😀
+    
+    Drop it 👍 :bug: now. Thanks :+1:
+  want: |
+    1:22:PlainTechnical.Emoji:Emoji: '😀'. Delete it, or write the word.
+    3:9:PlainTechnical.Emoji:Emoji: '👍'. Delete it, or write the word.
+    3:11:PlainTechnical.Emoji:Emoji: ':bug:'. Delete it, or write the word.
+    3:29:PlainTechnical.Emoji:Emoji: ':+1:'. Delete it, or write the word.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: flags a sequence once
+  input: |
+    It ships 👍🏽 and 🇺🇸 and 👩‍💻 and 1️⃣ today.
+  want: |
+    1:10:PlainTechnical.Emoji:Emoji: '👍🏽'. Delete it, or write the word.
+    1:17:PlainTechnical.Emoji:Emoji: '🇺🇸'. Delete it, or write the word.
+    1:24:PlainTechnical.Emoji:Emoji: '👩‍💻'. Delete it, or write the word.
+    1:32:PlainTechnical.Emoji:Emoji: '1️⃣'. Delete it, or write the word.
+- name: leaves a role of Sphinx or MyST alone
+  input: |
+    See :ref:`the guide` and :class:`Foo`. The time is 10:30:45.
+  want: ''

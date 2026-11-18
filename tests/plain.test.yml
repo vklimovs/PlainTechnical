@@ -1,0 +1,221 @@
+# Plain technical English that no rule of the style flags. Each case runs the
+# whole style.
+- name: leaves a procedure and a caution alone
+  input: |
+    If the build fails, read the log. Then restart the sync service on the
+    host that runs the job.
+
+    CAUTION: Do not delete the pool. The command deletes the rows that do not
+    match the source.
+
+    Make sure that the file exists before you run the command. While the
+    daemon is running, do not remove the socket.
+
+    Stop the job. Start the job. Keep the bolts.
+
+    To be sure that the disk is empty, read the first sector.
+
+    1. Stop the pump.
+    2. Open the drain.
+    3. Close the valve.
+  absent: PlainTechnical
+- name: leaves a definition and a tradeoff alone
+  input: |
+    Redis is a cache. A pattern that ends with a slash matches a directory,
+    not a regular file. When you only test equality, use a hash index instead
+    of a B-tree.
+
+    As a result, the build stops. In addition, the log shows the port. Thus,
+    the pump stops. Each vendor names its handles. That is, two libraries
+    never share one.
+
+    The most significant bit is the sign. The parser is robust against
+    truncated input. The landscape orientation prints wider tables. The
+    leverage ratio of the lever is 2.
+  absent: PlainTechnical
+- name: leaves domain terms, tool names, paths and units alone
+  input: |
+    The package ships a unit file, and an alert fires when the queue is full.
+    The user has read access to the share. The host has limited memory. The
+    tool has built-in support for TLS. A server SHOULD match the hint.
+
+    Run etc-update after the bump, and set the zone to Etc/GMT. Copy the file
+    to /etc. The release in May removed the flag.
+
+    Copy the files from /usr/share/doc/vale/examples/config/styles to
+    /home/user/.local/share/vale/styles on the host at 10.0.0.1.
+
+    The pump fills the unit through the vent hole until the oil level is
+    approximately 6 mm (0.24 in) below the surface of the flange cover.
+
+    The text is © 2026. Press Enter → Tab. The two analyses agree. The
+    window is 5–10 minutes.
+  absent: PlainTechnical
+- name: leaves the structure of a page alone
+  input: |
+    # Configure the proxy
+
+    Set `proxy.timeout` to 30. See the [proxy guide](https://example.com/guide).
+
+    | Field | Meaning |
+    | --- | --- |
+    | `timeout` | The seconds before the proxy stops a request |
+
+    ```sh
+    # Restart it -- you should see 'ok'; it's fine
+    systemctl restart proxy
+    ```
+
+    > You should simply restart the robust daemon; it's fine.
+
+    The proxy prints "can't connect; should retry" and stops.
+  absent: PlainTechnical
+- name: leaves the plain sense of a flagged phrase alone
+  input: |
+    The scheduler runs each task in turn. Given this input, the parser returns an
+    empty list. The zstd ratio is even better than the gzip ratio. The image is low
+    in contrast.
+
+    The scrub runs on the whole pool. To summarize the column, use the SUM
+    function. The timer fires at the end of the day in UTC.
+
+    The group has read, write and execute permission. Each record has fixed and
+    variable parts. The store has set, get and delete operations.
+
+    In YAML, indentation is significant. The least significant bit is the parity.
+    Give each variable a meaningful name. Navigate the tree with the arrow keys.
+    The beacon frame holds the SSID. The handler covers each exceptional case.
+
+    The writer takes the lock just before the write. The error tends to zero as
+    the step count grows. The reader returns the real value of the field.
+
+    An agent is the only way to load the key. The block size varies depending on
+    the level. The daemon configures itself at boot. The marker stands alone on its
+    line. The reason string names the fault.
+
+    The removals are the principals of the KDC. The Fleet Commander session starts
+    at login.
+
+    | Name | Value |
+    | --- | --- |
+    | retries | — |
+  absent: PlainTechnical
+- name: leaves an empty string, a role and plain idioms alone
+  input: |
+    ## Iterating over all the items
+
+    The value can be "" or "private". Other accounts cannot see the drive, not
+    even an account with the same rights. All notable changes go into this file.
+
+    A small helper does the actual work. It does no harm to check the value. Each
+    directory stands on its own. The fix closes :issue:`1879`.
+  absent: PlainTechnical
+- name: leaves a POSIX class, the page orientation and plain adverbs alone
+  input: |
+    Use [[:digit:]] for a digit, and [:space:] for a blank. The option :widths: sets
+    the columns.
+
+    The decoder discards the state up to that point. Select the portrait or
+    landscape option. The filter turns an image from landscape to portrait. Thanks
+    to Dominic Davis-Foster.
+
+    The plugin builds more easily now. The new notices more clearly disclaim
+    liability. Limit the parser to a clearly defined subset. The seal breaks easily.
+    It runs just in time. Read the very end of the file.
+
+    ## Iterating over arrays
+
+    ## Control over output
+
+    The order of the options is significant. Trailing zeros are significant here.
+
+    A robust mutex survives the death of its owner. Get it from the Comprehensive
+    Perl Archive Network.
+
+    Pass the flags on a case-by-case basis. The speed depends on many factors, such
+    as the disk.
+
+    The file gives a quick summary of the syntax. In this section, let T denote the
+    type. Sizes are bytes, not blocks. Hence the name of the program. The term reads
+    in a sense close to the usual one.
+  absent: PlainTechnical
+- name: leaves markup names, surnames and literal senses alone
+  input: |
+    ## 4.0 – 2018-08-25
+
+    The build failed at <built-in>:0: on the host. Pass -d :memory: for a database
+    in memory. Add :nodoc: to hide the method.
+
+    Thanks to Wouter Bolsterlee. The track is pre-emphasized. The account stays
+    elevated to Administrator.
+
+    The decoder will remember that table. You can sort the list in many ways. This
+    is the key for the server.
+
+    The cause was the move from the old tree. Add the name to the error to be clear
+    where it comes from. The tool sends the data when something changed. Here is the
+    thing I like most.
+  absent: PlainTechnical
+- name: leaves the literal sense of an audited phrase alone
+  input: |
+    The command lists the files without deleting them. The rule flags the packet
+    without dropping it.
+
+    The data is not quite ready. Quite a few hosts fail. The file uses the Quite OK
+    Image format. The result is not really finished. It runs on most systems, most
+    notably the GNU toolchain. Run the version you just compiled.
+
+    The play fails unless the fact is true. Decide what is more important for the
+    host.
+
+    Install Security-Enhanced Linux. Open an elevated prompt. Use the landscape
+    setting of the printer. The disk is a Crucial MX500. Track it in Pivotal
+    Tracker.
+
+    The tutorial builds the Kaleidoscope language. Read the Vital Product Data. It
+    keeps 6 significant decimal digits.
+
+    The build hangs on one runner. The node claims the lead after the timeout.
+
+    Run the audit after the role hardens the host. The job sets the stage name from
+    the branch. Assign the signing key role to the service account. The table
+    continues to grow until the vacuum runs. A mod can change the game files. The
+    data suggests a leak in the pool.
+
+    Find the log line that said the disk was full. Use the model as an AI gateway
+    for the cluster. The kernel walks the robust_list_head of the thread.
+
+    See :returns: for the value. The page sets :toc: at the top.
+
+    And that is the key that the server uses. Here is the
+    secret key. The lock guards the critical section. Run the job in turn. The
+    switch is a hub for the network.
+  absent: PlainTechnical
+- name: leaves an adjective before a noun phrase out of Hedge
+  input: |
+    The cache is critical to the design. It is critical to the design, and it is
+    important to each host.
+  absent: PlainTechnical.Hedge
+- name: leaves an object of remember and a list item with separators alone
+  input: |
+    Remember that host for the next step.
+
+    - The first run of the tool makes an index of 1,000,000 files on the disk and reads 10,000 files.
+  absent: PlainTechnical
+- name: counts a code span in a list item that SentenceLength leaves
+  input: |
+    - Copy the files of the host to the share and then copy the logs of the day to the archive with `a` `b` `c` `d` `e` `f` today.
+  contains: PlainTechnical.InstructionLength
+- name: drops a curly quotation from the count of SentenceLength
+  input: |
+    - Copy the files of the host to the share and set the label to “the nightly backup of the host in the main rack” for the archive today.
+  contains: PlainTechnical.InstructionLength
+- name: counts a list item with two inch marks once
+  input: |
+    - The chassis takes 2.5" and 3.5" drives in each of the twelve bays at the front and two more of them at the back of the unit.
+  absent: PlainTechnical.InstructionLength
+- name: drops a quotation that wraps a line from the count of SentenceLength
+  input: |
+    - Restart the sync service on the host after the nightly import of the primary database ends, as "the operator
+      said so in the note for the shift today".
+  contains: PlainTechnical.InstructionLength

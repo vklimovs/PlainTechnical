@@ -1,0 +1,120 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.AnthropomorphicJustification (MIT).
+# Changed: Reads 'holds its own' as the idiom only where no noun or code
+# follows it. Leaves 'load-bearing' to InflatedWord, and 'claims the lead' and
+# 'hangs on one runner' alone. Drops the phrases that are plain in systems
+# prose: 'stands alone', 'stands on its own', 'stands by itself', 'configures
+# itself', 'reports itself', 'resolves itself', 'versions itself', 'does the
+# work', 'does the actual work', 'does the real work', 'does no harm' and
+# 'hands the task to'.
+extends: existence
+message: 'Cliche: ''%s''. Say what you mean in plain words.'
+level: warning
+ignorecase: true
+tokens:
+- pays? for itself
+- pays? dividends
+- pays? its rent
+- more than pays? for itself
+- paid for itself
+- paid dividends
+- paid its rent
+- paying for itself
+- paying dividends
+- paying its rent
+- pulls? its weight
+- carries? its weight
+- carrying its weight
+- pulling its weight
+- punche?s? above its weight
+- punching above its weight
+- does? the heavy lifting
+- does? a lot of heavy lifting
+- doing the heavy lifting
+- doing a lot of heavy lifting
+- does? the legwork
+- doing the legwork
+- do the heavy lifting
+- load bearing
+- holds? its own(?!\s+(?!against\b)[\w`*])
+- holding its own(?!\s+(?!against\b)[\w`*])
+- holds? up on (?:its|their) own
+- holding up on (?:its|their) own
+- held up on (?:its|their) own
+- speaks? for itself
+- speaking for itself
+- speaks? for themselves
+- speaking for themselves
+- carr(?:ies|y|ied|ying) (?:its|their) own weight
+- pull(?:s|ed|ing)? (?:its|their) own weight
+- justifies? its existence
+- justify its existence
+- justifying its existence
+- deserves? attention
+- deserves? mention
+- deserves? mentioning
+- deserves? noting
+- deserves? exploring
+- deserves? unpacking
+- deserves? examining
+- deserves? scrutiny
+- deserves? consideration
+- deserves? careful consideration
+- deserves? careful thought
+- deserves? careful attention
+- deserves? a closer look
+- deserves? a second look
+- deserves? a moment
+- deserves? a mention
+- deserves? credit
+- deserves? confirming
+- deserves? checking
+- deserves? rethinking
+- deserves? revisiting
+- crown(?:s|ed)? (?:a|an|the|its)
+- crowning (?:achievement|glory|jewel|touch|moment)
+- 'claims? (?:the|its|a) (?:top |first |second |third )?(?:spot|billing|title|crown|throne|mantle|prize|podium)'
+- claims? (?:pride of place|cent(?:er|re) stage)
+- stake(?:s|d)? (?:a|its|out a) claim
+- behaves? itself
+- behaving itself
+- on its best behavior
+- on its best behaviour
+- sorts? itself out
+- 'proves? (?:itself|themselves)'
+- speaks? up
+- spoke up
+- pretend(?:s|ed|ing)? otherwise
+- pretend(?:s|ed|ing)? not to
+- cares? deeply
+- form(?:s|ed|ing)? (?:an|its own|their own) opinion
+- deliver(?:s|ed|ing)? on (?:its|that|the|every) promise
+- keeps? (?:its|that) promise
+- breaks? (?:its|that) promise
+- 'hangs? on (?:whether|every word)'
+- hangs? in the balance
+- hinges? (?:on|upon) (?:a single|(?:this |that )?one|whether|the (?:assumption|answer|outcome|question))
+- hinged (?:on|upon) (?:a single|(?:this |that )?one|whether)
+- decides? the (?:question|debate|matter|argument|issue|dispute)
+- decided the (?:question|debate|matter|argument|issue|dispute)
+- puts? the (?:question|debate|matter|argument|issue|dispute) to (?:rest|bed)
+- lays? the (?:question|debate|matter|argument|issue|dispute) to rest
+- laid the (?:question|debate|matter|argument|issue|dispute) to rest
+tests:
+- name: flags 'crowns the'
+  input: |
+    That commit crowns the release.
+  want: |
+    1:13:PlainTechnical.Cliche:Cliche: 'crowns the'. Say what you mean in plain words.
+- name: flags the idiom
+  input: |
+    The old parser holds its own.
+  want: |
+    1:16:PlainTechnical.Cliche:Cliche: 'holds its own'. Say what you mean in plain words.
+- name: leaves a literal hold alone
+  input: |
+    A dataset holds its own mapping, and a record holds its own `host.name`.
+  want: ''
+- name: leaves 'On the other hand' to FormalTransition
+  input: |
+    On the other hand the tree is newer.
+  want: ''

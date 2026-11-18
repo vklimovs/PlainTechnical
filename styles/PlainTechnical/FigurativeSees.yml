@@ -1,0 +1,23 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeSees (MIT).
+extends: existence
+message: 'Figurative verb: ''%s''. Say who uses it or what changed.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bsees? (?:heavy|light|little|wide|widespread|broad|frequent|regular|daily|active|production|real-world|significant|substantial|increasing|growing|renewed|continued|limited|occasional) (?:use|usage|adoption|traffic|activity)\b
+- \bs(?:ees?|aw) (?:a|an) (?:spike|surge|uptick|bump|dip|drop|decline|rise|jump) in\b
+- \bsaw the (?:introduction|arrival|rise|emergence|addition|launch|birth|release) of\b
+- \b(?:19|20)\d\d (?:also |famously )?saw\b
+- \b(?:year|quarter|month|decade|era|release|version) (?:that )?(?:saw|has seen|will see)\b
+- \bhas seen (?:its (?:fair )?share|better days)\b
+tests:
+- name: flags 'quarter saw'
+  input: |
+    The quarter saw record adoption.
+  want: |
+    1:5:PlainTechnical.FigurativeSees:Figurative verb: 'quarter saw'. Say who uses it or what changed.
+- name: literal seeing by a person
+  input: |
+    She sees the screen flicker when the cable moves.
+  want: ''

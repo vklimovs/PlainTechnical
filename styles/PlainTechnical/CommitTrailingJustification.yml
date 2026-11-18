@@ -1,0 +1,91 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-commits.CommitTrailingJustification (MIT).
+# Changed: Reads the body of a commit. Leaves 'providing a more robust' to
+# UnmeasuredClaim, and a tail after a comma to ParticipleTail. Leaves 'by
+# ensuring that the lock is held' alone, which names the change. Drops the
+# clauses such as 'which ensures that' and 'which allows the', which give the
+# reason of a change.
+extends: existence
+message: 'Trailing justification: ''%s''. Delete it. The diff shows the result.'
+level: warning
+ignorecase: true
+tokens:
+- '(?<!,\s)(?<!\bby )ensuring consistency'
+- '(?<!,\s)(?<!\bby )ensuring correctness'
+- '(?<!,\s)(?<!\bby )ensuring compatibility'
+- '(?<!,\s)(?<!\bby )ensuring proper handling'
+- '(?<!,\s)(?<!\bby )ensuring proper validation'
+- '(?<!,\s)(?<!\bby )ensuring type safety'
+- '(?<!,\s)(?<!\bby )ensuring that the'
+- '(?<!,\s)(?<!\bby )ensuring the application'
+- '(?<!,\s)(?<!\bby )ensuring the code'
+- '(?<!,\s)(?<!\bby )ensuring all tests'
+- '(?<!,\s)(?<!\bby )ensuring a clean'
+- '(?<!,\s)(?<!\bby )ensuring a consistent'
+- '(?<!,\s)(?<!\bby )improving performance'
+- '(?<!,\s)(?<!\bby )improving readability'
+- '(?<!,\s)(?<!\bby )improving maintainability'
+- '(?<!,\s)(?<!\bby )improving reliability'
+- '(?<!,\s)(?<!\bby )improving testability'
+- '(?<!,\s)(?<!\bby )improving type safety'
+- '(?<!,\s)(?<!\bby )improving code quality'
+- '(?<!,\s)(?<!\bby )improving the overall'
+- '(?<!,\s)(?<!\bby )improving developer experience'
+- '(?<!,\s)(?<!\bby )improving error handling'
+- '(?<!,\s)(?<!\bby )enhancing the overall'
+- '(?<!,\s)(?<!\bby )enhancing readability'
+- '(?<!,\s)(?<!\bby )enhancing maintainability'
+- '(?<!,\s)(?<!\bby )enhancing performance'
+- '(?<!,\s)(?<!\bby )enhancing the user experience'
+- '(?<!,\s)(?<!\bby )enhancing code quality'
+- '(?<!,\s)(?<!\bby )enhancing type safety'
+- '(?<!,\s)(?<!\bby )enhancing developer experience'
+- '(?<!,\s)(?<!\bby )maintaining consistency'
+- '(?<!,\s)(?<!\bby )maintaining compatibility'
+- '(?<!,\s)(?<!\bby )maintaining backwards compatibility'
+- '(?<!,\s)(?<!\bby )maintaining backward compatibility'
+- '(?<!,\s)(?<!\bby )maintaining type safety'
+- '(?<!,\s)(?<!\bby )maintaining a clean'
+- '(?<!,\s)(?<!\bby )providing better error'
+- '(?<!,\s)(?<!\bby )providing a better'
+- '(?<!,\s)(?<!\bby )providing a cleaner'
+- '(?<!,\s)(?<!\bby )providing more flexibility'
+- '(?<!,\s)(?<!\bby )providing a consistent'
+- for improved performance
+- for improved readability
+- for improved maintainability
+- for improved reliability
+- for improved type safety
+- for improved clarity
+- for better performance
+- for better readability
+- for better maintainability
+- for better type safety
+- for better error handling
+- for better developer experience
+- for better clarity
+- for greater clarity
+- for greater flexibility
+- which improves overall
+- which provides better
+- which makes the code
+- which makes it easier
+scope: body
+tests:
+- name: flags 'ensuring correctness'
+  input: |
+    parser: add a check for empty input
+    
+    The change adds a check for empty files ensuring correctness.
+  want: |
+    3:41:PlainTechnical.CommitTrailingJustification:Trailing justification: 'ensuring correctness'. Delete it. The diff shows the result.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: cause and effect stated plainly
+  input: |
+    fix(parser): handle empty input
+
+    An empty file returned a nil tree, which the caller dereferenced.
+    The parser now returns an error before building the tree.
+  want: ''
+  format: COMMIT_EDITMSG
+  view: Commit

@@ -1,0 +1,59 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ServesAsDodge (MIT).
+# Changed: Leaves 'marks a pivotal', 'marks a significant' and 'marks a
+# crucial' to InflatedWord and OverusedWord. Drops 'marks a key', since a
+# script marks a key as used. Leaves a label before a colon to LabelAndExplain,
+# and 'stands as a testament' to ImportancePuffery. Leaves 'boasts' to
+# InflatedWord.
+extends: existence
+message: 'Copula dodge: ''%s''. Use ''is'' or ''are''.'
+level: warning
+ignorecase: true
+tokens:
+- serves as a
+- serves as an
+- serves as the
+- served as a
+- served as an
+- served as the
+- serving as a
+- serving as an
+- serving as the
+- 'stands as a(?! testament\b)'
+- stands as an
+- stands as the
+- stood as a
+- stood as an
+- stood as the
+- standing as a
+- standing as an
+- standing as the
+- marks a turning
+- marks a critical
+- marks a major
+- marks a defining
+- marks a new
+- represents a significant
+- represents a pivotal
+- represents a crucial
+- represents a key
+- represents a major
+- represents a fundamental
+- represents a paradigm
+- features a wide
+- features a rich
+- features a diverse
+- features a unique
+- features a vibrant
+- offers a unique
+- offers a wide
+- offers a diverse
+tests:
+- name: flags 'serves as an'
+  input: |
+    The refrain serves as an anchor for the essay.
+  want: |
+    1:13:PlainTechnical.CopulaDodge:Copula dodge: 'serves as an'. Use 'is' or 'are'.
+- name: short pedagogical colon
+  input: |
+    The answer: a hook.
+  want: ''

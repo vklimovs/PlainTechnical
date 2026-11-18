@@ -1,0 +1,2103 @@
+# Each case runs the whole style on a file of one format, through the View
+# that the configuration of the package maps to it.
+- name: reads a TypeScript comment and skips a quotation in it
+  input: |
+    // The "should" keyword is fine here.
+    // You should restart it.
+    const s = "a; should";
+  want: |
+    2:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: ts
+- name: reads a Python comment and docstring and skips a quotation
+  input: |
+    # The "should" keyword is fine here.
+    # You should restart it.
+    def f():
+        """The "should" word. It could fail."""
+        x = "should; robust"
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:30:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: py
+- name: skips TOML code that is commented out
+  input: |
+    # The "should" keyword is fine here.
+    # You should restart it.
+    k = "should; robust"
+    #key = "x"; should
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: toml
+- name: skips shell code that is commented out
+  input: |
+    #ListenAddress 0.0.0.0; should
+    #     key = value; should
+    x=1  # The pool has grown.
+  want: |
+    3:17:PlainTechnical.PerfectTense:Perfect tense: 'has grown'. Use the simple past or the simple present.
+  format: sh
+- name: reads a semicolon comment in an INI file
+  input: |
+    ; You should restart it.
+    [s]
+    k = v ; robust
+    ;key = value; should
+  want: |
+    1:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: ini
+- name: reads a comment after code in a template
+  input: |
+    x: 1
+    y: "{{ v }}"  # You should restart it.
+  want: |
+    2:21:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: j2
+- name: reads an OpenRC script with a revision suffix
+  input: |
+    #!/sbin/openrc-run
+    # You should restart it.
+    command="/usr/bin/foo; should"
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: initd-r1
+- name: skips XML
+  input: |
+    <pkgmetadata><longdescription>You should simply leverage it.</longdescription></pkgmetadata>
+  want: ''
+  format: xml
+- name: reads a doc comment in C and skips commented-out code
+  input: |
+    /// You should restart it.
+    //int a; should
+    /* It might fail. */
+    int x;
+  want: |
+    1:9:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: c
+- name: reads a comment in C++
+  input: |
+    // You should restart it.
+    //int a; should
+    int x;
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: cpp
+- name: reads a comment in Go and skips commented-out code
+  input: |
+    // You should restart it.
+    //x := 1; should
+    package main
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: go
+- name: reads a doc comment in Rust
+  input: |
+    /// You should restart it.
+    //! The crate could fail.
+    //let a = b; should
+    fn main() {}
+  want: |
+    1:9:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    2:15:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: rs
+- name: reads a comment in JavaScript
+  input: |
+    // You should restart it.
+    //const a = b; should
+    const s = "a; should";
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: js
+- name: reads a component and skips commented-out code
+  input: |
+    export const A = () => {
+      //const a = b; should
+      // You should restart it.
+      return <p title="It might fail">Hi</p>;
+    };
+  want: |
+    3:10:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:23:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: tsx
+- name: skips the code after a one-line Jinja comment
+  input: |
+    {# note #}{% if x %}
+    server {
+        listen 80; might
+    }
+    {% endif %}
+  want: ''
+  format: j2
+- name: skips an editor modeline
+  input: |
+    #!/bin/sh
+    # -*- mode: sh; sh-basic-offset: 4 -*-
+    # vim: set ts=4; should
+    # You should restart it.
+  want: |
+    4:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: sh
+- name: leaves the separator of a TSDoc tag alone
+  input: |
+    /**
+     * Look up a host.
+     * @param name - The name of the host.
+     */
+    export function f(name: string) {}
+  want: ''
+  format: ts
+- name: leaves the sections of a docstring alone
+  input: |
+    def f(name):
+        """Look up a host.
+
+        Args:
+            name: The host name.
+        """
+  want: ''
+  format: py
+- name: drops a later alert at a column that an earlier alert holds
+  input: |
+    # One; two.
+
+    # Three; four.
+  want: |
+    1:6:PlainTechnical.Semicolon:Semicolon. Write two sentences.
+  format: py
+- name: reads the text of a page and skips a Jinja tag
+  input: |
+    <p class="note">You should restart {{ host }}; it is {% if x %}up{% endif %}.</p>
+  want: |
+    1:21:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    1:46:PlainTechnical.Semicolon:Semicolon. Write two sentences.
+  format: html
+- name: skips the directive of a linter and a modeline
+  input: |
+    #!/bin/sh
+    # pylint: disable=should
+    # noqa: should
+    # eslint-disable-next-line should
+    # ex: set ts=4; should
+    # You should restart it.
+  want: |
+    6:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: sh
+- name: reads a comment after code only after a space
+  input: |
+    color = #ff0000 should
+    key = v # It could go.
+  want: |
+    2:14:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: conf
+- name: skips a block comment that holds code
+  input: |
+    export const A = () => {
+      /*const a = b; should*/
+      /* It might fail. */
+      return null;
+    };
+  want: |
+    3:9:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: tsx
+- name: reads a Jinja comment after code on one line
+  input: |
+    {{ x }}{# You could go. #}
+  want: |
+    1:15:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: j2
+- name: reads a comment in Z shell
+  input: |
+    # You should restart it.
+  want: |
+    1:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: zsh
+- name: reads a comment in C++ under another extension
+  input: |
+    // You should restart it.
+    //int a; should
+    int x;
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: cxx
+- name: skips the directive of each linter and editor
+  input: |
+    #!/bin/sh
+    # -*- mode: sh; should -*-
+    # vim: set ts=4; should
+    # vi: ts=4; should
+    # ex: set ts=4; should
+    # shellcheck disable=SC2034,should
+    # yamllint disable rule:should
+    # ruff: noqa: should
+    # type: ignore[should]
+    # noqa: should
+    # pylint: disable=should
+    # mypy: ignore-errors should
+    # pyright: ignore[should]
+    # hadolint ignore=DL3008 should
+    # nosec should
+    # nolint: should
+    # fmt: off should
+    # isort: skip should
+    # eslint-disable-next-line should
+    # prettier-ignore should
+    # editorconfig-checker-disable should
+    # You should restart it.
+  want: |
+    22:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: sh
+- name: reads prose that opens on the name of a tool
+  input: |
+    # ruff should check this file.
+    # shellcheck should know the variable.
+    # type: the kind of host, which should change.
+    # eslint should read it.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    2:14:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:33:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:10:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: sh
+- name: reads a comment that opens on two markers
+  input: |
+    ## The pool should grow.
+    ##noop; should
+  want: |
+    1:13:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: sh
+- name: reads a whole-line comment in a systemd unit
+  input: |
+    [Unit]
+    Description=Pool daemon # it should restart
+    # You should read this.
+    ; It might go.
+  want: |
+    3:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:6:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: service
+- name: reads a whole-line comment in an INI file
+  input: |
+    [s]
+    k = v # it should go
+    ; It might go.
+    # It could go.
+  want: |
+    3:6:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:6:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: ini
+- name: reads a whole-line comment in a Dockerfile
+  input: |
+    FROM x
+    RUN echo # it should go
+    # hadolint ignore=DL3008
+    # It might go.
+  want: |
+    4:6:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: dockerfile
+- name: reads the doc comments of C++ and skips code
+  input: |
+    /// You should restart it.
+    //!< It might fail.
+    // x = foo(a, should);
+    // if (should) {
+    /*int a; should*/
+    int x;
+  want: |
+    1:9:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    2:9:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: cpp
+- name: reads the block comments of Rust and skips code
+  input: |
+    /* You should restart it. */
+    /*! The crate might fail. */
+    // let a = b(should);
+    /*let a = b; should*/
+    fn main() {}
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    2:15:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: rs
+- name: reads the placeholder of a component
+  input: |
+    export const A = () => <input placeholder="You should type a name" class="should" />;
+  want: |
+    1:48:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: tsx
+- name: skips a patch
+  input: |
+    --- a/x
+    +++ b/x
+    @@ -1 +1 @@
+    -You should go.
+    +You might go.
+  want: ''
+  format: diff
+- name: skips a Jinja tag in a page
+  input: |
+    <p>{{ should }} and {% if should %}x{% endif %} and you should go.</p>
+  want: |
+    1:57:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: html
+- name: reads a doc comment of C and a Go build line
+  input: |
+    //!< It should go.
+    /*! It might go. */
+    int x;
+  want: |
+    1:9:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    2:8:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: c
+- name: skips a build line of Go
+  input: |
+    // +build should
+    // You might go.
+    package main
+  want: |
+    2:8:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: go
+- name: reads the label of a control
+  input: |
+    export const A = () => <button aria-label="You should click" />;
+  want: |
+    1:48:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: tsx
+- name: skips a patch with a template extension
+  input: |
+    --- a/x
+    +++ b/x
+    @@ -1 +1 @@
+    -You should go.
+    +You might go.
+  want: ''
+  format: patch
+- name: leaves the rules of prose off in a comment
+  input: |
+    #!/bin/sh
+    # This is *really* the fix. This matters because it fails.
+    # The fix? It works.
+    # Result: the build fails.
+    # - Restart the sync service on the host that runs the nightly import job after the backup of the primary database finishes cleanly.
+    # Comprehensive internationalization considerations necessitate sophisticated infrastructure.
+  want: |
+    2:3:PlainTechnical.BareDemonstrative:Bare demonstrative: 'This is'. Name the thing, as in 'This setting is'.
+    2:12:PlainTechnical.EmptyWord:Empty word: 'really'. Delete it. The sentence keeps its meaning.
+    3:12:PlainTechnical.MicDrop:Mic-drop sentence: 'It works.'. Join the point to the sentence it concludes.
+    6:3:PlainTechnical.UnmeasuredClaim:Unmeasured claim: 'Comprehensive'. Give the measurable property, such as 'retries three times'.
+    6:65:PlainTechnical.OverusedWord:Overused word: 'sophisticated'. Use a specific, common word.
+  format: sh
+- name: reads the comments of a .sh file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: sh
+- name: reads the comments of a .bash file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: bash
+- name: reads the comments of a .zsh file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: zsh
+- name: reads the comments of a .ebuild file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: ebuild
+- name: reads the comments of a .eclass file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: eclass
+- name: reads the comments of a .initd file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: initd
+- name: reads the comments of a .confd file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: confd
+- name: reads the comments of a .conf file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: conf
+- name: reads the comments of a .env file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: env
+- name: reads the comments of a .nix file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: nix
+- name: reads the comments of a .mk file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: mk
+- name: reads the comments of a .confd-r1 file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: confd-r1
+- name: reads the comments of a .initd-r1 file
+  input: |
+    #!/bin/sh
+    # You should restart it.
+    x=should  # It might fail.
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ## Two markers would go.
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:16:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:16:PlainTechnical.ModalVerb:Modal verb: 'would'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: initd-r1
+- name: reads the whole-line comments of a .ini file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: ini
+- name: reads the whole-line comments of a .cfg file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: cfg
+- name: reads the whole-line comments of a .tmpfiles file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: tmpfiles
+- name: reads the whole-line comments of a .sysctl file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: sysctl
+- name: reads the whole-line comments of a .logrotate file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: logrotate
+- name: reads the whole-line comments of a .dockerfile file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: dockerfile
+- name: reads the whole-line comments of a .service file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: service
+- name: reads the whole-line comments of a .socket file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: socket
+- name: reads the whole-line comments of a .timer file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: timer
+- name: reads the whole-line comments of a .mount file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: mount
+- name: reads the whole-line comments of a .automount file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: automount
+- name: reads the whole-line comments of a .swap file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: swap
+- name: reads the whole-line comments of a .path file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: path
+- name: reads the whole-line comments of a .target file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: target
+- name: reads the whole-line comments of a .slice file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: slice
+- name: reads the whole-line comments of a .network file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: network
+- name: reads the whole-line comments of a .netdev file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: netdev
+- name: reads the whole-line comments of a .link file
+  input: |
+    [s]
+    # You should restart it.
+    k = should # it might go
+    #   Three spaces could go.
+    #    four should; be code
+    #	tab should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # Result: the build fails.
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    4:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    9:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: link
+- name: reads the comments of a .c file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: c
+- name: reads the comments of a .h file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: h
+- name: reads the comments of a .cc file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: cc
+- name: reads the comments of a .cpp file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: cpp
+- name: reads the comments of a .cxx file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: cxx
+- name: reads the comments of a .hh file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: hh
+- name: reads the comments of a .hpp file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: hpp
+- name: reads the comments of a .hxx file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: hxx
+- name: reads the comments of a .go file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: go
+- name: reads the comments of a .ts file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: ts
+- name: reads the comments of a .mts file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: mts
+- name: reads the comments of a .cts file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: cts
+- name: reads the comments of a .js file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: js
+- name: reads the comments of a .mjs file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: mjs
+- name: reads the comments of a .cjs file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: cjs
+- name: reads the comments of a .jsonc file
+  input: |
+    // You should restart it.
+    x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: jsonc
+- name: reads the comments of a .rs file
+  input: |
+    // You should restart it.
+    let x = should;
+    //   Three spaces could go.
+    //    four should be code
+    //	tab should be code
+    // x = f(should);
+    /* let x = should; */
+    /* It might fail. */
+    // Result: the build fails.
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:19:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: rs
+- name: reads the comments of a .py file
+  input: |
+    # You should restart it.
+    x = should
+    #   Three spaces could go.
+    #    four should be code
+    #	tab should be code
+    # Result: the build fails.
+  want: |
+    1:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: py
+- name: reads the comments of a .pyi file
+  input: |
+    # You should restart it.
+    x = should
+    #   Three spaces could go.
+    #    four should be code
+    #	tab should be code
+    # Result: the build fails.
+  want: |
+    1:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: pyi
+- name: reads the comments of a .toml file
+  input: |
+    # You should restart it.
+    x = "should"
+    #   Three spaces could go.
+    #    four should be code
+    #	tab should be code
+    # Result: the build fails.
+  want: |
+    1:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:18:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: toml
+- name: reads the comments and the text of a .tsx file
+  input: |
+    export const A = () => <p title="x">He said "go" and it should go.</p>;
+    // You might go.
+    //    four should be code
+    // x = f(should);
+    // Result: the build fails.
+  want: |
+    1:57:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    2:8:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: tsx
+- name: reads the comments and the text of a .jsx file
+  input: |
+    export const A = () => <p title="x">He said "go" and it should go.</p>;
+    // You might go.
+    //    four should be code
+    // x = f(should);
+    // Result: the build fails.
+  want: |
+    1:57:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    2:8:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: jsx
+- name: reads a Jinja template line by line
+  input: |
+    # {{ ansible_managed }} should
+    #    four should; be code
+    # nosec should
+    # hadolint ignore=DL3008 should
+    ; It ought to go.
+    # You could go.
+    {# It might go. #}
+    # Result: the build fails.
+  want: |
+    5:6:PlainTechnical.ModalVerb:Modal verb: 'ought to'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    6:7:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    7:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: j2
+- name: skips the template of a patch
+  input: |
+    --- a/x
+    +++ b/x
+    @@ -1 +1 @@
+    -You should go.
+    + # You might go.
+  want: ''
+  format: diff.j2
+- name: reads a docstring with a prefix
+  input: |
+    def f():
+        r"""Match a digit. It should go.
+
+        The body is plain.
+        """
+        b"""Bytes might go."""
+  want: |
+    2:27:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    6:15:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: py
+- name: reads a docstring with a prefix in a template
+  input: |
+    def f():
+        r"""Match a digit. It should go."""
+        u"""It might
+        go."""
+  want: |
+    2:27:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:12:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: j2
+- name: skips a semicolon line of code
+  input: |
+    ; It should go.
+    ;     code = should
+    ;	code = might
+  want: |
+    1:6:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: conf
+- name: keeps InstructionLength off in code
+  input: |
+    tasks:
+      - name: copy the file from the build host to each of the hosts and restart the sync service on each of them.
+  want: ''
+  format: j2
+- name: keeps SentenceLengthVariance off in code
+  input: |
+    """Read the map of each host and check each value that the map holds.
+
+    Each role writes the map into a unit file and into a line of the config.
+    Each check reads the task file of the role and then runs the assert here.
+    So a case tests the copy of one role and not the copy of another role.
+    A copy that drifts from the rest of the copies then fails the test here.
+    """
+  want: ''
+  format: py
+- name: keeps SentenceStartRepetition off in code
+  input: |
+    {# A host reads the key. Each host writes the key. Each host reloads the
+       daemon. Each host clears the cache. Then the host waits. Next it starts.
+       Later it stops. #}
+  want: |
+    1:24:PlainTechnical.ParagraphLength:Long paragraph of more than six sentences. Split it by topic.
+    1:26:PlainTechnical.RepeatedOpening:Repeated opening: 'Each host writes the key. Each host reloads the daemon. Each host clears the cache'. Join the sentences or vary their structure.
+  format: j2
+- name: keeps ParagraphLengthVariance off in code
+  input: |
+    """Read the map of each host.
+
+    Each role writes the map of the host into a unit file and into a line of the config. The check then reads that file and runs the assert on each value that the map holds.
+
+    Each role writes the map of the host into a unit file and into a line of the config. The check then reads that file and runs the assert on each value that the map holds.
+
+    Each role writes the map of the host into a unit file and into a line of the config. The check then reads that file and runs the assert on each value that the map holds.
+
+    Each role writes the map of the host into a unit file and into a line of the config. The check then reads that file and runs the assert on each value that the map holds.
+    """
+  want: ''
+  format: py
+- name: skips a string of many lines in a template
+  input: |
+    QUERY = """
+    SELECT a FROM b
+    """
+    import os
+    leverage = utilize(very_robust)
+    # You should go.
+    """It might go."""
+  want: |
+    6:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    7:7:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: j2
+- name: reads a quote after a digit as an inch mark
+  input: |
+    A 27" monitor shows the "leverage" text.
+
+    The disk is 3.5" wide. The flag `--name="x"` sets the name.
+  want: ''
+  format: md
+- name: ends a string in a template on a closing quote before code
+  input: |
+    import db
+    cur.execute(
+        """SELECT a
+        FROM b""", (x,))
+    y = utilize(1)
+    # You should go.
+  want: |
+    6:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: j2
+- name: skips a string of many lines that holds a quote
+  input: |
+    x = """a "quoted" b
+    more
+    """
+    y = "In order to utilize code"
+    z = utilize(y)
+    # You should go.
+  want: |
+    6:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: j2
+- name: skips an escaped quote in a string before a comment
+  input: |
+    echo "a \" # In order to utilize three"
+    echo "a \" b" # You should go.
+  want: |
+    2:21:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: sh
+- name: skips an escaped quote in a string of a template
+  input: |
+    echo "a \" # In order to utilize three"
+    echo "a \" b" # You should go.
+  want: |
+    2:21:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: j2
+- name: skips a parser directive of a Dockerfile
+  input: |
+    # syntax=docker/dockerfile:1
+    # check=skip=JSONArgsRecommended; error=true
+    # You should go.
+    FROM alpine
+  want: |
+    3:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: dockerfile
+- name: reads a comment after an escaped quote outside a string
+  input: |
+    echo \" # You should go.
+    echo \# not a comment
+  want: |
+    1:15:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: sh
+- name: reads a text file as Markdown
+  input: |
+    The tool prints "ok" and stops. You should go.
+  want: |
+    1:37:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: txt
+- name: skips a parser directive in the template of a Dockerfile
+  input: |
+    # syntax=docker/dockerfile:1
+    # check=skip=JSONArgsRecommended; error=true
+    # You should go.
+    FROM alpine
+  want: |
+    3:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: j2
+- name: skips a docstring with a section such as Args
+  input: |
+    def connect(host, port):
+        """Open a session to the host.
+    
+        Args:
+            host: the name of the host that the caller passes in
+            port: the port of the daemon that the caller passes in
+            user: the user to log in as on the host
+            key: the path of the private key
+        """
+  want: ''
+  format: py
+- name: skips a docstring with a NumPy section
+  input: |
+    def connect(host, port, user, key):
+        """Open a session to the host.
+
+        Parameters
+        ----------
+        host : str
+            The name of the host that the caller passes in
+        port : int
+            The port of the daemon that the caller passes in
+        user : str
+            The user to log in as on the host
+        key : str
+            The path of the private key
+        """
+  want: ''
+  format: py
+- name: reads a docstring without a section
+  input: |
+    def connect(host):
+        """Open a session to the host.
+
+        The session should stay open.
+        """
+  want: |
+    4:17:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: py
+- name: reads past a quote that stays open for 32 KB
+  input: |
+    The lone ` mark opens here.
+    The lone " mark opens here.
+    The lone “ mark opens here.
+    - The daemon reads the file number 1 and then it stops at once.
+    - The daemon reads the file number 2 and then it stops at once.
+    - The daemon reads the file number 3 and then it stops at once.
+    - The daemon reads the file number 4 and then it stops at once.
+    - The daemon reads the file number 5 and then it stops at once.
+    - The daemon reads the file number 6 and then it stops at once.
+    - The daemon reads the file number 7 and then it stops at once.
+    - The daemon reads the file number 8 and then it stops at once.
+    - The daemon reads the file number 9 and then it stops at once.
+    - The daemon reads the file number 10 and then it stops at once.
+    - The daemon reads the file number 11 and then it stops at once.
+    - The daemon reads the file number 12 and then it stops at once.
+    - The daemon reads the file number 13 and then it stops at once.
+    - The daemon reads the file number 14 and then it stops at once.
+    - The daemon reads the file number 15 and then it stops at once.
+    - The daemon reads the file number 16 and then it stops at once.
+    - The daemon reads the file number 17 and then it stops at once.
+    - The daemon reads the file number 18 and then it stops at once.
+    - The daemon reads the file number 19 and then it stops at once.
+    - The daemon reads the file number 20 and then it stops at once.
+    - The daemon reads the file number 21 and then it stops at once.
+    - The daemon reads the file number 22 and then it stops at once.
+    - The daemon reads the file number 23 and then it stops at once.
+    - The daemon reads the file number 24 and then it stops at once.
+    - The daemon reads the file number 25 and then it stops at once.
+    - The daemon reads the file number 26 and then it stops at once.
+    - The daemon reads the file number 27 and then it stops at once.
+    - The daemon reads the file number 28 and then it stops at once.
+    - The daemon reads the file number 29 and then it stops at once.
+    - The daemon reads the file number 30 and then it stops at once.
+    - The daemon reads the file number 31 and then it stops at once.
+    - The daemon reads the file number 32 and then it stops at once.
+    - The daemon reads the file number 33 and then it stops at once.
+    - The daemon reads the file number 34 and then it stops at once.
+    - The daemon reads the file number 35 and then it stops at once.
+    - The daemon reads the file number 36 and then it stops at once.
+    - The daemon reads the file number 37 and then it stops at once.
+    - The daemon reads the file number 38 and then it stops at once.
+    - The daemon reads the file number 39 and then it stops at once.
+    - The daemon reads the file number 40 and then it stops at once.
+    - The daemon reads the file number 41 and then it stops at once.
+    - The daemon reads the file number 42 and then it stops at once.
+    - The daemon reads the file number 43 and then it stops at once.
+    - The daemon reads the file number 44 and then it stops at once.
+    - The daemon reads the file number 45 and then it stops at once.
+    - The daemon reads the file number 46 and then it stops at once.
+    - The daemon reads the file number 47 and then it stops at once.
+    - The daemon reads the file number 48 and then it stops at once.
+    - The daemon reads the file number 49 and then it stops at once.
+    - The daemon reads the file number 50 and then it stops at once.
+    - The daemon reads the file number 51 and then it stops at once.
+    - The daemon reads the file number 52 and then it stops at once.
+    - The daemon reads the file number 53 and then it stops at once.
+    - The daemon reads the file number 54 and then it stops at once.
+    - The daemon reads the file number 55 and then it stops at once.
+    - The daemon reads the file number 56 and then it stops at once.
+    - The daemon reads the file number 57 and then it stops at once.
+    - The daemon reads the file number 58 and then it stops at once.
+    - The daemon reads the file number 59 and then it stops at once.
+    - The daemon reads the file number 60 and then it stops at once.
+    - The daemon reads the file number 61 and then it stops at once.
+    - The daemon reads the file number 62 and then it stops at once.
+    - The daemon reads the file number 63 and then it stops at once.
+    - The daemon reads the file number 64 and then it stops at once.
+    - The daemon reads the file number 65 and then it stops at once.
+    - The daemon reads the file number 66 and then it stops at once.
+    - The daemon reads the file number 67 and then it stops at once.
+    - The daemon reads the file number 68 and then it stops at once.
+    - The daemon reads the file number 69 and then it stops at once.
+    - The daemon reads the file number 70 and then it stops at once.
+    - The daemon reads the file number 71 and then it stops at once.
+    - The daemon reads the file number 72 and then it stops at once.
+    - The daemon reads the file number 73 and then it stops at once.
+    - The daemon reads the file number 74 and then it stops at once.
+    - The daemon reads the file number 75 and then it stops at once.
+    - The daemon reads the file number 76 and then it stops at once.
+    - The daemon reads the file number 77 and then it stops at once.
+    - The daemon reads the file number 78 and then it stops at once.
+    - The daemon reads the file number 79 and then it stops at once.
+    - The daemon reads the file number 80 and then it stops at once.
+    - The daemon reads the file number 81 and then it stops at once.
+    - The daemon reads the file number 82 and then it stops at once.
+    - The daemon reads the file number 83 and then it stops at once.
+    - The daemon reads the file number 84 and then it stops at once.
+    - The daemon reads the file number 85 and then it stops at once.
+    - The daemon reads the file number 86 and then it stops at once.
+    - The daemon reads the file number 87 and then it stops at once.
+    - The daemon reads the file number 88 and then it stops at once.
+    - The daemon reads the file number 89 and then it stops at once.
+    - The daemon reads the file number 90 and then it stops at once.
+    - The daemon reads the file number 91 and then it stops at once.
+    - The daemon reads the file number 92 and then it stops at once.
+    - The daemon reads the file number 93 and then it stops at once.
+    - The daemon reads the file number 94 and then it stops at once.
+    - The daemon reads the file number 95 and then it stops at once.
+    - The daemon reads the file number 96 and then it stops at once.
+    - The daemon reads the file number 97 and then it stops at once.
+    - The daemon reads the file number 98 and then it stops at once.
+    - The daemon reads the file number 99 and then it stops at once.
+    - The daemon reads the file number 100 and then it stops at once.
+    - The daemon reads the file number 101 and then it stops at once.
+    - The daemon reads the file number 102 and then it stops at once.
+    - The daemon reads the file number 103 and then it stops at once.
+    - The daemon reads the file number 104 and then it stops at once.
+    - The daemon reads the file number 105 and then it stops at once.
+    - The daemon reads the file number 106 and then it stops at once.
+    - The daemon reads the file number 107 and then it stops at once.
+    - The daemon reads the file number 108 and then it stops at once.
+    - The daemon reads the file number 109 and then it stops at once.
+    - The daemon reads the file number 110 and then it stops at once.
+    - The daemon reads the file number 111 and then it stops at once.
+    - The daemon reads the file number 112 and then it stops at once.
+    - The daemon reads the file number 113 and then it stops at once.
+    - The daemon reads the file number 114 and then it stops at once.
+    - The daemon reads the file number 115 and then it stops at once.
+    - The daemon reads the file number 116 and then it stops at once.
+    - The daemon reads the file number 117 and then it stops at once.
+    - The daemon reads the file number 118 and then it stops at once.
+    - The daemon reads the file number 119 and then it stops at once.
+    - The daemon reads the file number 120 and then it stops at once.
+    - The daemon reads the file number 121 and then it stops at once.
+    - The daemon reads the file number 122 and then it stops at once.
+    - The daemon reads the file number 123 and then it stops at once.
+    - The daemon reads the file number 124 and then it stops at once.
+    - The daemon reads the file number 125 and then it stops at once.
+    - The daemon reads the file number 126 and then it stops at once.
+    - The daemon reads the file number 127 and then it stops at once.
+    - The daemon reads the file number 128 and then it stops at once.
+    - The daemon reads the file number 129 and then it stops at once.
+    - The daemon reads the file number 130 and then it stops at once.
+    - The daemon reads the file number 131 and then it stops at once.
+    - The daemon reads the file number 132 and then it stops at once.
+    - The daemon reads the file number 133 and then it stops at once.
+    - The daemon reads the file number 134 and then it stops at once.
+    - The daemon reads the file number 135 and then it stops at once.
+    - The daemon reads the file number 136 and then it stops at once.
+    - The daemon reads the file number 137 and then it stops at once.
+    - The daemon reads the file number 138 and then it stops at once.
+    - The daemon reads the file number 139 and then it stops at once.
+    - The daemon reads the file number 140 and then it stops at once.
+    - The daemon reads the file number 141 and then it stops at once.
+    - The daemon reads the file number 142 and then it stops at once.
+    - The daemon reads the file number 143 and then it stops at once.
+    - The daemon reads the file number 144 and then it stops at once.
+    - The daemon reads the file number 145 and then it stops at once.
+    - The daemon reads the file number 146 and then it stops at once.
+    - The daemon reads the file number 147 and then it stops at once.
+    - The daemon reads the file number 148 and then it stops at once.
+    - The daemon reads the file number 149 and then it stops at once.
+    - The daemon reads the file number 150 and then it stops at once.
+    - The daemon reads the file number 151 and then it stops at once.
+    - The daemon reads the file number 152 and then it stops at once.
+    - The daemon reads the file number 153 and then it stops at once.
+    - The daemon reads the file number 154 and then it stops at once.
+    - The daemon reads the file number 155 and then it stops at once.
+    - The daemon reads the file number 156 and then it stops at once.
+    - The daemon reads the file number 157 and then it stops at once.
+    - The daemon reads the file number 158 and then it stops at once.
+    - The daemon reads the file number 159 and then it stops at once.
+    - The daemon reads the file number 160 and then it stops at once.
+    - The daemon reads the file number 161 and then it stops at once.
+    - The daemon reads the file number 162 and then it stops at once.
+    - The daemon reads the file number 163 and then it stops at once.
+    - The daemon reads the file number 164 and then it stops at once.
+    - The daemon reads the file number 165 and then it stops at once.
+    - The daemon reads the file number 166 and then it stops at once.
+    - The daemon reads the file number 167 and then it stops at once.
+    - The daemon reads the file number 168 and then it stops at once.
+    - The daemon reads the file number 169 and then it stops at once.
+    - The daemon reads the file number 170 and then it stops at once.
+    - The daemon reads the file number 171 and then it stops at once.
+    - The daemon reads the file number 172 and then it stops at once.
+    - The daemon reads the file number 173 and then it stops at once.
+    - The daemon reads the file number 174 and then it stops at once.
+    - The daemon reads the file number 175 and then it stops at once.
+    - The daemon reads the file number 176 and then it stops at once.
+    - The daemon reads the file number 177 and then it stops at once.
+    - The daemon reads the file number 178 and then it stops at once.
+    - The daemon reads the file number 179 and then it stops at once.
+    - The daemon reads the file number 180 and then it stops at once.
+    - The daemon reads the file number 181 and then it stops at once.
+    - The daemon reads the file number 182 and then it stops at once.
+    - The daemon reads the file number 183 and then it stops at once.
+    - The daemon reads the file number 184 and then it stops at once.
+    - The daemon reads the file number 185 and then it stops at once.
+    - The daemon reads the file number 186 and then it stops at once.
+    - The daemon reads the file number 187 and then it stops at once.
+    - The daemon reads the file number 188 and then it stops at once.
+    - The daemon reads the file number 189 and then it stops at once.
+    - The daemon reads the file number 190 and then it stops at once.
+    - The daemon reads the file number 191 and then it stops at once.
+    - The daemon reads the file number 192 and then it stops at once.
+    - The daemon reads the file number 193 and then it stops at once.
+    - The daemon reads the file number 194 and then it stops at once.
+    - The daemon reads the file number 195 and then it stops at once.
+    - The daemon reads the file number 196 and then it stops at once.
+    - The daemon reads the file number 197 and then it stops at once.
+    - The daemon reads the file number 198 and then it stops at once.
+    - The daemon reads the file number 199 and then it stops at once.
+    - The daemon reads the file number 200 and then it stops at once.
+    - The daemon reads the file number 201 and then it stops at once.
+    - The daemon reads the file number 202 and then it stops at once.
+    - The daemon reads the file number 203 and then it stops at once.
+    - The daemon reads the file number 204 and then it stops at once.
+    - The daemon reads the file number 205 and then it stops at once.
+    - The daemon reads the file number 206 and then it stops at once.
+    - The daemon reads the file number 207 and then it stops at once.
+    - The daemon reads the file number 208 and then it stops at once.
+    - The daemon reads the file number 209 and then it stops at once.
+    - The daemon reads the file number 210 and then it stops at once.
+    - The daemon reads the file number 211 and then it stops at once.
+    - The daemon reads the file number 212 and then it stops at once.
+    - The daemon reads the file number 213 and then it stops at once.
+    - The daemon reads the file number 214 and then it stops at once.
+    - The daemon reads the file number 215 and then it stops at once.
+    - The daemon reads the file number 216 and then it stops at once.
+    - The daemon reads the file number 217 and then it stops at once.
+    - The daemon reads the file number 218 and then it stops at once.
+    - The daemon reads the file number 219 and then it stops at once.
+    - The daemon reads the file number 220 and then it stops at once.
+    - The daemon reads the file number 221 and then it stops at once.
+    - The daemon reads the file number 222 and then it stops at once.
+    - The daemon reads the file number 223 and then it stops at once.
+    - The daemon reads the file number 224 and then it stops at once.
+    - The daemon reads the file number 225 and then it stops at once.
+    - The daemon reads the file number 226 and then it stops at once.
+    - The daemon reads the file number 227 and then it stops at once.
+    - The daemon reads the file number 228 and then it stops at once.
+    - The daemon reads the file number 229 and then it stops at once.
+    - The daemon reads the file number 230 and then it stops at once.
+    - The daemon reads the file number 231 and then it stops at once.
+    - The daemon reads the file number 232 and then it stops at once.
+    - The daemon reads the file number 233 and then it stops at once.
+    - The daemon reads the file number 234 and then it stops at once.
+    - The daemon reads the file number 235 and then it stops at once.
+    - The daemon reads the file number 236 and then it stops at once.
+    - The daemon reads the file number 237 and then it stops at once.
+    - The daemon reads the file number 238 and then it stops at once.
+    - The daemon reads the file number 239 and then it stops at once.
+    - The daemon reads the file number 240 and then it stops at once.
+    - The daemon reads the file number 241 and then it stops at once.
+    - The daemon reads the file number 242 and then it stops at once.
+    - The daemon reads the file number 243 and then it stops at once.
+    - The daemon reads the file number 244 and then it stops at once.
+    - The daemon reads the file number 245 and then it stops at once.
+    - The daemon reads the file number 246 and then it stops at once.
+    - The daemon reads the file number 247 and then it stops at once.
+    - The daemon reads the file number 248 and then it stops at once.
+    - The daemon reads the file number 249 and then it stops at once.
+    - The daemon reads the file number 250 and then it stops at once.
+    - The daemon reads the file number 251 and then it stops at once.
+    - The daemon reads the file number 252 and then it stops at once.
+    - The daemon reads the file number 253 and then it stops at once.
+    - The daemon reads the file number 254 and then it stops at once.
+    - The daemon reads the file number 255 and then it stops at once.
+    - The daemon reads the file number 256 and then it stops at once.
+    - The daemon reads the file number 257 and then it stops at once.
+    - The daemon reads the file number 258 and then it stops at once.
+    - The daemon reads the file number 259 and then it stops at once.
+    - The daemon reads the file number 260 and then it stops at once.
+    - The daemon reads the file number 261 and then it stops at once.
+    - The daemon reads the file number 262 and then it stops at once.
+    - The daemon reads the file number 263 and then it stops at once.
+    - The daemon reads the file number 264 and then it stops at once.
+    - The daemon reads the file number 265 and then it stops at once.
+    - The daemon reads the file number 266 and then it stops at once.
+    - The daemon reads the file number 267 and then it stops at once.
+    - The daemon reads the file number 268 and then it stops at once.
+    - The daemon reads the file number 269 and then it stops at once.
+    - The daemon reads the file number 270 and then it stops at once.
+    - The daemon reads the file number 271 and then it stops at once.
+    - The daemon reads the file number 272 and then it stops at once.
+    - The daemon reads the file number 273 and then it stops at once.
+    - The daemon reads the file number 274 and then it stops at once.
+    - The daemon reads the file number 275 and then it stops at once.
+    - The daemon reads the file number 276 and then it stops at once.
+    - The daemon reads the file number 277 and then it stops at once.
+    - The daemon reads the file number 278 and then it stops at once.
+    - The daemon reads the file number 279 and then it stops at once.
+    - The daemon reads the file number 280 and then it stops at once.
+    - The daemon reads the file number 281 and then it stops at once.
+    - The daemon reads the file number 282 and then it stops at once.
+    - The daemon reads the file number 283 and then it stops at once.
+    - The daemon reads the file number 284 and then it stops at once.
+    - The daemon reads the file number 285 and then it stops at once.
+    - The daemon reads the file number 286 and then it stops at once.
+    - The daemon reads the file number 287 and then it stops at once.
+    - The daemon reads the file number 288 and then it stops at once.
+    - The daemon reads the file number 289 and then it stops at once.
+    - The daemon reads the file number 290 and then it stops at once.
+    - The daemon reads the file number 291 and then it stops at once.
+    - The daemon reads the file number 292 and then it stops at once.
+    - The daemon reads the file number 293 and then it stops at once.
+    - The daemon reads the file number 294 and then it stops at once.
+    - The daemon reads the file number 295 and then it stops at once.
+    - The daemon reads the file number 296 and then it stops at once.
+    - The daemon reads the file number 297 and then it stops at once.
+    - The daemon reads the file number 298 and then it stops at once.
+    - The daemon reads the file number 299 and then it stops at once.
+    - The daemon reads the file number 300 and then it stops at once.
+    - The daemon reads the file number 301 and then it stops at once.
+    - The daemon reads the file number 302 and then it stops at once.
+    - The daemon reads the file number 303 and then it stops at once.
+    - The daemon reads the file number 304 and then it stops at once.
+    - The daemon reads the file number 305 and then it stops at once.
+    - The daemon reads the file number 306 and then it stops at once.
+    - The daemon reads the file number 307 and then it stops at once.
+    - The daemon reads the file number 308 and then it stops at once.
+    - The daemon reads the file number 309 and then it stops at once.
+    - The daemon reads the file number 310 and then it stops at once.
+    - The daemon reads the file number 311 and then it stops at once.
+    - The daemon reads the file number 312 and then it stops at once.
+    - The daemon reads the file number 313 and then it stops at once.
+    - The daemon reads the file number 314 and then it stops at once.
+    - The daemon reads the file number 315 and then it stops at once.
+    - The daemon reads the file number 316 and then it stops at once.
+    - The daemon reads the file number 317 and then it stops at once.
+    - The daemon reads the file number 318 and then it stops at once.
+    - The daemon reads the file number 319 and then it stops at once.
+    - The daemon reads the file number 320 and then it stops at once.
+    - The daemon reads the file number 321 and then it stops at once.
+    - The daemon reads the file number 322 and then it stops at once.
+    - The daemon reads the file number 323 and then it stops at once.
+    - The daemon reads the file number 324 and then it stops at once.
+    - The daemon reads the file number 325 and then it stops at once.
+    - The daemon reads the file number 326 and then it stops at once.
+    - The daemon reads the file number 327 and then it stops at once.
+    - The daemon reads the file number 328 and then it stops at once.
+    - The daemon reads the file number 329 and then it stops at once.
+    - The daemon reads the file number 330 and then it stops at once.
+    - The daemon reads the file number 331 and then it stops at once.
+    - The daemon reads the file number 332 and then it stops at once.
+    - The daemon reads the file number 333 and then it stops at once.
+    - The daemon reads the file number 334 and then it stops at once.
+    - The daemon reads the file number 335 and then it stops at once.
+    - The daemon reads the file number 336 and then it stops at once.
+    - The daemon reads the file number 337 and then it stops at once.
+    - The daemon reads the file number 338 and then it stops at once.
+    - The daemon reads the file number 339 and then it stops at once.
+    - The daemon reads the file number 340 and then it stops at once.
+    - The daemon reads the file number 341 and then it stops at once.
+    - The daemon reads the file number 342 and then it stops at once.
+    - The daemon reads the file number 343 and then it stops at once.
+    - The daemon reads the file number 344 and then it stops at once.
+    - The daemon reads the file number 345 and then it stops at once.
+    - The daemon reads the file number 346 and then it stops at once.
+    - The daemon reads the file number 347 and then it stops at once.
+    - The daemon reads the file number 348 and then it stops at once.
+    - The daemon reads the file number 349 and then it stops at once.
+    - The daemon reads the file number 350 and then it stops at once.
+    - The daemon reads the file number 351 and then it stops at once.
+    - The daemon reads the file number 352 and then it stops at once.
+    - The daemon reads the file number 353 and then it stops at once.
+    - The daemon reads the file number 354 and then it stops at once.
+    - The daemon reads the file number 355 and then it stops at once.
+    - The daemon reads the file number 356 and then it stops at once.
+    - The daemon reads the file number 357 and then it stops at once.
+    - The daemon reads the file number 358 and then it stops at once.
+    - The daemon reads the file number 359 and then it stops at once.
+    - The daemon reads the file number 360 and then it stops at once.
+    - The daemon reads the file number 361 and then it stops at once.
+    - The daemon reads the file number 362 and then it stops at once.
+    - The daemon reads the file number 363 and then it stops at once.
+    - The daemon reads the file number 364 and then it stops at once.
+    - The daemon reads the file number 365 and then it stops at once.
+    - The daemon reads the file number 366 and then it stops at once.
+    - The daemon reads the file number 367 and then it stops at once.
+    - The daemon reads the file number 368 and then it stops at once.
+    - The daemon reads the file number 369 and then it stops at once.
+    - The daemon reads the file number 370 and then it stops at once.
+    - The daemon reads the file number 371 and then it stops at once.
+    - The daemon reads the file number 372 and then it stops at once.
+    - The daemon reads the file number 373 and then it stops at once.
+    - The daemon reads the file number 374 and then it stops at once.
+    - The daemon reads the file number 375 and then it stops at once.
+    - The daemon reads the file number 376 and then it stops at once.
+    - The daemon reads the file number 377 and then it stops at once.
+    - The daemon reads the file number 378 and then it stops at once.
+    - The daemon reads the file number 379 and then it stops at once.
+    - The daemon reads the file number 380 and then it stops at once.
+    - The daemon reads the file number 381 and then it stops at once.
+    - The daemon reads the file number 382 and then it stops at once.
+    - The daemon reads the file number 383 and then it stops at once.
+    - The daemon reads the file number 384 and then it stops at once.
+    - The daemon reads the file number 385 and then it stops at once.
+    - The daemon reads the file number 386 and then it stops at once.
+    - The daemon reads the file number 387 and then it stops at once.
+    - The daemon reads the file number 388 and then it stops at once.
+    - The daemon reads the file number 389 and then it stops at once.
+    - The daemon reads the file number 390 and then it stops at once.
+    - The daemon reads the file number 391 and then it stops at once.
+    - The daemon reads the file number 392 and then it stops at once.
+    - The daemon reads the file number 393 and then it stops at once.
+    - The daemon reads the file number 394 and then it stops at once.
+    - The daemon reads the file number 395 and then it stops at once.
+    - The daemon reads the file number 396 and then it stops at once.
+    - The daemon reads the file number 397 and then it stops at once.
+    - The daemon reads the file number 398 and then it stops at once.
+    - The daemon reads the file number 399 and then it stops at once.
+    - The daemon reads the file number 400 and then it stops at once.
+    - The daemon reads the file number 401 and then it stops at once.
+    - The daemon reads the file number 402 and then it stops at once.
+    - The daemon reads the file number 403 and then it stops at once.
+    - The daemon reads the file number 404 and then it stops at once.
+    - The daemon reads the file number 405 and then it stops at once.
+    - The daemon reads the file number 406 and then it stops at once.
+    - The daemon reads the file number 407 and then it stops at once.
+    - The daemon reads the file number 408 and then it stops at once.
+    - The daemon reads the file number 409 and then it stops at once.
+    - The daemon reads the file number 410 and then it stops at once.
+    - The daemon reads the file number 411 and then it stops at once.
+    - The daemon reads the file number 412 and then it stops at once.
+    - The daemon reads the file number 413 and then it stops at once.
+    - The daemon reads the file number 414 and then it stops at once.
+    - The daemon reads the file number 415 and then it stops at once.
+    - The daemon reads the file number 416 and then it stops at once.
+    - The daemon reads the file number 417 and then it stops at once.
+    - The daemon reads the file number 418 and then it stops at once.
+    - The daemon reads the file number 419 and then it stops at once.
+    - The daemon reads the file number 420 and then it stops at once.
+    - The daemon reads the file number 421 and then it stops at once.
+    - The daemon reads the file number 422 and then it stops at once.
+    - The daemon reads the file number 423 and then it stops at once.
+    - The daemon reads the file number 424 and then it stops at once.
+    - The daemon reads the file number 425 and then it stops at once.
+    - The daemon reads the file number 426 and then it stops at once.
+    - The daemon reads the file number 427 and then it stops at once.
+    - The daemon reads the file number 428 and then it stops at once.
+    - The daemon reads the file number 429 and then it stops at once.
+    - The daemon reads the file number 430 and then it stops at once.
+    - The daemon reads the file number 431 and then it stops at once.
+    - The daemon reads the file number 432 and then it stops at once.
+    - The daemon reads the file number 433 and then it stops at once.
+    - The daemon reads the file number 434 and then it stops at once.
+    - The daemon reads the file number 435 and then it stops at once.
+    - The daemon reads the file number 436 and then it stops at once.
+    - The daemon reads the file number 437 and then it stops at once.
+    - The daemon reads the file number 438 and then it stops at once.
+    - The daemon reads the file number 439 and then it stops at once.
+    - The daemon reads the file number 440 and then it stops at once.
+    - The daemon reads the file number 441 and then it stops at once.
+    - The daemon reads the file number 442 and then it stops at once.
+    - The daemon reads the file number 443 and then it stops at once.
+    - The daemon reads the file number 444 and then it stops at once.
+    - The daemon reads the file number 445 and then it stops at once.
+    - The daemon reads the file number 446 and then it stops at once.
+    - The daemon reads the file number 447 and then it stops at once.
+    - The daemon reads the file number 448 and then it stops at once.
+    - The daemon reads the file number 449 and then it stops at once.
+    - The daemon reads the file number 450 and then it stops at once.
+    - The daemon reads the file number 451 and then it stops at once.
+    - The daemon reads the file number 452 and then it stops at once.
+    - The daemon reads the file number 453 and then it stops at once.
+    - The daemon reads the file number 454 and then it stops at once.
+    - The daemon reads the file number 455 and then it stops at once.
+    - The daemon reads the file number 456 and then it stops at once.
+    - The daemon reads the file number 457 and then it stops at once.
+    - The daemon reads the file number 458 and then it stops at once.
+    - The daemon reads the file number 459 and then it stops at once.
+    - The daemon reads the file number 460 and then it stops at once.
+    - The daemon reads the file number 461 and then it stops at once.
+    - The daemon reads the file number 462 and then it stops at once.
+    - The daemon reads the file number 463 and then it stops at once.
+    - The daemon reads the file number 464 and then it stops at once.
+    - The daemon reads the file number 465 and then it stops at once.
+    - The daemon reads the file number 466 and then it stops at once.
+    - The daemon reads the file number 467 and then it stops at once.
+    - The daemon reads the file number 468 and then it stops at once.
+    - The daemon reads the file number 469 and then it stops at once.
+    - The daemon reads the file number 470 and then it stops at once.
+    - The daemon reads the file number 471 and then it stops at once.
+    - The daemon reads the file number 472 and then it stops at once.
+    - The daemon reads the file number 473 and then it stops at once.
+    - The daemon reads the file number 474 and then it stops at once.
+    - The daemon reads the file number 475 and then it stops at once.
+    - The daemon reads the file number 476 and then it stops at once.
+    - The daemon reads the file number 477 and then it stops at once.
+    - The daemon reads the file number 478 and then it stops at once.
+    - The daemon reads the file number 479 and then it stops at once.
+    - The daemon reads the file number 480 and then it stops at once.
+    - The daemon reads the file number 481 and then it stops at once.
+    - The daemon reads the file number 482 and then it stops at once.
+    - The daemon reads the file number 483 and then it stops at once.
+    - The daemon reads the file number 484 and then it stops at once.
+    - The daemon reads the file number 485 and then it stops at once.
+    - The daemon reads the file number 486 and then it stops at once.
+    - The daemon reads the file number 487 and then it stops at once.
+    - The daemon reads the file number 488 and then it stops at once.
+    - The daemon reads the file number 489 and then it stops at once.
+    - The daemon reads the file number 490 and then it stops at once.
+    - The daemon reads the file number 491 and then it stops at once.
+    - The daemon reads the file number 492 and then it stops at once.
+    - The daemon reads the file number 493 and then it stops at once.
+    - The daemon reads the file number 494 and then it stops at once.
+    - The daemon reads the file number 495 and then it stops at once.
+    - The daemon reads the file number 496 and then it stops at once.
+    - The daemon reads the file number 497 and then it stops at once.
+    - The daemon reads the file number 498 and then it stops at once.
+    - The daemon reads the file number 499 and then it stops at once.
+    - The daemon reads the file number 500 and then it stops at once.
+
+    You should go.
+  contains: PlainTechnical.ModalVerb
+  format: md
+- name: skips a docstring with a field list of reStructuredText
+  input: |
+    def connect(host, port):
+        """Open a session to the host.
+
+        :param host: The host. The default is the local host.
+        :param port: The port. The default is 22.
+        :param user: The user. The default is root.
+        :param key: The key. The default is the agent.
+        :param mode: The mode. The default is fast.
+        :param wait: The wait. The default is 5 s.
+        :returns: The session. It is open.
+        """
+  want: ''
+  format: py
+- name: reads a text file as Markdown and skips its code span
+  input: |
+    Run `you should go` on the host.
+  want: ''
+  format: txt
+- name: leaves a quotation around a link in a page alone
+  input: |
+    <p>“<a href="https://example.org/">Edge Cake</a>” is the strip.</p>
+  want: ''
+  format: html
+- name: keeps a parser directive out of the next sentence in a dockerfile
+  input: |
+    # syntax=docker/dockerfile:1
+    # check=skip=JSONArgsRecommended; error=true
+    # The build stage copies the sources into the image and runs the tests on each pass of the pipeline for the main branch.
+    FROM alpine
+  want: ''
+  format: dockerfile
+- name: keeps a parser directive out of the next sentence in a j2
+  input: |
+    # syntax=docker/dockerfile:1
+    # check=skip=JSONArgsRecommended; error=true
+    # The build stage copies the sources into the image and runs the tests on each pass of the pipeline for the main branch.
+    FROM alpine
+  want: ''
+  format: j2
+- name: skips CSV data
+  input: |
+    name,note
+    x,You should simply leverage it.
+  want: ''
+  format: csv
+- name: skips TSV data
+  input: |
+    name	note
+    x	You should simply leverage it.
+  want: ''
+  format: tsv
+- name: skips a compressed archive
+  input: |
+    You should simply leverage it; really.
+  want: ''
+  format: xz
+- name: reads the line comments of a .ps1 file
+  input: |
+    # You should restart it.
+    $x = "should"  # It might fail.
+    <#
+    You could ignore this block.
+    #>
+  want: |
+    1:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    2:21:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: ps1
+- name: reads the comments of an nftables ruleset
+  input: |
+    #!/usr/sbin/nft -f
+    # You should restart it.
+    table inet filter {  # It might fail.
+    }
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:27:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: nft
+- name: reads the comments of a kafel policy
+  input: |
+    // You should restart it.
+    POLICY p { ALLOW { read } }  // It might fail.
+    USE p DEFAULT KILL
+  want: |
+    1:8:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    2:36:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: kafel

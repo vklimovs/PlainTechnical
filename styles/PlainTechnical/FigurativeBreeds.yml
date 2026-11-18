@@ -1,0 +1,19 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeBreeds (MIT).
+extends: existence
+message: 'Figurative verb: ''%s''. Say that the one causes the other.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bbreed(?:s|ing)? (?:confusion|complexity|distrust|mistrust|resentment|frustration|inconsistency|complacency|contempt|cynicism|doubt|errors|bugs|drift|dependence|silos)\b
+- \bbreeding ground for\b
+tests:
+- name: flags 'breeds distrust'
+  input: |
+    Inconsistency breeds distrust.
+  want: |
+    1:15:PlainTechnical.FigurativeBreeds:Figurative verb: 'breeds distrust'. Say that the one causes the other.
+- name: literal breeding
+  input: |
+    The farm breeds dogs and sells the puppies.
+  want: ''

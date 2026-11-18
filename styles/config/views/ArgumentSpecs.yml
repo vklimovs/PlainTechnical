@@ -1,0 +1,10 @@
+# A description is a list of lines that reads as one text.
+engine: dasel
+scopes:
+  - name: description
+    expr: search(has("short_description")).map(short_description)
+    type: md
+  - name: description
+    expr: search(has("description")).map(description)
+    type: md
+    join: ' '

@@ -1,0 +1,40 @@
+# Source: ASD-STE100 Issue 9 rule 5.1, via SimpleEnglish a6fcb4fde098 (MIT).
+# A sentence that opens on one of these verbs, alone or after a condition
+# and a comma, is an instruction. The verb takes an object, a particle or a
+# stop after it. A description that opens on a noun such as 'Set' then
+# stays out. ProceduralLength and TrailingCondition hold the same list.
+# SentenceLength reports 26 words and more, and InstructionLength a list item.
+extends: existence
+message: "Long instruction: 21 to 25 words. Write an instruction in 20 words or fewer."
+level: warning
+scope: sentence & ~list & ~table.cell
+nonword: true
+tokens:
+  - '\A(?=(?>\([^()]*\)[^\s]*|\d[\d.,]*[  ]?(?:%|°[CF]|[kMGT]?Hz|[kKMGT]i?B|[kMG]?bit|[kMG]?bps|GbE|[mk]?V|[mk]?W|[kM]?Pa|psi|bar|[mck]?m|ft|[mk]?g|lb|[mnµ]?s|min|rpm)\b[^\s]*|[^\s(]*[\w''’][^\s]*)(?:(?>\s+(?:[^\s\w(]+\s+)*)(?>\([^()]*\)[^\s]*|\d[\d.,]*[  ]?(?:%|°[CF]|[kMGT]?Hz|[kKMGT]i?B|[kMG]?bit|[kMG]?bps|GbE|[mk]?V|[mk]?W|[kM]?Pa|psi|bar|[mck]?m|ft|[mk]?g|lb|[mnµ]?s|min|rpm)\b[^\s]*|[^\s(]*[\w''’][^\s]*)){20})(?!(?>\([^()]*\)[^\s]*|\d[\d.,]*[  ]?(?:%|°[CF]|[kMGT]?Hz|[kKMGT]i?B|[kMG]?bit|[kMG]?bps|GbE|[mk]?V|[mk]?W|[kM]?Pa|psi|bar|[mck]?m|ft|[mk]?g|lb|[mnµ]?s|min|rpm)\b[^\s]*|[^\s(]*[\w''’][^\s]*)(?:(?>\s+(?:[^\s\w(]+\s+)*)(?>\([^()]*\)[^\s]*|\d[\d.,]*[  ]?(?:%|°[CF]|[kMGT]?Hz|[kKMGT]i?B|[kMG]?bit|[kMG]?bps|GbE|[mk]?V|[mk]?W|[kM]?Pa|psi|bar|[mck]?m|ft|[mk]?g|lb|[mnµ]?s|min|rpm)\b[^\s]*|[^\s(]*[\w''’][^\s]*)){25})(?:(?:If|When|Before|After|Until|While|Unless)\b[^,.]{1,160},\s+(?i:Add|Allow|Apply|Assign|Attach|Build|Call|Change|Check|Choose|Clean|Clear|Click|Clone|Close|Commit|Compile|Configure|Connect|Copy|Create|Define|Delete|Deploy|Disable|Do|Download|Edit|Enable|Enter|Erase|Examine|Export|Extract|Fetch|Find|Follow|Generate|Get|Give|Go|Grant|Import|Increase|Decrease|Insert|Install|Keep|Kill|Launch|Let|Load|Make|Mark|Measure|Merge|Migrate|Modify|Mount|Move|Open|Pass|Paste|Pick|Point|Press|Print|Pull|Push|Put|Read|Rebase|Reboot|Rebuild|Refresh|Register|Reload|Remove|Rename|Repeat|Replace|Reset|Restart|Restore|Retry|Revert|Rotate|Run|Save|Select|Send|Set|Sign|Specify|Start|Stop|Submit|Switch|Sync|Tag|Test|Turn|Type|Uninstall|Unlock|Unmount|Update|Upgrade|Upload|Use|Validate|Verify|Wait|Write)|(?:Add|Allow|Apply|Assign|Attach|Build|Call|Change|Check|Choose|Clean|Clear|Click|Clone|Close|Commit|Compile|Configure|Connect|Copy|Create|Define|Delete|Deploy|Disable|Do|Download|Edit|Enable|Enter|Erase|Examine|Export|Extract|Fetch|Find|Follow|Generate|Get|Give|Go|Grant|Import|Increase|Decrease|Insert|Install|Keep|Kill|Launch|Let|Load|Make|Mark|Measure|Merge|Migrate|Modify|Mount|Move|Open|Pass|Paste|Pick|Point|Press|Print|Pull|Push|Put|Read|Rebase|Reboot|Rebuild|Refresh|Register|Reload|Remove|Rename|Repeat|Replace|Reset|Restart|Restore|Retry|Revert|Rotate|Run|Save|Select|Send|Set|Sign|Specify|Start|Stop|Submit|Switch|Sync|Tag|Test|Turn|Type|Uninstall|Unlock|Unmount|Update|Upgrade|Upload|Use|Validate|Verify|Wait|Write))(?=\s+(?:the|a|an|this|that|these|those|each|every|all|your|its|their|it|them|to|on|in|into|from|with|for|up|down|out|off|over|back|at|not|sure|no|one|two|three)\b|\s+[*\"“\d]|(?<=\b(?:Click|Press|Select|Choose|Type|Enter|Open))\s+[A-Z]|[.,:])'
+tests:
+- name: flags an instruction of 21 words
+  input: |
+    Restart the sync service on the host that runs the nightly import job after the backup of the primary database finishes.
+  want: |
+    1:1:PlainTechnical.ProceduralLength:Long instruction: 21 to 25 words. Write an instruction in 20 words or fewer.
+- name: flags an instruction after a condition
+  input: |
+    If the build on the host that runs the nightly job fails, restart the sync service on that host after the backup finishes.
+  want: |
+    1:1:PlainTechnical.ProceduralLength:Long instruction: 21 to 25 words. Write an instruction in 20 words or fewer.
+- name: leaves an instruction of 20 words alone
+  input: |
+    Restart the sync service on the host that runs the nightly import job after the backup of the primary database.
+  want: ''
+- name: leaves a description of 23 words alone
+  input: |
+    The sync service reads the queue on the host that runs the import job and writes each record to the primary database.
+  want: ''
+- name: leaves a name that opens on a verb alone
+  input: |
+    Print Manager is a small tool that lists the queued jobs of every printer on the host and stops a job that hangs.
+  want: ''
+- name: counts the words of one sentence
+  input: |
+    Read the recipe in approach.md and role-design.md for the role. Each kind of file in the role has a style doc of its own.
+  want: ''

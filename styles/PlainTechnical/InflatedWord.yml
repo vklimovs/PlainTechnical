@@ -1,0 +1,117 @@
+# Source: the word swaps and slop list of SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: Drops 'underscore'. Reads 'harness' as a verb only, since a test
+# harness is a term of art. Leaves Wi-Fi Enhanced Open, the name of a standard.
+# Matches each form of a verb and leaves the nouns, such as 'elevator'. Adds
+# 'spearhead' from ai-tells.OverusedVocabularyVerbs. Reads a capital 'Delve' as
+# the name of the Go debugger, unless 'into' follows it at the start of a
+# sentence. Matches 'landscape' as 'landscape of' or after a word such as
+# 'security' alone, since the page orientation is plain. Matches 'foster' in
+# lower case, and skips 'crucial', 'pivotal', 'interplay' and 'enhance' when a
+# capital marks them as a name in the middle of a sentence or before another
+# capital, since Foster, Crucial MX500, Pivotal Tracker, Interplay MVE,
+# Enhanced Metafile and Security-Enhanced Linux are names. Drops 'elevate', as
+# in an elevated command prompt. Leaves a programming paradigm alone. Takes
+# 'for instance' from FormalTransition and writes 'for example', the connector
+# of rule 4.4. Leaves 'harness' after a word such as 'the' or 'same' alone,
+# since a test harness is a noun. Leaves 'enhanced networking' and the 'CPUs
+# utilized' of perf alone.
+extends: substitution
+message: "Inflated word: '%[2]s'. Write '%[1]s'."
+level: warning
+ignorecase: true
+swap:
+  '(?:^|(?<=[.!?;]\s)|(?<=,\s))for instance(?=,)': 'for example'
+  'addresses the issue': 'corrects the fault'
+  'allows you to': 'you can'
+  'boast(?:s|ed|ing)?': 'have'
+  'bolster(?:s|ed|ing)?': 'help'
+  'bustling\w*': 'busy'
+  'commendable\w*': 'good'
+  'consequently\w*': 'as a result'
+  '(?!(?-i:[A-Z]\w* [A-Z]))(?:(?-i:(?=[a-z]))|(?<=^|[.!?:]\s))crucial': 'important'
+  'crucially': 'above all'
+  'cutting-edge': 'new'
+  '(?:(?<!(?:As we|Let us|Let me) )(?-i:delv(?:e|es|ed|ing))|(?:^|(?<=[.!?]\s))Delve(?= into\b))\b': 'examine'
+  '(?<!(?:Let us|Let me) )dive into': 'read'
+  'due to the fact that': 'because'
+  'elucidat(?:e|es|ed|ing)\b': 'explain'
+  'embark\w*': 'start'
+  '(?<!-)emphasiz(?:e|es|ed|ing)\b': 'show'
+  'empower\w*': 'help'
+  'enables you to': 'you can'
+  'endeavor\w*': 'start'
+  'enduring\w*': 'permanent'
+  '(?<!,\s)(?<!-)(?!(?-i:[A-Z]\w* [A-Z]))(?:(?-i:(?=[a-z]))|(?<=^|[.!?:]\s))enhanc(?:e|es|ed|ing|ement|ements)\b(?! (?:open|networking|data rate|transmission|mode)\b)': 'improve'
+  '(?<!,\s)ensur(?:e|es|ed|ing)\b': 'make sure that'
+  'facilitat(?:e|es|ed|ing)\b': 'help'
+  '(?-i:foster\w*)': 'help'
+  'functionalit(?:y|ies)': 'function'
+  'furthermore\w*': 'also'
+  'groundbreaking\w*': 'new'
+  'harness(?:ed|ing)|(?<!\b(?:the|a|an|this|that|same|test|our|your|their|its) )harness(?:es)?(?= (?:the|its|their|our|your|every|each|all)\b)': 'use'
+  'holistic\w*': 'full'
+  'however\w*': 'but'
+  'in order to': 'to'
+  'in the event that': 'if'
+  'innovative\w*': 'new'
+  '(?!(?-i:[A-Z]\w* [A-Z]))(?:(?-i:(?=[a-z]))|(?<=^|[.!?:]\s))interplay': 'interaction'
+  'intricate\w*': 'complex'
+  '(?:(?<=\b(?:competitive|threat|security|technology|tech|market|regulatory|political|business|digital|software|media|cloud|vendor|data|cyber|current|changing|ever-changing) )landscape|landscape(?= of\b))': 'area'
+  'leverag(?:e|es|ed|ing)\b(?! ratio\b)': 'use'
+  'load-bearing': 'important'
+  'meticulous': 'careful'
+  'meticulously': 'carefully'
+  'moreover\w*': 'also'
+  'myriad\w*': 'many'
+  'notwithstanding\w*': 'but'
+  'out of the box': 'by default'
+  '(?<!\b(?:programming|functional|object-oriented|procedural|declarative|imperative|logic|reactive|concurrent|parallel|event-driven) )paradigms?(?! shift)': 'model'
+  'paramount(?:ly)?': 'important'
+  '(?!(?-i:[A-Z]\w* [A-Z]))(?:(?-i:(?=[a-z]))|(?<=^|[.!?:]\s))pivotal(?! moments?\b)': 'important'
+  'plethora\w*': 'many'
+  'prior to': 'before'
+  'profound\w*': 'large'
+  'renowned\w*': 'known'
+  'revolutioniz(?:e|es|ed|ing)\b': 'change'
+  'showcas(?:e|es|ed|ing)\b': 'show'
+  'spearhead(?:s|ed|ing)?': 'lead'
+  'state-of-the-art': 'new'
+  'streamlin(?:e|es|ed|ing)\b': 'make simpler'
+  'tackles\w*': 'corrects the fault'
+  'that being said': 'but'
+  'therefore\w*': 'as a result'
+  'under the hood': 'internally'
+  'unleash\w*': 'release'
+  'unprecedented\w*': 'new'
+  '(?<!\bCPUs )utiliz(?:e|es|ed|ing)\b': 'use'
+  'valuable\w*': 'useful'
+  'when it comes to': 'for'
+tests:
+- name: flags an inflated word
+  input: |
+    We leverage the cache.
+  want: |
+    1:4:PlainTechnical.InflatedWord:Inflated word: 'leverage'. Write 'use'.
+- name: leaves the plain word alone
+  input: |
+    We use the cache.
+  want: ''
+- name: flags harness as a verb
+  input: |
+    We harness the cache.
+  want: |
+    1:4:PlainTechnical.InflatedWord:Inflated word: 'harness'. Write 'use'.
+- name: flags enhance
+  input: |
+    The patch enhances the cache.
+  want: |
+    1:11:PlainTechnical.InflatedWord:Inflated word: 'enhances'. Write 'improve'.
+- name: leaves the name of Wi-Fi Enhanced Open alone
+  input: |
+    The unit broadcasts in Wi-Fi Enhanced Open mode.
+  want: ''
+- name: leaves a test harness alone
+  input: |
+    A broken test harness shows up in seconds. A harness that is itself
+    broken says so.
+  want: ''

@@ -1,0 +1,55 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeOwns (MIT).
+# Changed: File, socket, lock and process ownership is literal.
+extends: existence
+message: 'Ownership metaphor: ''%s''. Say which file defines it or which tool writes it.'
+level: warning
+nonword: true
+ignorecase: true
+exceptions:
+- (?i)locks?
+- (?i)mutex(?:es)?
+- (?i)stacks?
+- (?i)memory
+- (?i)threads?
+- (?i)workers?
+- (?i)goroutines?
+- (?i)process(?:es)?
+- (?i)slots?
+- (?i)slices?
+- (?i)maps?
+- (?i)buffers?
+- (?i)handles?
+- (?i)pointers?
+- (?i)connections?
+- (?i)sockets?
+- (?i)descriptors?
+- (?i)\bfds?\b
+- (?i)resources?
+- (?i)pages?
+- (?i)arenas?
+- (?i)semaphores?
+- (?i)channels?
+- (?i)copyrights?
+- (?i)trademarks?
+- (?i)patents?
+- (?i)licen[cs]es?
+- (?i)\brights\b
+- (?i)\bowns? (?:the |a |its |their )?(?:files?|director(?:y|ies)|sockets?|locks?|process(?:es)?|ports?|keys?)\b
+tokens:
+- \bown(?:s|ing) (?:a|an|the|this|that|its|their|each|every) (?:[a-z]+ )?[a-z]+
+- \b(?:the|a|an|each|every|its|their|this|that|these|those|which|what|whatever) (?:[a-z]+ )?[a-z]+ (?:it|they|each [a-z]+|every [a-z]+|this [a-z]+|that [a-z]+|the [a-z]+|a [a-z]+|an [a-z]+|no [a-z]+|which|who) (?:(?!(?:its|their|our|your|my|his|her)\b)[a-z]+ )?owns?\b(?! (?:a|an|the|its|their|this|that|no|one|two|three|several|many|some|all|every|each|zero|[a-z]+s)\b)
+- \b(?:it|they|which|that|this|who|each|every|one|both) (?:[a-z]+ )?owns? (?:one|two|three|four|five|several|many|multiple|some|both|all|every|each|zero|just|only|where|what|which|how|whether|[a-z]+s)\b
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no) (?:[a-z'-]+ )?[a-z]+ owns (?:one|two|three|four|five|several|many|multiple|some|both|all|every|each|zero|just|only|where|what|which|how|whether|[a-z]+s)\b
+- \b(?:that|which|who|they|these|those|both|all) own (?:a|an|the|this|that|its|their|each|every|one|two|three|several|[a-z]+s)\b
+- \b(?:a|an|the|this|that|its|their|one|each|every|no) owning [a-z]+\b
+- \bke(?:eps?|eping|pt) (?:its|their) own (?:[a-z]+ )?[a-z]+
+tests:
+- name: flags 'It owns three'
+  input: |
+    It owns three tables.
+  want: |
+    1:1:PlainTechnical.FigurativeOwns:Ownership metaphor: 'It owns three'. Say which file defines it or which tool writes it.
+- name: goroutine owns a lock
+  input: |
+    The goroutine owns the lock until it returns.
+  want: ''

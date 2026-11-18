@@ -1,0 +1,21 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeTravels (MIT).
+extends: existence
+message: 'Figurative verb: ''%s''. Use the literal movement, such as ''is sent'' or ''is copied''.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|one|any|some|no) (?:[a-z'-]+ )?[a-z]+ (?:then |also |never |still |only |always )?travel(?:s|l?ed|l?ing)? (?:into|to|with|between|from|through|across|down|up|along|out|onward|onwards|as|in|inside|alongside|via|by|over|past|beyond|toward|towards|unchanged|intact|together|well)\b
+- \b(?:data|request|signal|message|information|payload|token|value|packet|traffic|event|change|write|read|state|digest|identifier|record|row|blob|hash|key)s? travels?\b
+- \btravel(?:s|l?ed|l?ing)? (?:through|across|down|up|along|into|to|between|with|out of|from|inside|alongside|via|as) (?:the|a|an|its|their|this|that|each|every|one|both)\b
+- \btravels? (?:well|together)\b
+tests:
+- name: flags 'State travels'
+  input: |
+    State travels with the session.
+  want: |
+    1:1:PlainTechnical.FigurativeTravels:Figurative verb: 'State travels'. Use the literal movement, such as 'is sent' or 'is copied'.
+- name: travel by a vehicle
+  input: |
+    We travel by train to the conference.
+  want: ''

@@ -1,0 +1,63 @@
+# Source: Voices v0.2.0 Voices.ColonReveal (MIT).
+# Changed: Skips the subject of a commit, whose area is a label by convention,
+# and its trailer. Leaves a label that opens on a determiner to
+# LabelAndExplain. Skips a safety label in any case.
+extends: existence
+message: 'Colon reveal: ''%s''. Write it as a plain sentence.'
+level: warning
+nonword: true
+scope:
+- ~subject & ~trailer
+tokens:
+- '(?m)^(?![A-Z]{2,}:)(?!(?:The|A|An|One|Our|Their|Its|This|Ask yourself|What|Why|How|Key takeaways?)\b)(?!(?i:Note|Tip|Warning|Caution|Danger|Notice|Important|Example|Related|See also|TODO|Update|Requirements?|Default|Usage|Args|Arguments|Parameters|Returns|Raises|Yields|Attributes|Examples?)\b)[A-Z][\w \t]{2,40}: [a-z]'
+tests:
+- name: 'flags ''FigurativeSurfaces: t'''
+  input: |
+    ## FigurativeSurfaces: the bare verb
+  want: |
+    1:4:PlainTechnical.ColonReveal:Colon reveal: 'FigurativeSurfaces: t'. Write it as a plain sentence.
+- name: leaves the area of a subject and a trailer alone
+  input: |
+    MicDrop: leave a step alone
+
+    The step is short and plain.
+
+    Fixes: abc123def456 ("MicDrop: add the rule")
+  want: ''
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: flags a label in the body of a commit
+  input: |
+    repo: drop the cache
+
+    Common causes: a consumer crashed and the queue grew.
+  want: |
+    3:1:PlainTechnical.ColonReveal:Colon reveal: 'Common causes: a'. Write it as a plain sentence.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: leaves a determiner label to LabelAndExplain
+  input: |
+    One rule: run the migration twice before you merge the branch.
+  want: ''
+- name: leaves a safety label in capitals alone
+  input: |
+    WARNING: pointers inside memory that malloc returns stay unseen.
+  want: ''
+- name: leaves the sections of a docstring alone
+  input: |
+    Args: the host name.
+
+    Arguments: the host name.
+
+    Parameters: the host name.
+
+    Returns: the address.
+
+    Raises: an error.
+
+    Yields: the next record.
+
+    Attributes: the name.
+
+    Examples: the first one.
+  want: ''

@@ -1,0 +1,17 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeMints (MIT).
+extends: existence
+message: 'Coinage metaphor: ''%s''. Use the literal action, such as ''creates an identifier''.'
+level: warning
+ignorecase: true
+tokens:
+- (?<!linux )mint(?:s|ed|ing)?\b(?! (?:condition|green|tea|leaf|leaves|julep|sauce|chocolate|colou?r)\b)
+tests:
+- name: flags 'mints'
+  input: |
+    The step mints them on demand.
+  want: |
+    1:10:PlainTechnical.CoinageMetaphor:Coinage metaphor: 'mints'. Use the literal action, such as 'creates an identifier'.
+- name: linux mint platform name
+  input: |
+    The suite was tested on Linux Mint 18.3.
+  want: ''

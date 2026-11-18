@@ -1,0 +1,48 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-commits.CommitTestEnumeration (MIT).
+# Changed: The messages do not use contractions, after ASD-STE100 rule 4.2.
+# Writes a percent sign as \x25, after vale-ai-tells a96c5fe.
+# Drops 'all tests pass', a plain report of a test run.
+extends: existence
+message: 'Test enumeration: ''%s''. Say what coverage changed.'
+level: warning
+raw:
+- '(?i)(?:'
+- \b(?:all\s+)?\d+\s*/?\s*\d*\s*tests?\s+(?:pass(?:ing|ed)?|fail(?:ing|ed)?)\b
+- '|\b\d+\s+(?:passed|failed)\s*,\s*\d+\s+(?:passed|failed)\b'
+- '|\bcoverage\s*:\s*\d+(?:\.\d+)?\s*\x25'
+- '|\b\d+(?:\.\d+)?\s*\x25\s+(?:coverage|code coverage|test coverage|line coverage|branch coverage)\b'
+- "|\u2705\\s*all\\s+tests?"
+- )
+scope: body
+tests:
+- name: flags 'All 12 tests passing'
+  input: "\u2728 feat: Added battle-tested rate limiter\n\nThis change introduces a production-ready rate limiter that significantly\nimproves the auth path. All 12 tests passing.\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n"
+  want: |
+    4:25:PlainTechnical.CommitTestEnumeration:Test enumeration: 'All 12 tests passing'. Say what coverage changed.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: flags a coverage figure
+  input: |
+    repo: add the parser tests
+
+    The tests reach 100% test coverage.
+  want: |
+    3:17:PlainTechnical.CommitTestEnumeration:Test enumeration: '100% test coverage'. Say what coverage changed.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: describes the change
+  input: |
+    fix(parser): handle empty input
+
+    An empty file returned a nil tree, which the caller dereferenced.
+  want: ''
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: leaves 'all tests pass' alone
+  input: |
+    repo: add the cache
+
+    All tests pass on the host.
+  want: ''
+  format: COMMIT_EDITMSG
+  view: Commit

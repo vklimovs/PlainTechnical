@@ -1,0 +1,87 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeIdioms (MIT).
+# Changed: Adds 'belt and suspenders' and 'belt and braces' from
+# ai-tells.RedundantPrecaution. Adds 'shed light on', from the arXiv part of
+# the M4 corpus.
+extends: existence
+message: 'Idiom: ''%s''. State the literal outcome.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- '\bshed(?:s|ding)? light on\b'
+- \bcosts? little\b
+- \bfares? no better\b
+- \bcom(?:e|es|ing) at a (?:[a-z]+ )?(?:cost|price)\b(?! of)
+- \bcame at a (?:[a-z]+ )?(?:cost|price)\b(?! of)
+- \bmeasured cost\b
+- \bwhat remains of\b
+- \baccept(?:s|ed|ing)? (?:a|an|the|that|this|its|their) (?:[a-z]+ )?cost\b(?!\s+(?:functions?|parameters?|arguments?|matrix|matrices|models?|columns?|fields?))
+- \bcosts? (?:a|an|the|this|that|each|every) (?:[a-z]+ )?[a-z]+ (?:already |willingly |silently )?accept(?:s|ed)\b
+- \btolerated cost\b
+- \bout of reach\b
+- \bgives? something up in exchange\b
+- \bfor want of\b
+- \bempty slate\b
+- \bclean slate\b
+- \b(?:dodges?|dodging|dodged)\s+(?:the|a|that|this)\b
+- \bput\s+\w+\s+in front of\b
+- \bwhere (?:this|that|it) bites\b
+- \b(?:bites?|biting) hardest\b
+- \bsails? through\b
+- \bsailed through\b
+- \bmov(?:e|es|ed|ing) the goalposts?\b
+- \bblast radius\b
+- \bcomes down to\b
+- \bcame down to (?:whether|what|how|one|a single|the same)\b
+- \bboil(?:s|ed|ing)? down to\b
+- \bstand(?:s|ing)? in for\b
+- \bstood in for\b
+- \bclos(?:es?|ed|ing) (?:the|that|this|a) gap\b
+- \bin lockstep\b
+- \bin step with\b
+- \bpoint of no return\b
+- \bunder (?:its|their) own power\b
+- \bcover(?:s|ed|ing)? (?:more|less|the same|that|this|the) ground\b
+- \bbr(?:ing|ings|inging|ought) (?:\w+ ){0,3}into line with\b
+- \bwalk(?:s|ed|ing)? (?:it|that|this|the (?:decision|claim|change|commit|release|statement|promise)) back\b
+- \bwalk back (?:the|a|an|that|this|what)\b
+- \bcan(?:not|'t)? walk (?:it |that |this )?back\b(?! (?:to|into|out|home|down|up|across|towards?|through)\b)
+- \bmov(?:es|ed|ing) (?:out from )?under (?:it|them|us)\b
+- \beat(?:s|ing)? (?:its|their|your|our) own cooking\b
+- \bate (?:its|their|your|our) own cooking\b
+- \bdogfood(?:s|ed|ing)?\b
+- \b(?:eat|eats|eating|ate) (?:its|their|your|our) own dog ?food\b
+- \bdrink(?:s|ing)? (?:its|their|your|our) own champagne\b
+- \bdrank (?:its|their|your|our) own champagne\b
+- \bsleeping dogs?\b
+- \bfan(?:s|ned|ning)? out\b
+- \blin(?:es?|ed|ing) up with\b
+- \bdoubl(?:es?|ed|ing) as\b
+- \bdouble duty\b
+- \bthe whole trick\b
+- \b(?:a|one) step further\b
+- \b(?:meets?|met|meeting|passes|passed|hits?) (?:the|that|this|a|its|our) (?:[a-z]+ )?bar\b
+- \bon hand\b
+- \bwent (?:missing|away)\b
+- \bfor good\b(?! (?:measure|reason|reasons|style|cause|luck|or|and|behavior|behaviour|practice|hygiene|performance|values?)\b)
+- \bma(?:de|kes?|king) that call\b
+- \b(?:judgment|judgement) call\b
+- \btakes? a while\b
+- \bgets? (?:it|this|that|them) backwards?\b
+- \bpick(?:s|ed|ing)? up on\b
+- \bfrom (?:two|three|several|multiple|different|both) angles\b
+- \bstands? up (?:a|an|the|its|this|that|new|another|fresh|every|each)\b
+- \bstood up (?:a|an|the|its|this|that|new|another|fresh|every|each)\b
+- \bburi(?:es|ed) (?:in|inside|under|beneath|deep|within)\b
+- \b(?:buries|buried|bury|burying) (?:the|a|an|its|their|this|that|it|them)\b
+- '\bbelt[- ]and[- ](?:suspenders|braces)\b'
+tests:
+- name: flags 'fans out'
+  input: |
+    The query fans out.
+  want: |
+    1:11:PlainTechnical.Idiom:Idiom: 'fans out'. State the literal outcome.
+- name: cost with an of complement
+  input: |
+    That will come at a cost of extra complexity.
+  want: ''

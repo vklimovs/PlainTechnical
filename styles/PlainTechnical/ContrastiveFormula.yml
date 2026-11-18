@@ -1,0 +1,72 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ContrastiveFormulas (MIT).
+# Changed: Leaves the two-sentence correction, 'X is not Y. It is Z.', to
+# CorrectionFrame. Matches the full form alone, since Contraction flags a
+# contraction. Drops 'X are Y, not Z', since 'Sizes are bytes, not blocks'
+# states two facts.
+extends: existence
+message: 'Contrastive framing: ''%s''. State the positive claim.'
+level: warning
+tokens:
+- "[Ii]t is not just [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Ii]t is not merely [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Ii]t is not simply [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Ii]t is not only [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Ii]t is not purely [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Ii]t is not solely [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Ii]t is not entirely [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]his is not just [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]his is not merely [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]his is not simply [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]his is not only [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]his is not purely [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]his is not solely [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]his is not entirely [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Ii]t is more than [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]his is more than [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Ii]t is less about [^;,\u2014:]+ and more about [^.!?]+"
+- "[Ii]t is less about [^;,\u2014:]+, more about [^.!?]+"
+- "[Tt]his is less about [^;,\u2014:]+ and more about [^.!?]+"
+- "(?:\\A|(?<=[.!?]\\s))[^.!?]+ is not the point[;,\u2014:] [^.!?]+ is"
+- "[Tt]he real [^;,\u2014:]+ is not [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]he true [^;,\u2014:]+ is not [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Ww]hat matters is not [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Ww]hat is important is not [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]he question is not [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]he issue is not [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]he problem is not [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- "[Tt]he challenge is not [^;,\u2014:.!?]+[;,\u2014:] it is [^.!?]+"
+- '[Yy]es, [^,]+, but the real [^.!?]+'
+- '[Ss]ure, [^,]+, but what really [^.!?]+'
+- "[Ii]t is not whether [^;,\u2014:.!?]+[;,\u2014:] it is (?:how|why|when|what) [^.!?]+"
+- "[Ii]t is not if [^;,\u2014:.!?]+[;,\u2014:] it is (?:how|why|when|what) [^.!?]+"
+- "[Nn]ot only [^,;\u2014:]+,? but (?:also )?[^.!?]+"
+- "[Nn]ot because [^,;\u2014:]+,? but because [^.!?]+"
+- '[Tt]hese are not just [^.!?]+\. [Tt]hey are [^.!?]+'
+- '[Tt]hese are not merely [^.!?]+\. [Tt]hey are [^.!?]+'
+- '[Tt]hese are not simply [^.!?]+\. [Tt]hey are [^.!?]+'
+- "[Tt]hese are not [^;,\u2014:.!?]+[;,\u2014:] they are [^.!?]+"
+- "[Tt]hose are not [^;,\u2014:.!?]+[;,\u2014:] they are [^.!?]+"
+- "[Tt]his does not mean [^;,\u2014:.!?]+[;,\u2014:] it means [^.!?]+"
+- "[Tt]hat does not mean [^;,\u2014:.!?]+[;,\u2014:] it means [^.!?]+"
+- '(?:\A|(?<=[.!?]\s))[Aa]n? (?:[\w-]+ ){0,3}[\w-]+, [Nn]ot [Aa]n? [\w -]+(?=[.!?]|$)'
+- '(?:[Ii]t|[Tt]his) is not (?:(?:really|just|merely|simply|only|purely|solely|entirely) )?about [^;,—:.!?]+[;,—:] it is about [^.!?]+'
+- '\b(?:is|are|was|were|does|do) not (?:just|merely|only) [^;,.]{1,60}[;,] (?:it|they) \w+'
+tests:
+- name: flags 'A refinement, not a rivalry'
+  input: |
+    ### A refinement, not a rivalry
+  want: |
+    1:5:PlainTechnical.ContrastiveFormula:Contrastive framing: 'A refinement, not a rivalry'. State the positive claim.
+- name: leaves the correction frame to CorrectionFrame
+  input: |
+    The cache isn't a database. It's a buffer for the disk.
+  want: ''
+- name: flags the full form
+  input: |
+    It is not just a cache, it is a database.
+  want: |
+    1:1:PlainTechnical.ContrastiveFormula:Contrastive framing: 'It is not just a cache, it is a database'. State the positive claim.
+- name: leaves a technical contrast alone
+  input: |
+    A pattern that ends with a slash matches a directory, not a regular file.
+  want: ''

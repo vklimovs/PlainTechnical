@@ -1,0 +1,31 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeDisguises (MIT).
+extends: existence
+message: 'Disguise metaphor: ''%s''. State what the thing is, then how it differs from what it resembles.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bdress(?:ed|es|ing) (?:\w+ ){0,2}(?:up )?as\b
+- \bdisguis(?:ed|es|ing) (?:\w+ ){0,2}as\b
+- \bmasquerad(?:e|es|ed|ing) (?:\w+ ){0,2}as\b
+- \bparad(?:es|ed|ing) (?:\w+ ){0,2}as\b
+- \bpos(?:es|ing) as(?! (?:much|many|few|little|great|well)\b)
+- \bpretend(?:s|ed|ing)? to be\b
+- \b(?:what|which) passes for\b
+- \bpass(?:es|ed|ing)? (?:itself|themselves|it|them) off as\b
+- \bpassed off as\b
+- \bcosplay(?:s|ed|ing)? as\b
+- \bin disguise\b
+- \b(?:in|under) the guise of\b
+- "\\bin sheep(?:'|\u2019)?s clothing\\b"
+- \bin a trench ?coat\b
+tests:
+- name: flags 'in disguise'
+  input: |
+    The change is a rewrite in disguise.
+  want: |
+    1:25:PlainTechnical.DisguiseMetaphor:Disguise metaphor: 'in disguise'. State what the thing is, then how it differs from what it resembles.
+- name: poses as much risk comparison
+  input: |
+    The new flag poses as much risk as the old one.
+  want: ''

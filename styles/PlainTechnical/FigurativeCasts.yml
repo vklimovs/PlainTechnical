@@ -1,0 +1,26 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeCasts (MIT).
+extends: existence
+message: 'Figurative verb: ''%s''. State the doubt or the effect.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bcast(?:s|ing)? (?:serious |real |some |considerable )?doubt (?:on|over|upon)\b
+- \bcast(?:s|ing)? a (?:long |dark |lingering )?shadow (?:on|over|across)?\b
+- \bcast(?:s|ing)? a pall\b
+- \bcast(?:s|ing)? aspersions\b
+- \bcast(?:s|ing)? (?:new )?light on\b
+- \bcast(?:s|ing)? (?:it|this|that|them|the \w+) in a (?:new|different|positive|negative|favorable|favourable) light\b
+- \bcast(?:s|ing)? a wide net\b
+- \bcast(?:s|ing)? the net wide\b
+- \bcast(?:s|ing)? aside\b
+tests:
+- name: flags 'casts a wide net'
+  input: |
+    The rewrite casts a wide net.
+  want: |
+    1:13:PlainTechnical.FigurativeCasts:Figurative verb: 'casts a wide net'. State the doubt or the effect.
+- name: fishing line
+  input: |
+    She cast the line into the river at dawn.
+  want: ''

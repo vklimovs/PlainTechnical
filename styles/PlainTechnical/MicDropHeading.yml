@@ -1,0 +1,26 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.MicDropHeadings (MIT).
+# Changed: Matches 'X over Y' as the end of a heading, and not when X ends in
+# -ing or is a word of control such as 'Control' or 'Precedence'. So 'Iterating
+# over arrays' and 'Control over output' read as plain words.
+extends: existence
+message: 'Mic-drop heading: ''%s''. Name the topic.'
+level: warning
+nonword: true
+scope: heading
+tokens:
+- \b[A-Z][a-z]+, not [a-z]+
+- \b[A-Z][a-z]+, never [a-z]+
+- \b[A-Z][a-z]+, then [a-z]+
+- '\b(?![A-Z][a-z]+ing\b)(?!(?:Control|Precedence|Priority|Authority|Power)\b)[A-Z][a-z]+ over [a-z]+(?![-\w]| \w)'
+- \b[A-Z][a-z]+ first, [a-z]+ second\b
+- \b[A-Z][a-z]+ first, [a-z]+ never\b
+tests:
+- name: flags 'Correct, not clever'
+  input: |
+    ### Correct, not clever
+  want: |
+    1:5:PlainTechnical.MicDropHeading:Mic-drop heading: 'Correct, not clever'. Name the topic.
+- name: descriptive heading
+  input: |
+    # Choosing a cache size
+  want: ''

@@ -1,0 +1,36 @@
+# Reads a Jinja comment and a Python docstring, and skips a string of many
+# lines that opens after code. Reads a comment in the syntax of most rendered
+# files as Hash does, on its own line or after code.
+engine: textfsm
+template: |
+  Value List Comment (.*)
+
+  Start
+    ^\s*[{]#-?\s*${Comment}\s*-?#\}.*$ -> Next
+    ^\s*[{]#-?\s*${Comment} -> Block
+    ^.*\S\s*[{]#-?\s*${Comment}\s*-?#\}.*$ -> Next
+    ^\s*[rRbBuU]?"""${Comment}"""\s*$ -> Next
+    ^\s*[rRbBuU]?"""${Comment} -> Docstring
+    ^\s*[^\s"](?:[^"]|"[^"]|""[^"])*"""(?:[^"]|"[^"]|""[^"])*"{0,2}$ -> Literal
+    ^\s*#\s*(?:-\*-.*-\*-|(?:vim?|ex):\s*(?:set\s|\w+=)|shellcheck\s+(?:disable|enable|source|shell)=|yamllint\s+(?:disable|enable)|ruff:\s*noqa|type:\s*ignore|noqa\b(?::|\s*$)|pylint:\s*(?:disable|enable)|mypy:\s*(?:ignore|disable|enable|allow|strict)|pyright:\s*(?:ignore|basic|strict)|(?:syntax|escape|check)=|hadolint\s+(?:ignore|global|shell)=|nosec\b|nolint\b(?::|\s*$)|fmt:\s*(?:off|on|skip)|isort:\s*(?:skip|off|on)|eslint-(?:disable|enable)|prettier-ignore|editorconfig-checker-(?:disable|enable)) -> Next
+    ^.*ansible_managed -> Next
+    ^\s*[#;][^\s#] -> Next
+    ^\s*(?:#+|;) {4,}\S -> Next
+    ^\s*; ${Comment}
+    ^\s*(?:(?:\\.|[^"'\s#{\\]|"(?:[^"\\]|\\.)*"|'[^']*'|[{][^#])(?:\\.|[^"'\s\\]|"(?:[^"\\]|\\.)*"|'[^']*')*\s+)*#+ ${Comment}
+
+  Block
+    ^\s*${Comment}\s*-?#\} -> Start
+    ^\s*${Comment}
+
+  Docstring
+    ^\s*${Comment}"""\s*$ -> Start
+    ^.*""" -> Start
+    ^\s*${Comment}
+
+  Literal
+    ^.*""" -> Start
+scopes:
+  - name: comment
+    expr: Comment
+    type: md

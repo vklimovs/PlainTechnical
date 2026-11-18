@@ -1,0 +1,55 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeLives (MIT).
+# Changed: Drops the token for a named noun that 'lives on', since the token
+# for any noun matches first.
+extends: existence
+message: 'Figurative verb: ''%s''. Say which file defines the item, or which store has it.'
+level: warning
+nonword: true
+ignorecase: true
+exceptions:
+- (?i)famil(?:y|ies)
+- (?i)couples?
+- (?i)people
+- (?i)person
+- (?i)m[ae]n
+- (?i)wom[ae]n
+- (?i)child(?:ren)?
+- (?i)kids?
+- (?i)boys?
+- (?i)girls?
+- (?i)parents?
+- (?i)neighbou?rs?
+- (?i)residents?
+- (?i)populations?
+- (?i)tribes?
+- (?i)authors?
+- (?i)developers?
+- (?i)users?
+- (?i)maintainers?
+- (?i)species
+- (?i)animals?
+- (?i)birds?
+- (?i)fish(?:es)?
+- (?i)insects?
+- (?i)bears?
+- (?i)wol(?:f|ves)
+- (?i)cats?
+- (?i)dogs?
+- (?i)bacteria
+- (?i)organisms?
+tokens:
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|our|your|my|his|her) (?:[a-z]+ )?[a-z]+ liv(?:es|ed|ing) (?:in|at|on|under|inside|within|here|there|upstream|downstream|elsewhere|alongside|as)\b
+- \b(?!(?:this|that|it|which|who|they|we|you|i|he|she|these|those|there|what|where|to|will|can|could|should|would|may|might|must|still|also|now|then|all|both|some|most|many|few|one|two|three|and|or|but|not|never|only)\b)[a-z][a-z-]+ (?:still |also |now |then |already |all )?liv(?:es|ed|ing) (?:in|at|on|under|inside|within|here|there|upstream|downstream|elsewhere|alongside|as)\b
+- \b(?!(?:goes|is|was|has|does|runs|gets|sets|comes|stays|remains|becomes|works|plays|streams|broadcasts|takes|this|that|it|which|who|they|we|you|these|those|there|what|where|all|both|some|most|many|few|and|or|but|not|never|only|always|still|also|as|its|his|hers|us)\b)[a-z][a-z-]+s (?:still |also |now |then |already |all )?live (?:here|there|upstream|downstream|elsewhere|alongside|as)\b
+- \bwhere (?:a|an|the|this|that|each|every|its|their) (?:[a-z]+ )?[a-z]+ lives?\b
+- \bliv(?:es|ed|ing) (?:and|or) di(?:es|ed)\b
+tests:
+- name: flags 'Truth lives in'
+  input: |
+    Truth lives in one place.
+  want: |
+    1:1:PlainTechnical.FigurativeLives:Figurative verb: 'Truth lives in'. Say which file defines the item, or which store has it.
+- name: family residence
+  input: |
+    The family lives in a small town near the coast.
+  want: ''

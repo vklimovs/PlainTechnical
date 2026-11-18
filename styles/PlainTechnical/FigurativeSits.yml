@@ -1,0 +1,39 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeSits (MIT).
+extends: existence
+message: 'Figurative verb: ''%s''. Use the literal relation, such as ''is at'' or ''rests with''.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bsit(?:s|ting)? (?:squarely |firmly |neatly |cleanly |comfortably |uncomfortably |uneasily |awkwardly |snugly )?at the (?:intersection|center|centre|core|nexus|crux|crossroads|confluence|junction|foundation|edge|apex|boundary) of\b
+- \bsit(?:s|ting)? somewhere (?:between|in|along|on|near|toward|around|beyond)\b
+- \bsit(?:s|ting)? (?:squarely|firmly|neatly|cleanly|comfortably|uncomfortably|uneasily|awkwardly|snugly|precariously) (?:within|inside|in|at|on|alongside|atop|above|below|beneath|beside|between|with|next|among|amid|outside)\b
+- \bsit(?:s|ting)? (?:alongside|atop|astride)\b
+- \bsit(?:s|ting)? with\b
+- \bsit(?:s|ting)? (?:squarely |firmly |neatly |comfortably )?within\b
+- \bjust sit(?:s|ting)? there\b
+- \bsit(?:s|ting)? in isolation\b
+- \bsit(?:s|ting)? (?:idle|unused|untouched|unresolved|unaddressed|unfinished|dormant|neglected|stale|forgotten|abandoned)\b
+- \bsit(?:s|ting)? (?:right|well|poorly|badly|wrong)\b
+- \bsit(?:s|ting)? (?:heavy|heavily)\b
+- \bsit(?:s|ting)? (?:at odds|in tension|in conflict|in opposition) (?:with|to)\b
+- \bsit(?:s|ting)? in (?:limbo|purgatory|a holding pattern|the balance|a gr[ae]y area|no man's land)\b
+- \bsit(?:s|ting)? front and cent(?:er|re)\b
+- \bsit(?:s|ting)? on the fence\b
+- \bsit(?:s|ting)? (?:just |right |directly )?(?:above|below|beneath|underneath|on top of) the (?:\w+ )?(?:layer|stack|tier|level|hierarchy|pipeline|chain)\b
+- \bsit(?:s|ting)? at the top of the (?:agenda|priority|priorities|to-?do|backlog|pile|queue)\b
+- \b(?:the|this|that|each|every|a|an) (?:\w+ )?(?:entry|word|rule|flag|setting|option|field|block|section|clause|token|value|default|exemption|convention|definition|pattern) (?:\w+ )?(?:sits|sat|sitting) (?:in|on|at|above|below|under|beneath|within|inside|between|near|beside|alongside|behind)\b
+- \b(?:a|an|the|this|that|these|those|its|their|both|all)\s+\w+\s+(?:\w+\s+)?(?:sits?|sat)\s+(?:in|on|at|with|beside|under|behind|ahead of|outside|inside|beyond|among|across|atop|over|above|below|beneath|near|alongside|next to)\b
+- \b(?:the rest|the others|these|those|they|it|both|all|most|some|each|several|which) (?:[a-z]+ )?sits? (?:up to date|idle|empty|unused|quoted|escaped|in|on|at|with|beside|under|behind|ahead of|outside|inside|beyond|among|across|atop|over|above|below|beneath|near|alongside|next to)\b
+- '\b(?:over|beside|below|above|beneath|under|behind|alongside|inside|atop|before|after|ahead of|next to|between|around|across|outside|within|upon|on|in|at) (?:it|them|each|every|the|a|an|this|that|these|those|its|their)(?: [a-z]+){0,2} sits? (?:a|an|the|its|their|one|two|three|no|every|each|another|flat|[a-z]+s)\b'
+- \bsits? (?:quoted|escaped|up to date|ahead of|outside|beyond|among|across)\b
+tests:
+- name: flags 'Beside it sit flat'
+  input: |
+    Beside it sit flat columns.
+  want: |
+    1:1:PlainTechnical.FigurativeSits:Figurative verb: 'Beside it sit flat'. Use the literal relation, such as 'is at' or 'rests with'.
+- name: literal sitting on a mat
+  input: |
+    Cats sit on mats.
+  want: ''

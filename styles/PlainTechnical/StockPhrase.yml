@@ -1,0 +1,129 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.AICompoundPhrases (MIT).
+# Changed: Leaves 'stands as a testament' to ImportancePuffery, 'cutting-edge'
+# to InflatedWord. Drops 'real value' and 'a real test', which are plain in
+# systems prose. Matches 'plays a key role' and 'sets the stage for' alone, and
+# drops 'before … hardens', since a signing key role, a CI stage and a hardened
+# host are plain. Adds 'make informed decisions', from the HC3 corpus. Adds
+# 'provides insights into', 'opens new avenues', 'contributes to the ongoing'
+# and 'a better understanding of' from the arXiv part of the M4 corpus, and 'a
+# daunting task', 'step-by-step guide' and 'a great way to' from its wikiHow
+# part.
+extends: existence
+message: 'Stock phrase: ''%s''. Write the concrete fact.'
+level: warning
+ignorecase: true
+tokens:
+- '\b(?:provides?|provided|offers?|offered|gives?|gave|yields?|yielded)(?: (?:new|valuable|important|key|deep|deeper|useful|crucial|novel|significant|unique|fresh|further))? insights? (?:into|on)\b'
+- '\b(?:opens?|opened)(?: up)? (?:new|novel|exciting|promising) avenues\b'
+- '\bcontributes? to the ongoing\b'
+- '\bto a (?:better|deeper|fuller|more complete) understanding of\b'
+- '\ba daunting (?:task|process|prospect|undertaking)\b'
+- '\bstep-by-step guide\b'
+- '\ba (?:great|fantastic|excellent|wonderful) way to\b'
+- '(?:make|makes|making) (?:more )?informed decisions'
+- rich tapestry
+- rich tapestries
+- tapestry of
+- delicate balance
+- played a crucial role
+- plays a crucial role
+- 'play(?:s|ed|ing)? (?:a|an) key role'
+- instrumental role
+- game-changer
+- game-changing
+- paradigm shift
+- sea change
+- tipping point
+- watershed moment
+- double-edged sword
+- slippery slope
+- tip of the iceberg
+- at the forefront
+- on the cutting edge
+- paving the way
+- laid the groundwork
+- lays the groundwork
+- 'sets the stage(?= for\b)'
+- 'set the stage(?= for\b)'
+- '(?<!stands as )a testament to'
+- serve as a reminder
+- it remains to be seen
+- only time will tell
+- the jury is still out
+- takes center stage
+- take center stage
+- took center stage
+- paints a picture of
+- paint a picture of
+- painted a picture of
+- is not without its challenges
+- are not without their challenges
+- is not without challenges
+- whether we like it or not
+- whether you like it or not
+- a cornerstone of
+- deeply rooted
+- the hallmark of
+- a hallmark of
+- moving the needle
+- moves the needle
+- moved the needle
+- move the needle
+- nudge the needle
+- nudges the needle
+- nudged the needle
+- unlocks new
+- unlocked new
+- unlocking new
+- unlock new
+- unlocks the potential
+- unlock the potential
+- unlocks the power
+- unlock the power
+- unlocks the value
+- unlock the value
+- unlocks capabilities
+- unlock capabilities
+- unlocks possibilities
+- unlock possibilities
+- a real choice
+- a real option
+- a real difference
+- a real question
+- a real chance
+- a real problem
+- a real shot
+- a real risk
+- a real cost
+- a real benefit
+- real progress
+- real flexibility
+- real benefits
+- real costs
+- real impact
+- real ownership
+- real accountability
+- real consequences
+- real tradeoffs
+- real trade-offs
+- real choices
+- real options
+- real differences
+- threads to pull
+- thread to pull
+- loose threads to chase
+- (?:before|after) [^.,;:!?]{1,40} solidifies
+- (?:before|after) [^.,;:!?]{1,40} solidified
+- (?:before|after) [^.,;:!?]{1,40} ossifies
+- (?:before|after) [^.,;:!?]{1,40} ossified
+- 'unlock(?:s|ed|ing)? the full (?:potential|power|value)'
+tests:
+- name: flags 'Game-Changer'
+  input: |
+    ### A Game-Changer for Documentation
+  want: |
+    1:7:PlainTechnical.StockPhrase:Stock phrase: 'Game-Changer'. Write the concrete fact.
+- name: bare real stays quiet
+  input: |
+    The real-time clock reads the real file.
+  want: ''

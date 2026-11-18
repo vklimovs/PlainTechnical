@@ -1,0 +1,35 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.MarketingHeadings (MIT).
+# Changed: Flags 'Unlocking' only before a promised benefit, since a vault
+# unlock is literal. Leaves 'A Game-Changer' to StockPhrase.
+extends: existence
+message: 'Marketing heading: ''%s''. Name the topic.'
+level: warning
+ignorecase: true
+scope: heading
+tokens:
+- The Ultimate Guide
+- Everything You Need to Know
+- Mastering
+- Unlocking (?:the )?(?:Power|Potential|Secrets?|Value|Benefits|Magic)\b
+- The Power of
+- The Magic of
+- Why Choose
+- The Future of
+- The Art of
+- The Science of
+- Revolutionizing
+tests:
+- name: flags 'Mastering'
+  input: |
+    ### Mastering Vale
+  want: |
+    1:5:PlainTechnical.MarketingHeading:Marketing heading: 'Mastering'. Name the topic.
+- name: flags a promised benefit
+  input: |
+    ## Unlocking the Power of Vale
+  want: |
+    1:4:PlainTechnical.MarketingHeading:Marketing heading: 'Unlocking the Power'. Name the topic.
+- name: leaves a literal unlock alone
+  input: |
+    ## Unlocking the inventory
+  want: ''

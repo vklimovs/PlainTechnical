@@ -1,0 +1,17 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-experimental.NegationDensity (MIT).
+extends: occurrence
+message: 'Negation density: %d negated noun phrases in one paragraph. State what is present.'
+level: warning
+scope: paragraph
+max: 2
+token: \bno (?!longer\b|one\b|matter\b)\.?[a-z][a-z'-]*
+tests:
+- name: flags three negated noun phrases in a paragraph
+  input: |
+    The build collects no telemetry, sets no cookies, and allocates no memory on the hot path.
+  want: |
+    1:20:PlainTechnical.NegationDensity:Negation density: 3 negated noun phrases in one paragraph. State what is present.
+- name: two negated noun phrases are ordinary
+  input: |
+    The build has no cache, and the runner has no network access.
+  want: ''

@@ -1,0 +1,17 @@
+# Reads a comment that opens on its marker, one to three spaces and text. Vale
+# reads it as Markdown and skips a quotation in it. A marker with no space or a
+# tab after it, or with four spaces or more, marks a line of code. A docstring
+# reads as Markdown too, without its quotes or a prefix such as r. A docstring
+# with a section such as Args: or a NumPy section such as Parameters over a
+# line of hyphens stays unread, and so does one with a field list of
+# reStructuredText such as ':param x:'. Markdown joins the entries of such a
+# section into one paragraph.
+engine: tree-sitter
+lang: python
+scopes:
+  - name: comment
+    expr: '((comment) @comment (#match? @comment "^# {1,3}\\S"))'
+    type: md
+  - name: docstring
+    expr: '((expression_statement (string (string_content) @doc)) (#not-match? @doc "\\n[ \\t]*(Args|Arguments|Parameters|Keyword Args|Keyword Arguments|Other Parameters|Returns|Yields|Raises|Warns|Attributes|Examples?|Notes?|Todo|See Also):[ \\t]*\\n") (#not-match? @doc "\\n[ \\t]*(Parameters|Other Parameters|Returns|Yields|Receives|Raises|Warns|Warnings|Attributes|Methods|Examples|Notes|References|See Also)[ \\t]*\\n[ \\t]*-{3,}[ \\t]*\\n") (#not-match? @doc "\\n[ \\t]*:(param|parameter|arg|argument|key|keyword|type|returns?|rtype|raises?|except|exception|var|ivar|cvar|vartype|yields?|ytype)\\b[^:\\n]*:"))'
+    type: md

@@ -1,0 +1,97 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.MicDrop (MIT).
+# Changed: A comparison through 'is', 'was', 'has' or 'does' states a fact and
+# is no mic drop. A short step such as 'Start the job.', a definition such as
+# 'Redis is a cache.' and 'No retries.' state a fact. Matches the full form
+# alone, since Contraction flags a contraction. Leaves 'pays off' to
+# MoneyMetaphor. Leaves 'The bottom line is' to ConclusionMarker. Adds 'That is
+# it!', from the wikiHow part of the M4 corpus.
+extends: existence
+message: 'Mic-drop sentence: ''%s''. Join the point to the sentence it concludes.'
+level: warning
+nonword: true
+tokens:
+- '(?:\A|(?<=[.!?]\s))That is it!'
+- \b(?:It|This|That) matters\.
+- \b(?:It|This|That) works\.
+- \b(?:It|This|That) shows\.
+- \b(?:It|This|That) helps\.
+- \b(?:It|This|That) scales\.
+- \b(?:It|This|That) compounds\.
+- \b(?:It|This|That) counts\.
+- \b(?:It|This|That) adds up\.
+- \b(?:It|This|That) pays off\.
+- \b(?:It|This|That) depends\.
+- '\b(?:The|This|That) [\w-]+(?: [\w-]+){0,2} (?:matters|compounds|adds up)\.'
+- '\b(?:These|Those) [\w-]+(?: [\w-]+){0,2} (?:matter|compound|pay off|add up)\.'
+- '\b(?:It|This|That)(?: is| was) (?:key|crucial|critical|intentional|deliberate|powerful|elegant|subtle|clean|simple|clear|important|significant|telling|striking|notable|profound|revealing|transformative|remarkable|essential|fundamental|beautiful|paramount|vital|obvious|neat|real|enough)\.'
+- '\b(?:It|This|That)(?: is| was) (?:by design|on purpose|no accident|no coincidence|not optional)\.'
+- '\b(?:They|These|Those)(?: are| were) (?:thin|key|crucial|critical|intentional|deliberate|powerful|elegant|subtle|clean|simple|clear|important|significant|telling|striking|notable|profound|essential|vital|obvious|neat|enough)\.'
+- \bThe \w+ (?:is|are|was|were) (?:thin|clean|simple|subtle|clear|key|crucial|critical|intentional|deliberate|powerful|elegant|important|significant|telling|striking|notable|straightforward|profound|revealing|transformative|remarkable|essential|fundamental|beautiful|obvious|neat|real|paramount|vital)\.
+- '\bThe (?!bottom line\b)\w+ \w+ (?:is|are|was|were) (?:thin|clean|simple|subtle|clear|key|crucial|critical|intentional|deliberate|powerful|elegant|important|significant|telling|striking|notable|straightforward|profound|revealing|transformative|remarkable|essential|fundamental|beautiful|obvious|neat|real|paramount|vital)\.'
+- \bAll \w+ (?:are|were) (?:thin|clean|simple|subtle|clear|key|crucial|critical|intentional|deliberate|powerful|elegant|important|significant|telling|striking|notable|straightforward|profound|essential|obvious|neat|identical|interchangeable|equivalent)\.
+- \bBoth (?:are|were) (?:thin|clean|simple|subtle|clear|key|crucial|critical|intentional|deliberate|powerful|elegant|important|significant|telling|notable|straightforward|essential|obvious|identical|interchangeable|equivalent)\.
+- \bBoth \w+ (?:are|were) (?:thin|clean|simple|subtle|clear|key|crucial|critical|intentional|deliberate|powerful|elegant|important|significant|telling|notable|straightforward|essential|obvious|identical|interchangeable|equivalent)\.
+- \b(?:Each|Every) \w+ (?:is|was) (?:thin|clean|simple|subtle|clear|key|crucial|critical|intentional|deliberate|powerful|elegant|important|significant|telling|striking|notable|straightforward|profound|essential|obvious|neat|identical|independent|self-contained)\.
+- \bEach (?:(?:one )?(?:is|was)) (?:thin|clean|simple|subtle|clear|key|crucial|critical|intentional|deliberate|powerful|elegant|important|significant|telling|notable|straightforward|essential|obvious|identical|independent|self-contained)\.
+- \bEverything (?:is|was) (?:intentional|deliberate|purposeful|connected|composable|explicit|visible|traceable|testable|optional)\.
+- \bNothing (?:is|was) (?:accidental|random|hidden|implicit|optional|wasted|redundant|superfluous|arbitrary|magical|surprising)\.
+- \bNone (?:are|were|is|was) (?:optional|accidental|random|redundant|superfluous|arbitrary|wasted|surprising|hidden|magical)\.
+- "\\b(?:changes?|evolves?|shifts?|varies|vary|comes? and go(?:es)?)[,;\u2014] (?:the |a |an )?(?:\\w+ ){0,4}(?:stays? the same|remains?(?: the same)?|holds?|persists?|endures?|(?:does not|do not) change)\\."
+- "\\b(?:stays? the same|remains?(?: the same)?|holds?|persists?|endures?)[,;\u2014] (?:the |a |an )?(?:\\w+ ){0,4}(?:changes?|evolves?|shifts?|varies|vary|comes? and go(?:es)?)\\."
+- '\b(?:changes?|evolves?|shifts?|varies|vary)\. [A-Z](?:\w+ ){0,3}(?:stays? the same|remains?|holds?|persists?|endures?|(?:does not|do not) change)\.'
+- \b(?:stays? the same|remains?|holds?|persists?|endures?)\. [A-Z](?:\w+ ){0,3}(?:changes?|evolves?|shifts?|varies|vary)\.
+- \b(?:Pure|Clean|Simple|Clear|Fast|Small|Thin|Lean|Cheap|Safe|Flat|Sane|Strict|Minimal|Explicit|Composable|Predictable|Testable|Readable|Maintainable|Reproducible|Intentional|Deliberate|Declarative|Idiomatic|Immutable|Ergonomic|Deterministic|Straightforward|Opinionated), (?:\w+, )*(?:and )?\w+\.
+- \b(?:Clean|Clear|Pure|Simple|Single|One|Zero|Full|Same|Thin|Flat|Strict|Minimal|Explicit|Complete|Total|Direct|Separate) \w+, (?:clean|clear|pure|simple|single|one|zero|full|same|thin|flat|strict|minimal|explicit|complete|total|direct|separate|different|no|fewer?) \w+\.
+- '\b(?:Stronger|Weaker|Faster|Slower|Better|Worse|Cleaner|Simpler|Smaller|Larger|Bigger|Higher|Lower|Tighter|Looser|Smoother|Newer|Older|Richer|Leaner|Safer|Saner|More|Less|Fewer) [\w-]+(?: [\w-]+)?, (?:stronger|weaker|faster|slower|better|worse|cleaner|simpler|smaller|larger|bigger|higher|lower|tighter|looser|smoother|newer|older|richer|leaner|safer|saner|more|less|fewer) [\w-]+(?: [\w-]+)?\.'
+- '\b(?:Pure|Clean|Plain|Bare|Raw|Straight|Strict|Simple|Mere) \w+\.'
+- '\b(?:Pure|Clean|Simple|Plain|Bare|Raw|Mere|Thin|Flat) \w+, and (?!nothing\b)[^.]+\.'
+- \bWith \w+(?:[ -]\w+)?, \w+\.
+- \bAnd it shows\.
+- \bAnd it works\.
+- \bAnd it matters\.
+- \bAnd it helps\.
+- \bAnd it scales\.
+- '\bAnd that is okay\.'
+- '\bAnd that is fine\.'
+- '\bAnd that is enough\.'
+- '\bAnd that is it\.'
+- (?:\A|[.!?"] )Period\.
+- \b[A-Z][a-z]+, not [a-z]+\.
+- \b[A-Z][a-z]+, never [a-z]+\.
+- '\b[A-Z][a-z]+(?: \w+){0,2} (?:stays?|remains?|becomes?|feels?|reads?|seems?|sounds?|looks?|appears?|grows?|ends? up|comes? across) [a-z-]+, not [a-z-]+\.'
+- '\b[A-Z][a-z]+(?: \w+){0,2} (?:stays?|remains?|becomes?|feels?|reads?|seems?|sounds?|looks?|appears?|grows?|ends? up|comes? across) [a-z-]+, never [a-z-]+\.'
+- '\b[A-Z][a-z]+(?: \w+){0,2} (?:shares?|keeps?|holds?|lives?|belongs?|sits?|points?|goes|go|gives?|takes?) (?:(?:in|on|to|at|with|for) )?[\w-]+(?: [\w-]+){0,3}, not (?:(?:in|on|to|at|with|for) )?[\w-]+(?: [\w-]+){0,3}[.:]'
+- \b[A-Z][a-z]+ over [a-z]+\.
+- '\b[A-Z][a-z]+(?: \w+){0,2} (?!(?:is|was|has|does)\b)\w+s (?:more|less|fewer|faster|slower|cheaper|cleaner|simpler|safer|tighter|better|worse|larger|smaller|bigger|higher|lower|longer|shorter) than [^.!?]+\.'
+- \b[A-Z][a-z]+, not [a-z]+, not [a-z]+\.
+- \b[A-Z][a-z]+, then [a-z]+\.
+- \b[A-Z][a-z]+ first, [a-z]+ second\.
+- \b[A-Z][a-z]+ first, [a-z]+ never\.
+- ': the [^,]+, not the [^.]+'
+tests:
+- name: flags 'Pure data.'
+  input: |
+    Pure data.
+  want: |
+    1:1:PlainTechnical.MicDrop:Mic-drop sentence: 'Pure data.'. Join the point to the sentence it concludes.
+- name: flags a comparative verdict
+  input: |
+    Clarity scales better than cleverness.
+  want: |
+    1:1:PlainTechnical.MicDrop:Mic-drop sentence: 'Clarity scales better than cleverness.'. Join the point to the sentence it concludes.
+- name: leaves a measured comparison alone
+  input: |
+    The pool is smaller than the disk.
+  want: ''
+- name: leaves a short step, a definition and a no alone
+  input: |
+    Stop the job. Start the job.
+
+    Redis is a cache.
+
+    No retries.
+  want: ''
+- name: leaves 'The bottom line is' to ConclusionMarker
+  input: |
+    The bottom line is simple.
+  want: ''

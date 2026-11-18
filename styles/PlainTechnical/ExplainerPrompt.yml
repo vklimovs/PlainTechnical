@@ -1,0 +1,36 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.UnpackExplore (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Explainer prompt: ''%s''. Explain it.'
+level: warning
+ignorecase: true
+tokens:
+- 'Let us unpack'
+- Let me unpack
+- 'Let us break this down'
+- Let me break this down
+- 'Let us take a closer look at'
+- Let me take a closer look at
+- 'Let us dive in(?:to)?'
+- 'Let me dive in(?:to)?'
+- 'Let us walk through'
+- Let me walk through
+- 'Let us dig into'
+- Let me dig into
+- 'Let us examine'
+- Let me examine
+- 'Let us explore'
+- Let me explain
+- 'Let us consider'
+- 'Let us look at'
+- 'Let us break down'
+tests:
+- name: flags 'Let us explore'
+  input: |
+    Let us explore the available options.
+  want: |
+    1:1:PlainTechnical.ExplainerPrompt:Explainer prompt: 'Let us explore'. Explain it.
+- name: direct explanation
+  input: |
+    The retry logic waits one second, then doubles the delay up to a limit.
+  want: ''

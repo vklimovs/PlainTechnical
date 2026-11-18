@@ -1,0 +1,32 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.AbsoluteAssertions (MIT).
+# Changed: The remedy 'soften it' meant a modal verb, which ASD-STE100 bans.
+# Matches the full form alone, since Contraction flags a contraction. Drops
+# 'the only way to' and 'there is no other way', which state a fact in most
+# systems prose.
+extends: existence
+message: 'Overclaim: ''%s''. Verify the claim or state its scope.'
+level: warning
+ignorecase: true
+tokens:
+- the only real solution
+- the only way forward
+- the single most important
+- the most important thing is
+- above all else
+- above everything else
+- more than anything else
+- there is no better
+- there can be no doubt
+- make no mistake
+- 'there is no denying'
+- '\b(?:does|do) it all\b'
+tests:
+- name: flags 'The single most important'
+  input: |
+    The single most important factor is latency.
+  want: |
+    1:1:PlainTechnical.Overclaim:Overclaim: 'The single most important'. Verify the claim or state its scope.
+- name: measured claim
+  input: |
+    The cache cut the build from nine minutes to four.
+  want: ''

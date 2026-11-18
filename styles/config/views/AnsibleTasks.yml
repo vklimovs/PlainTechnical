@@ -1,0 +1,26 @@
+# A task is an item of the file's list or of a block, rescue or always
+# list. A module argument called name is in neither. Each name and message
+# reads as Markdown, and Vale skips a quotation in it.
+engine: dasel
+scopes:
+  - name: task
+    expr: map(name)
+    type: md
+  - name: task
+    expr: search(has("block")).map(block).flatten().map(name)
+    type: md
+  - name: task
+    expr: search(has("rescue")).map(rescue).flatten().map(name)
+    type: md
+  - name: task
+    expr: search(has("always")).map(always).flatten().map(name)
+    type: md
+  - name: message
+    expr: search(has("msg")).map(msg)
+    type: md
+  - name: message
+    expr: search(has("fail_msg")).map(fail_msg)
+    type: md
+  - name: message
+    expr: search(has("success_msg")).map(success_msg)
+    type: md

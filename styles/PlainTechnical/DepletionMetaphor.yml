@@ -1,0 +1,21 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.DepletionMetaphors (MIT).
+extends: existence
+message: 'Depletion metaphor: ''%s''. Say what ran out, failed or slowed, and give the limit.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bexhaust(?:s|ed|ing)? (?:its|their|the|a|an|this|that) (?:[a-z]+ )?budget\b
+- \bstarv(?:e|es|ed|ing) (?:(?:the|a|an|its|their|this|that|each|every) )?[a-z]+ of\b
+- \bstall(?:s|ed|ing)? on\b
+- \bdegrad(?:e|es|ed|ing) on\b
+tests:
+- name: flags 'stalls on'
+  input: |
+    The job stalls on the lock.
+  want: |
+    1:9:PlainTechnical.DepletionMetaphor:Depletion metaphor: 'stalls on'. Say what ran out, failed or slowed, and give the limit.
+- name: exhaust without a budget object
+  input: |
+    The loop exhausts the iterator and returns.
+  want: ''

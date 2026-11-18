@@ -1,0 +1,39 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.SycophancyMarkers (MIT).
+# Changed: Counts 'Absolutely', 'Certainly' and 'Of course' as a sentence of
+# their own, though not as the answer to a question, and 'Sure' before '!'.
+# Leaves the three before a comma, where they concede a point, to FillerPhrase,
+# and 'Without a doubt' too. Holds the openers of Voices v0.2.0 Human.Openers.
+# Matches the full form alone, since Contraction flags a contraction. Matches
+# 'As an AI' and 'As a language model' as the opener of a sentence before a
+# comma alone, since 'BERT works as a language model' is plain.
+extends: existence
+message: 'Sycophancy: ''%s''. Delete it.'
+level: error
+ignorecase: true
+tokens:
+- Great question
+- Excellent question
+- Fantastic question
+- Wonderful question
+- 'I am glad you asked'
+- (?:\A|(?<=[.!]\s))Absolutely(?=[.!])
+- (?:\A|(?<=[.!]\s))Certainly(?=[.!])
+- (?:\A|(?<=[.!]\s))Of course(?=[.!])
+- 'You are absolutely right'
+- You make an excellent point
+- 'That is a wonderful idea'
+- 'That is a fantastic point'
+- 'I could not agree more'
+- '(?:\A|(?<=[.!?]\s))Sure(?=!)'
+- '(?:\A|(?<=[.!?]\s))As (?:an AI(?: language model| model| assistant)?|a language model)(?=,)'
+- 'Thank you for (?:your|the) question'
+tests:
+- name: flags 'Absolutely'
+  input: |
+    Absolutely! The daemon restarts.
+  want: |
+    1:1:PlainTechnical.Sycophancy:Sycophancy: 'Absolutely'. Delete it.
+- name: leaves an adverb inside a sentence alone
+  input: |
+    The build almost certainly fails, and of course the log shows the port.
+  want: ''

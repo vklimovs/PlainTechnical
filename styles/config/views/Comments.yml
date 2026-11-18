@@ -1,0 +1,11 @@
+# Vale reads each comment of a YAML file itself, as raw text, once a View maps
+# the file. This View captures nothing. Each comment then reads once.
+engine: textfsm
+template: |
+  Value Nothing (x)
+
+  Start
+    ^.* -> Next
+scopes:
+  - name: none
+    expr: Nothing

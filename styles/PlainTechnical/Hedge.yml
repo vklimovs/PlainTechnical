@@ -1,0 +1,83 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.HedgingPhrases (MIT).
+# Changed: Leaves 'That being said' to InflatedWord. Keeps 'at the same time',
+# a connecting phrase of rule 4.4. Adds 'is likely because' and 'it is
+# important to note' from Voices v0.2.0 Direct.Hedging. Matches the full form
+# alone, since Contraction flags a contraction. Adds 'hopefully'. Matches 'As
+# such' at the start of a sentence and before a comma, since 'documented as
+# such' is plain. Matches 'In a sense' before a comma alone. Leaves 'On the
+# other hand' to FormalTransition. Matches 'in many ways', 'in some ways' and
+# 'as you might expect' as a lead-in before a comma alone, since 'done in many
+# ways' and 'works as you might expect' are plain. Matches 'That said' at the
+# start of a sentence and before a comma, since 'the log line that said' is
+# plain. Matches 'It is important to' and the like, as the ChatGPT answers of
+# the HC3 corpus use it, unless an article, a determiner, a pronoun or a
+# number follows, as in 'critical to the design'.
+extends: existence
+message: 'Hedge: ''%s''. Delete it and state the point.'
+level: warning
+ignorecase: true
+tokens:
+- 'It is (?:important|essential|crucial|critical|vital) to(?! (?:the|a|an|this|that|these|those|its|their|our|my|your|his|her|each|every|all|any|both|some|no|most|many|several|another|other|such|us|me|you|him|them|it|one|\d+)\b)(?: (?:note|understand|consider|recognize|acknowledge|emphasize|highlight|mention|remember|keep in mind)(?: that)?)?'
+- It is necessary to note
+- It is necessary to understand
+- It is necessary to recognize
+- It should be noted that
+- It should be emphasized that
+- It should be mentioned that
+- It bears mentioning
+- It goes without saying
+- Needless to say
+- Generally speaking
+- Broadly speaking
+- For the most part
+- By and large
+- All things considered
+- '(?:\A|(?<=[.!?]\s))(?:With all )?That said(?=,)'
+- Having said that
+- 'To be sure(?=,)'
+- To some extent
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))In some ways(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))In many ways(?=,)'
+- '(?:\A|(?<=[.!?;]\s)|(?<=,\s))In a sense(?=,)'
+- '(?:\A|(?<=[.!?]\s))As such(?=,)'
+- As it were
+- One thing is clear
+- One thing is certain
+- One thing is for sure
+- One thing is for certain
+- This much is clear
+- This much is certain
+- raises important questions
+- raises serious questions
+- raises questions about
+- begs the question
+- forces us to ask
+- forces us to consider
+- invites us to consider
+- invites us to ask
+- invites us to reflect
+- prompts us to ask
+- prompts us to consider
+- calls into question
+- calls on us to
+- reminds us that
+- reminds us of the importance
+- '(?:\A|(?<=[.!?]\s))As you might expect(?=,)'
+- '(?:\A|(?<=[.!?]\s))As you would expect(?=,)'
+- '(?:\A|(?<=[.!?]\s))As one might expect(?=,)'
+- 'is likely because'
+- 'hopefully(?! this (?:helps|is helpful)\b)'
+tests:
+- name: flags 'This much is certain'
+  input: |
+    This much is certain: delays are inevitable.
+  want: |
+    1:1:PlainTechnical.Hedge:Hedge: 'This much is certain'. Delete it and state the point.
+- name: leaves at the same time alone
+  input: |
+    Hold the lever. At the same time, turn the valve.
+  want: ''
+- name: leaves 'Hopefully this helps' to ClosingPleasantry
+  input: |
+    Hopefully this helps.
+  want: ''

@@ -1,0 +1,42 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ColloquialAssessments (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+# Matches 'is the move' and 'was the move' at the end of a sentence alone,
+# since 'the cause was the move from' is plain. Drops 'really lands' and
+# 'actually landed', since a patch actually lands upstream.
+extends: existence
+message: 'Colloquial assessment: ''%s''. State the assessment and its reason.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \b[Tt]he (?:joke|point|argument|line|metaphor|analogy|comparison|critique|distinction|observation|framing|insight|takeaway|punchline|callback|bit|reference|callout) (?:really |actually |just |finally )?lands?\b
+- \b[Tt]he (?:joke|point|argument|line|metaphor|analogy|comparison|critique|distinction|observation|framing|insight|takeaway|punchline|callback|bit|reference|callout) (?:really|actually|just|finally) landed\b
+- \bland(?:s|ed)? flat\b
+- \bwhere (?:it|this|that|everything|the whole thing) (?:really |finally |ultimately |just |all )?lands?\b
+- '\bis the move(?=[.!])'
+- '\bwas the move(?=[.!])'
+- \bthe right move\b
+- \bthe smart move\b
+- \bthe obvious move\b
+- \bthe play here\b
+- \bthe move here\b
+- \bwhat really matters\b
+- \bwhat truly matters\b
+- \bwhat actually matters\b
+- \bwhat genuinely matters\b
+- \bwhat matters most\b
+- \ball that (?:really |truly |actually )?matters\b
+- \bthe only thing that (?:really |truly |actually )?matters\b
+- \bhandy (?:for|when|if|to have|in|as)\b
+- \bcomes? in handy\b
+- \bcame in handy\b
+tests:
+- name: flags 'where it lands'
+  input: |
+    This is where it lands.
+  want: |
+    1:9:PlainTechnical.ColloquialAssessment:Colloquial assessment: 'where it lands'. State the assessment and its reason.
+- name: literal landing
+  input: |
+    The probe lands on the surface at noon.
+  want: ''

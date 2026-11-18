@@ -1,0 +1,18 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.IncompleteComparison (MIT).
+extends: existence
+message: 'Incomplete comparison: ''%s''. Complete it with ''than'' and the baseline.'
+level: warning
+ignorecase: true
+nonword: true
+tokens:
+- '(?<!\b(?:than|compared|versus|vs\.|relative)\b[^.!?\n]*)\b(?:significantly|substantially|considerably|markedly|dramatically|vastly|notably|greatly|massively)\s+(?:higher|lower|better|worse|faster|slower|greater|smaller|larger|stronger|weaker|easier|harder|safer|cheaper|simpler|cleaner|more|less|fewer|improved|reduced|increased|decreased|improves|improving|reduces|reducing|increases|increasing|decreases|decreasing|optimized|enhanced)\b(?![^.!?\n]*\b(?:than|compared|versus|vs\.|relative to)\b)'
+tests:
+- name: flags 'substantially faster'
+  input: |
+    The new parser is substantially faster.
+  want: |
+    1:19:PlainTechnical.IncompleteComparison:Incomplete comparison: 'substantially faster'. Complete it with 'than' and the baseline.
+- name: baseline after the comparative
+  input: |
+    The rewrite is substantially faster than the old one.
+  want: ''

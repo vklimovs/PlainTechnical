@@ -1,0 +1,25 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.NegatedPair (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Stacked absence: ''%s''. Negate the verb once, then say what the thing does.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bwith no (?:[a-z-]+,? ){1,3}(?:and|or) no\b
+- \bwithout (?:a|an|the|any) (?:[a-z-]+ ){1,2}or (?:a|an|the|any) [a-z-]+\b
+- \b(?:needs?|needed|requires?|required|takes?|took|wants?|wanted|uses?|used|calls?|called|makes?|made|touches|touched|involves?|involved|reads?|writes?|wrote|opens?|opened|creates?|created|runs?|ran|starts?|started|spawns?|spawned|accepts?|accepted|expects?|expected|returns?|returned|produces?|produced|holds?|held|keeps?|kept|carries|carry|carried|knows?|knew|owns?|owned|sees?|saw|contains?|contained|offers?|offered|provides?|provided|supports?|supported|allows?|allowed|permits?|permitted|assumes?|assumed|checks?|checked|emits?|emitted|sends?|sent|stores?|stored|loads?|loaded) neither\b
+- '\b(?:does not|do not|did not|will not|never) [a-z]+ (?:[a-z-]+ ){0,5}and (?:does not|do not|did not|will not|never)\b'
+- \b, nor (?:does|do|did|will|would|can|could|should|is|are|was|were|has|have|had) (?:it|they|this|that|the [a-z]+|a [a-z]+|an [a-z]+)\b
+- \bNeither (?:[a-z-]+ ){1,3}nor (?:[a-z-]+ ){1,3}(?:is|are|was|were|gets?|got|will be|has been|have been|can be|needs?|requires?|matters|applies|exists|changes|runs|touches|writes|reads|calls|holds|carries|breaks|blocks|survives|appears|comes)\b
+- \bno (?:[a-z-]+ ){1,2}, (?:and |or )?no (?:[a-z-]+ ){1,2}(?:, (?:and |or )?no (?:[a-z-]+ ){1,2})?
+tests:
+- name: flags 'with no database and no'
+  input: |
+    It runs with no database and no network.
+  want: |
+    1:9:PlainTechnical.NegatedPair:Stacked absence: 'with no database and no'. Negate the verb once, then say what the thing does.
+- name: bare without pair
+  input: |
+    The call returns without arguments or results.
+  want: ''

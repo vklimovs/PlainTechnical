@@ -1,0 +1,28 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeStrikes (MIT).
+# Changed: Leaves 'strikes a chord' to the token for a note, a tone or a chord.
+extends: existence
+message: 'Figurative verb: ''%s''. State the effect or the tradeoff.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \b(?:strike|strikes|striking) a nerve\b
+- \bstruck a nerve\b
+- \b(?:strike|strikes|striking) (?:the right|an?) (?:note|tone|chord)\b
+- \bstruck (?:the right|an?) (?:note|tone|chord)\b
+- \b(?:strike|strikes|striking) at the (?:core|center|centre|root) of\b
+- \bstruck at the (?:core|center|centre|root) of\b
+- \b(?:strike|strikes|striking) close to home\b
+- \b(?:strike|strikes|striking) gold\b
+- \bstruck gold\b
+- \bstrike while the iron is hot\b
+tests:
+- name: flags 'strikes the right tone'
+  input: |
+    This phrase strikes the right tone.
+  want: |
+    1:13:PlainTechnical.FigurativeStrikes:Figurative verb: 'strikes the right tone'. State the effect or the tradeoff.
+- name: strike a balance
+  input: |
+    The design must strike a balance between speed and safety.
+  want: ''

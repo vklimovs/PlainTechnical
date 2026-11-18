@@ -1,0 +1,95 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.Metacommentary (MIT).
+# Changed: Keeps a note, which rule 5.5 permits. Leaves 'This allows', 'This
+# enables', 'This ensures', 'This provides' and 'This gives' to
+# BareDemonstrative. Leaves a short sentence that ends on 'matters' to MicDrop,
+# and 'This is where the cache comes in' to ExplainerLead. Leaves 'The point
+# here is' to AffirmativeFormula. Drops 'At its most basic level' and 'At its
+# most fundamental level', since the token without 'level' matches first.
+# Leaves 'Key takeaway' to StructureAnnouncement. Leaves the labels 'Key
+# insight', 'Key point' and 'Bottom line' to ColonReveal, and 'The point' to
+# LabelAndExplain. Leaves the safety label 'Important' alone, as ColonReveal
+# does. Matches 'This is the key' before a stop or a word such as 'point',
+# since 'This is the key to be used' names a key. Matches 'This is the
+# critical' before a word such as 'part' or 'point' alone, since 'This is the
+# critical section' names a term.
+extends: existence
+message: 'Metacommentary: ''%s''. Delete it and give the content.'
+level: warning
+nonword: true
+scope: raw
+tokens:
+- \bThis matters because\b
+- \bThis is important because\b
+- '\bThis distinction matters\b(?!\.)'
+- '\bThis difference matters\b(?!\.)'
+- '\bThis framing matters\b(?!\.)'
+- '\bThis choice matters\b(?!\.)'
+- '\bThis detail matters\b(?!\.)'
+- '\bThis nuance matters\b(?!\.)'
+- '\bThis subtlety matters\b(?!\.)'
+- \bThe key here is\b
+- \bThe idea here is\b
+- \bThe important thing here is\b
+- \bThis is the insight\b
+- '\bThis is the key(?=[.:!]| (?:insight|point|idea|takeaway|difference)\b)'
+- \bThis is the takeaway\b
+- '\bThis is the crucial(?= (?:part|point|bit|thing|insight|step|question|lesson|idea)\b)'
+- '\bThis is the critical(?= (?:part|point|bit|thing|insight|step|question|lesson|idea)\b)'
+- '\bThis is the important(?= (?:part|point|bit|thing|insight|step|question|lesson|idea)\b)'
+- \bUnderstanding [^.]+enables you to [^.]+\.
+- \bUnderstanding [^.]+helps you [^.]+\.
+- \bUnderstanding [^.]+allows you to [^.]+\.
+- \bReal-world [a-z]+
+- \bIn the real world\b
+- \bAt its core\b
+- \bAt its heart\b
+- \bAt its most basic\b
+- \bAt its most fundamental\b
+- \bAt its simplest\b
+- \bAt their core\b
+- \bAt their heart\b
+- \bThink of it as\b
+- \bThink of this as\b
+- \bThink of [^.]+as [^.]+\.
+- \bThis is where it gets interesting\b
+- \bThis is where things get interesting\b
+- '\bTh(?:is|at) is where (?!(?:exactly |precisely )?(?:the|this|that|these|those|a|an|each|every|your|our|its) [-''\w]+ [-''\w]+)[^.]+ comes in\b'
+tests:
+- name: flags 'This distinction matters'
+  input: |
+    This distinction matters because the port is fixed.
+  want: |
+    1:1:PlainTechnical.Metacommentary:Metacommentary: 'This distinction matters'. Delete it and give the content.
+- name: leaves a note alone
+  input: |
+    **Note:** The cache drops an entry after ten minutes.
+  want: ''
+- name: leaves this with a noun alone
+  input: |
+    This flag allows a retry. This option enables TLS.
+  want: ''
+- name: leaves 'Key takeaway' to StructureAnnouncement
+  input: |
+    **Key takeaway:** the cache is cold.
+  want: ''
+- name: leaves a bold label to ColonReveal and LabelAndExplain
+  input: |
+    **Key insight:** the cache is cold.
+
+    **Bottom line:** the cache is cold.
+
+    **The point:** the cache is cold.
+  want: ''
+- name: leaves 'This is where the cache comes in' to ExplainerLead
+  input: |
+    This is where the cache comes in.
+  want: ''
+- name: flags 'That is where it comes in'
+  input: |
+    That is where caching comes in.
+  want: |
+    1:1:PlainTechnical.Metacommentary:Metacommentary: 'That is where caching comes in'. Delete it and give the content.
+- name: leaves 'the critical section' alone
+  input: |
+    This is the critical section.
+  want: ''

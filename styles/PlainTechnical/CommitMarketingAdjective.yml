@@ -1,0 +1,58 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-commits.CommitMarketingAdjectives (MIT).
+# Changed: Reads the subject and the body of a commit. Leaves 'meticulously
+# crafted' to InflatedWord. Drops 'fault-tolerant', a property of engineering.
+extends: existence
+message: 'Marketing adjective: ''%s''. State what changed and why.'
+level: warning
+ignorecase: true
+tokens:
+- production-ready
+- production ready
+- enterprise-grade
+- enterprise grade
+- mission-critical
+- mission critical
+- world class
+- state of the art
+- cutting edge
+- best in class
+- industry-standard
+- industry standard
+- battle-tested
+- battle tested
+- rock-solid
+- rock solid
+- top-tier
+- top tier
+- highly scalable
+- 'bulletproof'
+- 'carefully crafted'
+- 'elegantly designed'
+scope:
+- subject
+- body
+tests:
+- name: flags 'battle-tested'
+  input: "\u2728 feat: Added battle-tested rate limiter\n\nThis change introduces a production-ready rate limiter that significantly\nimproves the auth path. All 12 tests passing.\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n"
+  want: |
+    1:15:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'battle-tested'. State what changed and why.
+    3:26:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'production-ready'. State what changed and why.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: flags 'bulletproof'
+  input: |
+    parser: add a check for empty input
+    
+    The parser is now bulletproof.
+  want: |
+    3:19:PlainTechnical.CommitMarketingAdjective:Marketing adjective: 'bulletproof'. State what changed and why.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: hyphenated forms belong to the prose style
+  input: |
+    feat(parser): add a cache
+
+    A state-of-the-art, cutting-edge cache for tokens.
+  want: ''
+  format: COMMIT_EDITMSG
+  view: Commit

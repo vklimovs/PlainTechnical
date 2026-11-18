@@ -1,0 +1,59 @@
+# Source: ASD-STE100 Issue 9 GR-6, via SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: Matches 'cf.' in lower case before a lower-case word, a number or a
+# bracket, or after a parenthesis, since 'with cf.' names the Cloud Foundry CLI.
+# Skips 'ie' and 'eg' after a dot, as in a domain, and the Vim command ':vs'.
+# Reads 'vs' with a full stop, or between two capitalized terms as in 'TCP vs
+# UDP'. So an option value such as '--backend=vs', also before a full stop, a
+# mail domain, the Visual Studio backend in 'the vs backend' and a variable
+# named vs inside a sentence stay. A variable named vs before a full stop reads
+# as the abbreviation. Leaves 'main.cf', 'viz.js', 'e.getMessage()',
+# 'etc.tar.gz', 'tcp-vs-udp' and '.vs/' alone. Reads 'etc' with a full stop,
+# before a parenthesis, or between a comma and a comma, a semicolon or the end
+# of the paragraph. So the etc directory in 'back up etc, var and home' and the
+# capital ETC stay. Reads 'ie' and 'eg' between a comma or a parenthesis and a
+# comma, or before a full stop and a lower-case word, since 'ie' also names an
+# element of a frame.
+extends: substitution
+message: "Latin abbreviation: '%[2]s'. Write '%[1]s'."
+level: error
+ignorecase: true
+nonword: true
+swap:
+  '\be\.g\.?(?![\w(])': for example
+  '\bi\.e\.?(?![\w(])': that is
+  '(?<![/\w.=-])(?-i:[Ee]tc)(?:\.(?![\w/-])|(?=\))|(?<=,\s?[Ee]tc)(?=[,;]|\s*\z))': the items themselves
+  '\bviz\.(?!\w)': namely
+  '(?<![\w./-])(?-i:cf\.)(?:(?=\s+(?-i:[a-z])|\s+[(\[\d])|(?<=\(cf\.))': compare
+  '(?<![\w./:=-])(?-i:vs)(?:\.(?![\w/-])|(?<=\b(?-i:[A-Z])[\w.+-]*\svs)(?=\s(?-i:[A-Z])))': compared with
+  '\bet al\.': and others
+  '\bN\.B\.': Note
+  '(?<![.@/-])(?-i:\beg\b)(?:\.(?= [a-z])|(?<=[,(]\s?eg)(?=, ))': for example
+  '(?<![.@/-])(?-i:\bie\b)(?:\.(?= [a-z])|(?<=[,(]\s?ie)(?=, ))': that is
+tests:
+- name: flags e.g.
+  input: |
+    Use a path, e.g. /tmp.
+  want: |
+    1:13:PlainTechnical.LatinAbbreviation:Latin abbreviation: 'e.g.'. Write 'for example'.
+- name: leaves the English form alone
+  input: |
+    Use a path, for example /tmp.
+  want: ''
+- name: leaves the path /etc alone
+  input: |
+    Copy the file to /etc.
+  want: ''
+- name: flags etc without a stop and vs.
+  input: |
+    Install the tools (git, make, gcc etc) first. Compare TCP vs. UDP.
+  want: |
+    1:35:PlainTechnical.LatinAbbreviation:Latin abbreviation: 'etc'. Write 'the items themselves'.
+    1:59:PlainTechnical.LatinAbbreviation:Latin abbreviation: 'vs.'. Write 'compared with'.
+- name: leaves a time zone alone
+  input: |
+    Set the zone to Etc/GMT on the host.
+  want: ''
+- name: leaves a command name alone
+  input: |
+    Run etc-update after the bump.
+  want: ''

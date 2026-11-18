@@ -1,0 +1,36 @@
+# Source: ASD-STE100 Issue 9 rule 1.14, as a closed list.
+# Changed: Skips a constant in capitals, a word inside a name in CamelCase such
+# as ColourPicker, a capital in the middle of a sentence such as the National
+# Cyber Security Centre, the name Fibre Channel and the ageing time of a bridge.
+# Drops 'calibre', a program's name, and 'cancelled', which American technical
+# prose writes as often as 'canceled'. Drops each word that the en_US dictionary
+# of Hunspell accepts, such as 'judgement', 'acknowledgement', 'amongst',
+# 'whilst', 'learnt' and 'storey', since American English also writes it. Reads
+# a stem alone or with an ending such as -s, -ed or -ing, so a stem inside a
+# longer word, as in 'programmer', VapourSynth or aria-labelledby, is not read.
+# Skips a stem that a mark of code joins: after one of - / . $ = @ \ : { % ' >
+# or [, or before = ( [ @ -> :: or a dot or a slash and a letter. Skips a
+# parameter name after @param, @param[in], \param and the like. So
+# --colour=auto, wx/colour.h, set.colour(), $colour, ptr->colour and colour[i]
+# stay, and so does a compound such as 256-colour. Reads a capital after a full
+# stop as the start of a sentence, except after an abbreviation such as 'Dr.' or
+# 'Prof.'. Skips a capital there before a comma or a capitalized word, as in a
+# name such as 'Grey, Jim' or 'Centre Pompidou'.
+extends: existence
+message: "British spelling: '%s'. Use the American spelling."
+level: error
+ignorecase: true
+nonword: true
+tokens:
+  - '\b(?<![-/.$=@\\:{%''>\[])(?<![@\\](?:param|arg|tparam|property|prop)(?:\[[^\]]*\])?\s+(?:\{[^}]*\}\s+)?)(?-i:(?![A-Z][A-Z0-9_]+\b))(?:(?-i:(?=[a-z]))|(?<=(?:\A|[!?]\s|(?<!\b(?-i:[A-Z][a-z]{0,3}))\.\s))(?!\w+(?:,| (?-i:[A-Z]))))(behaviour|colour|favour|honour|labour|neighbour|rumour|armour|endeavour|flavour|humour|vapour|centre|centred|metre|litre|theatre|fibre(?! [Cc]hannel)|catalogue|defence|offence|licence|pretence|artefact|programme(?![dr])|sceptic|ageing(?![ _]time)|plough|draught|enrolment|skilful|wilful|aluminium|manoeuvre|mould|smoulder|(labell|modell|travell|signall|fuell|totall|marvell|levell)(ed|ing)|(analys|paralys|catalys)(e|ed|ing)\b|practis(e|ed|ing)|(organis|recognis|realis|normalis|initialis|serialis|authoris|summaris|optimis|utilis|minimis|maximis|prioritis|standardis|synchronis|categoris|customis|apologis|emphasis|specialis|generalis|centralis|formalis|finalis|stabilis|visualis|itemis|sanitis|randomis|tokenis|synthesis)(e|ed|es|ing|ation|ations|able)|(enrol|fulfil|grey))(?:s|d|ed|ing|r|rs|er|ers|al|ally|ism|ite|ites|able|ably|hood|hoods|ful|fully|ly)?(?!\w|[./]\w|[=(\[@]|->|::)'
+tests:
+- name: flags a British spelling
+  input: |
+    The colour is grey.
+  want: |
+    1:5:PlainTechnical.BritishSpelling:British spelling: 'colour'. Use the American spelling.
+    1:15:PlainTechnical.BritishSpelling:British spelling: 'grey'. Use the American spelling.
+- name: leaves the American spelling alone
+  input: |
+    The color is gray.
+  want: ''

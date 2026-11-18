@@ -1,0 +1,28 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ContrastiveFormulas (MIT).
+# Changed: Holds the two-sentence form, 'X is not Y. It is Z.', as a warning,
+# because a technical doc uses it to correct a likely misreading. Matches the
+# full form alone, since Contraction flags a contraction. Leaves 'are not
+# merely' and the like to ContrastiveFormula.
+extends: existence
+message: 'Correction frame: ''%s''. If no reader holds the first view, state the second sentence alone.'
+level: warning
+tokens:
+- '[A-Z][a-z]+ are not (?!(?:merely|simply|just|only) )[^.!?]+\. [Tt]hey are [^.!?]+'
+- '[Tt]his does not mean [^.!?]+\. [Ii]t means [^.!?]+'
+- '[Tt]hat does not mean [^.!?]+\. [Ii]t means [^.!?]+'
+- '[A-Z][a-z]+ does not mean [^.!?]+\. [Ii]t means [^.!?]+'
+- '(?:\A|(?<=[.!?]\s))[^.!?]+ is not [^.!?]+\. [Ii]t is [^.!?]+'
+tests:
+- name: flags the correction frame
+  input: |
+    The cache is not a database. It is a buffer for the disk.
+  want: |
+    1:1:PlainTechnical.CorrectionFrame:Correction frame: 'The cache is not a database. It is a buffer for the disk'. If no reader holds the first view, state the second sentence alone.
+- name: plain positive claim
+  input: |
+    The cache cuts read latency, and the key includes the schema version.
+  want: ''
+- name: leaves 'are not simply' to ContrastiveFormula
+  input: |
+    These are not simply caches. They are indexes of the store.
+  want: ''

@@ -1,0 +1,22 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ExplainerLeads (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Explainer lead: ''%s''. State the point.'
+level: warning
+nonword: true
+scope:
+- ~heading
+tokens:
+- '\b(?:[Hh]ere is|[Tt]his is|[Tt]hat is) (?:exactly |precisely )?(?:what|why|how|when|where) (?:the|this|that|these|those|a|an|each|every|your|our|its) [-''\w]+ [-''\w]+'
+- '\b(?:What|Why|How) (?!this means\b)(?:the|this|that|these|those|a|an|each|every|your|our|its) [^.!?:\n]{1,50}(?=:)'
+- '\b(?:What|Why|How) (?!this means\b)(?:the|this|that|these|those|a|an|each|every|your|our|its) (?:[-''\w]+ ){1,3}(?:is|are|was|were)\b'
+tests:
+- name: flags 'That is where the exemption lives'
+  input: |
+    That is where the exemption lives.
+  want: |
+    1:1:PlainTechnical.ExplainerLead:Explainer lead: 'That is where the exemption lives'. State the point.
+- name: embedded clause mid-sentence
+  input: |
+    The result depends on how the shell resolves the path.
+  want: ''

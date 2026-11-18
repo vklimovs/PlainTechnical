@@ -1,0 +1,28 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-experimental.PassiveVoice (MIT).
+# Changed: The message drops the word AI, since rule 3.6 of ASD-STE100 Issue 9
+# asks for the active voice in any text. Leaves 'has been' to PerfectTense.
+# Reads a word as a participle only when it ends in -ed, -en or -wn or is a
+# common irregular form, since the tagger takes a name such as 'kdc' for one.
+extends: sequence
+message: 'Passive voice: ''%[1]s %[2]s''. Name who acts and use an active verb.'
+level: warning
+tokens:
+- pattern: \b(?:am|is|are|was|were|be|being|get|gets|got|gotten|getting)\b
+  tag: VBZ|VBP|VBD|VB|VBN|VBG
+- tag: VBN
+  pattern: (?i)^(?!settled$)(?:\w+(?:ed|en|wn)|done|made|built|sent|set|put|read|run|held|kept|left|lost|found|got|meant|said|told|thought|brought|bought|caught|taught|sought|fought|split|cut|hit|let|shut|spent|lent|bent|dealt|felt|paid|laid|led|fed|bred|fled|sold|won|hung|struck|stuck|spun|swung|dug|begun|sung|rung|sunk|shrunk|bound|wound|ground|burnt|learnt|slept|swept|wept|crept|met|shot|lit|quit|sat)$
+tests:
+- name: flags 'is deleted'
+  input: |
+    The file is deleted by the job.
+  want: |
+    1:10:PlainTechnical.PassiveVoice:Passive voice: 'is deleted'. Name who acts and use an active verb.
+- name: leaves 'has been' to PerfectTense
+  input: |
+    The cache has been cleared.
+  want: ''
+- name: flags 'is designed'
+  input: |
+    The tool is designed to retry.
+  want: |
+    1:10:PlainTechnical.PassiveVoice:Passive voice: 'is designed'. Name who acts and use an active verb.

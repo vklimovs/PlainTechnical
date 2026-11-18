@@ -1,0 +1,18 @@
+# Source: the word swaps of SimpleEnglish a6fcb4fde098 (MIT).
+extends: existence
+message: "Unstated condition: '%s'. State the condition."
+level: warning
+ignorecase: true
+tokens:
+  - 'as necessary'
+  - 'as needed'
+tests:
+- name: flags an unstated condition
+  input: |
+    Restart it as needed.
+  want: |
+    1:12:PlainTechnical.UnstatedCondition:Unstated condition: 'as needed'. State the condition.
+- name: leaves the stated condition alone
+  input: |
+    Restart it when the config changes.
+  want: ''

@@ -1,0 +1,30 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.StrategyBuzzwords (MIT).
+extends: existence
+message: 'Strategy buzzword: ''%s''. Describe the mechanism.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bflywheel effect\b
+- \b(?:growth|data|content|engagement|customer|revenue|sales|marketing|business|virtuous|self-?reinforcing) flywheels?\b
+- \b(?:build|building|built|create|creates|created|creating|spin|spins|spinning|start|starts|started|starting) (?:a |the |our |its |their )?flywheels?\b
+- \b(?:competitive|economic|defensible|durable|structural|wide|deep|business|data|regulatory|technological|distribution) moats?\b
+- \b(?:build|building|built|widen|widens|widening|widened|deepen|deepens|deepening|deepened|create|creates|created|creating) (?:a |the |our |its |their |wider |deeper )?moats?\b
+- \bmoats? (?:around|against) (?:the |our |its |their |your )?(?:business|company|product|platform|franchise|market|position|revenue|profits?|margins?|data|ecosystem|core)\b
+- \bnorth[- ]star metric\b
+- \bnorth-star\b
+- \b(?:our|your|their|its) north star\b
+- \bnetwork effects?\b
+- \bfirst[- ]mover advantage\b
+- \b(?:market|customer|data|talent|competitive|global|massive|enterprise) land[- ]grab\b
+- \bland[- ]grab for\b
+tests:
+- name: flags 'network effects'
+  input: |
+    Strong network effects take over.
+  want: |
+    1:8:PlainTechnical.StrategyBuzzword:Strategy buzzword: 'network effects'. Describe the mechanism.
+- name: mechanical flywheel
+  input: |
+    The engine bolts a heavy flywheel to the crankshaft.
+  want: ''

@@ -1,0 +1,18 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ResonateOveruse (MIT).
+extends: existence
+message: 'Figurative verb: ''%s''. Say what connects, and why.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bresonat(?:e|es|ed|ing)\b
+tests:
+- name: flags 'resonated'
+  input: |
+    The message resonated deeply.
+  want: |
+    1:13:PlainTechnical.Resonates:Figurative verb: 'resonated'. Say what connects, and why.
+- name: noun form resonance
+  input: |
+    The circuit shows a sharp resonance near 440 Hz.
+  want: ''

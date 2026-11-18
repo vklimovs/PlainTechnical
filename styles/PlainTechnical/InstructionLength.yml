@@ -1,0 +1,39 @@
+# Source: ASD-STE100 Issue 9 rules 5.1 and 8.4, via SimpleEnglish a6fcb4fde098 (MIT).
+extends: script
+message: "Long list item: more than 20 words. Write an instruction in 20 words or fewer."
+level: warning
+scope: raw
+script: InstructionLength.tengo
+tests:
+- name: flags a list item over 20 words
+  input: |
+    - word word word word word word word word word word word word word word word word word word word word word.
+  want: |
+    1:3:PlainTechnical.InstructionLength:Long list item: more than 20 words. Write an instruction in 20 words or fewer.
+- name: leaves 20 words alone
+  input: |
+    - word word word word word word word word word word word word word word word word word word word word.
+  want: ''
+- name: leaves 26 words to SentenceLength
+  input: |
+    - word word word word word word word word word word word word word word word word word word word word word word word word word word.
+  want: ''
+- name: counts the words of one sentence
+  input: |
+    - For writing a role, read the recipe in approach.md and role-design.md.
+      Each kind of file has a style doc.
+  want: ''
+- name: counts a code span as one word
+  input: |
+    - Run `sqlpipe run --config /etc/sqlpipe/sqlpipe.yaml --verbose --dry-run --log-level=debug --threads 8` on the host that runs the job.
+  want: ''
+- name: ends a sentence after a bold lead-in
+  input: |
+    - **Vale does not read a YAML path that no section names.** A new YAML
+      directory goes into the Comments section of the configuration.
+  want: ''
+- name: flags an item of 25 words
+  input: |
+    - Restart the sync service on the host that runs the nightly import job after the backup of the primary database finishes cleanly on the night.
+  want: |
+    1:3:PlainTechnical.InstructionLength:Long list item: more than 20 words. Write an instruction in 20 words or fewer.

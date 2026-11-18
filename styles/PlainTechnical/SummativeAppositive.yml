@@ -1,0 +1,21 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.SummativeAppositive (MIT).
+extends: existence
+message: 'Summative appositive: ''%s''. Delete the label noun, or put the claim in a sentence of its own.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- ', an? (?:cost|fact|pattern(?! (?:that|which) match(?:es|ed|ing)?\b)|distinction|property|guarantee|constraint|trade-off|tradeoff|detail|choice|design|shape|move|gap|decision|consequence|side effect|limitation|feature|behaviou?r|assumption|risk|win|signal|tell|habit|caveat|subtlety|nuance|quirk|tension|asymmetry|invariant|reminder|lesson|problem|promise|compromise|convenience|trap|hazard|symptom|requirement|mismatch|difference|restriction|contract|boundary|price|penalty|benefit) (?:that|which|worth|the|no|every|each|this|these|its|their|our|your|my|most|few|some|many|any|nobody|no one|none|nothing|someone|everyone|i|we|you|they|it|he|she|one)\b'
+- ', something (?:that|which|worth|the|no|every|each|this|these|its|their|our|your|my|most|few|nobody|no one|none|i|we|you|they|it|he|she|one)\b'
+- ', which (?:is|was) (?:exactly|precisely) (?:the|what|why|how)\b'
+- ', which (?:is|was) the (?:whole )?point\b(?! (?:at|where|in|on|from|to|of the (?:cursor|line|curve|graph))\b)'
+tests:
+- name: flags ', something no'
+  input: |
+    It drops the header, something no caller expects.
+  want: |
+    1:20:PlainTechnical.SummativeAppositive:Summative appositive: ', something no'. Delete the label noun, or put the claim in a sentence of its own.
+- name: which is what without the intensifier
+  input: |
+    The loop retries three times, which is what we want.
+  want: ''

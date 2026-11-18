@@ -1,0 +1,33 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.StructureAnnouncements (MIT).
+# Changed: Leaves 'The key takeaways are', 'that is the key takeaway' and the
+# like to AffirmativeFormula, and 'The takeaway is that' to ShellNoun. Matches
+# 'quick summary', 'quick overview' and 'quick recap' after 'Here is a' or
+# before a colon, since 'gives a quick summary of the syntax' points to a
+# file.
+extends: existence
+message: 'Structure announcement: ''%s''. Give the content.'
+level: warning
+ignorecase: true
+tokens:
+- '(?:[Hh]ere is a quick recap|quick recap(?=:))'
+- to recap
+- '(?:[Hh]ere is a quick summary|quick summary(?=:))'
+- '(?:[Hh]ere is a quick overview|quick overview(?=:))'
+- to put it plainly
+- to put this in perspective
+- '(?:(?<!that is the )key takeaway|key takeaways|main takeaways?)(?! (?:is|are)\b)'
+- 'the takeaway is(?! that\b)'
+tests:
+- name: flags 'quick recap'
+  input: |
+    Here is a quick recap of what we covered.
+  want: |
+    1:1:PlainTechnical.StructureAnnouncement:Structure announcement: 'Here is a quick recap'. Give the content.
+- name: plain content
+  input: |
+    The loader reads the lockfile and the cache holds ten entries.
+  want: ''
+- name: leaves 'that is the key takeaway' to AffirmativeFormula
+  input: |
+    The result holds. And that is the key takeaway.
+  want: ''

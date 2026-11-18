@@ -1,0 +1,45 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.EmphaticCopula (MIT).
+extends: existence
+message: 'Emphasis: ''%s''. Remove the italics.'
+level: warning
+nonword: true
+scope: raw
+tokens:
+- (?<!\*)\*(?!\*)is(?<!\*)\*(?!\*)
+- ' _is_'
+- (?<!\*)\*(?!\*)are(?<!\*)\*(?!\*)
+- ' _are_'
+- (?<!\*)\*(?!\*)was(?<!\*)\*(?!\*)
+- ' _was_'
+- (?<!\*)\*(?!\*)were(?<!\*)\*(?!\*)
+- ' _were_'
+- (?<!\*)\*(?!\*)the(?<!\*)\*(?!\*)
+- ' _the_'
+- (?<!\*)\*(?!\*)and(?<!\*)\*(?!\*)
+- ' _and_'
+- (?<!\*)\*(?!\*)not(?<!\*)\*(?!\*)
+- ' _not_'
+- (?<!\*)\*(?!\*)or(?<!\*)\*(?!\*)
+- ' _or_'
+- (?<!\*)\*(?!\*)actually(?<!\*)\*(?!\*)
+- ' _actually_'
+- (?<!\*)\*(?!\*)really(?<!\*)\*(?!\*)
+- ' _really_'
+- (?<!\*)\*(?!\*)never(?<!\*)\*(?!\*)
+- ' _never_'
+- (?<!\*)\*(?!\*)always(?<!\*)\*(?!\*)
+- ' _always_'
+- (?<!\*)\*(?!\*)truly(?<!\*)\*(?!\*)
+- ' _truly_'
+- (?<!\*)\*(?!\*)literally(?<!\*)\*(?!\*)
+- ' _literally_'
+tests:
+- name: flags '*is*'
+  input: |
+    This design *is* intentional.
+  want: |
+    1:13:PlainTechnical.Emphasis:Emphasis: '*is*'. Remove the italics.
+- name: bold copula
+  input: |
+    The parser **is** the bottleneck in every build.
+  want: ''

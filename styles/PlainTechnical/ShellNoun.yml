@@ -1,0 +1,21 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ShellNounCopula (MIT).
+# Changed: Leaves 'The key insight is', 'The fact is', 'The truth is', 'The
+# point is', 'The lesson is' and the like to AffirmativeFormula.
+extends: existence
+message: 'Shell noun: ''%s''. Delete the noun and the copula, and start with the claim.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- '\b(?:the|a|an|one|another|its|their|our|my|this) (?:(?!(?:key|fundamental|crucial|core|central|critical|essential|main|primary|underlying|basic|real|true|uncomfortable|honest)\b)[a-z-]+ )?(?:problem|difference|reason|catch|trick|result|upshot|cost|issue|risk|effect|consequence|question|answer|key|idea|assumption|trade-off|tradeoff|downside|drawback|benefit|advantage|twist|kicker|payoff|takeaway|thing|caveat|complication|implication|concern|insight|distinction|challenge) (?:is|was) (?:simply |just )?(?:that|whether)\b'
+- '\b(?:the|a|an|one|another|its|their|our|my|this) (?:(?!(?:key|fundamental|crucial|core|central|critical|essential|main|primary|underlying|basic|real|true|uncomfortable|honest)\b)[a-z-]+ )?(?:problem|difference|reason|catch|trick|result|upshot|cost|issue|risk|effect|consequence|question|answer|assumption|trade-off|tradeoff|downside|drawback|benefit|advantage|twist|kicker|payoff|takeaway|caveat|complication|implication|concern|distinction|challenge) here (?:is|was) (?:simply |just )?(?:that|whether)\b'
+tests:
+- name: flags 'The reason is simply that'
+  input: |
+    The reason is simply that the pin moved.
+  want: |
+    1:1:PlainTechnical.ShellNoun:Shell noun: 'The reason is simply that'. Delete the noun and the copula, and start with the claim.
+- name: "leaves 'The point here is' to AffirmativeFormula"
+  input: |
+    The point here is that the lock is global.
+  want: ''

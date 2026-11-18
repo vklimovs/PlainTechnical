@@ -1,0 +1,34 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.StackedHedges (MIT).
+# Changed: Adds 'should perhaps', 'would possibly' and the like, which
+# ModalVerb leaves to this rule.
+extends: existence
+message: 'Stacked hedge: ''%s''. Write ''can'', or give a number.'
+level: error
+ignorecase: true
+tokens:
+- (?:should|would) (?:potentially|possibly|perhaps|conceivably)
+- can (?:perhaps|conceivably)
+- could potentially
+- can potentially
+- may potentially
+- might potentially
+- could possibly
+- can possibly
+- may possibly
+- might possibly
+- could perhaps
+- may perhaps
+- might perhaps
+- could conceivably
+- may conceivably
+- might conceivably
+tests:
+- name: flags 'can potentially'
+  input: |
+    It can potentially be misread as a directive.
+  want: |
+    1:4:PlainTechnical.StackedHedge:Stacked hedge: 'can potentially'. Write 'can', or give a number.
+- name: reversed order is idiomatic
+  input: |
+    She did all she possibly could to fix the build.
+  want: ''

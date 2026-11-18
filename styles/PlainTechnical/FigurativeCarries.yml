@@ -1,0 +1,82 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeCarries (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'Figurative verb: ''%s''. Say what it contains or entails.'
+level: warning
+nonword: true
+ignorecase: true
+exceptions:
+- (?i)trucks?
+- (?i)bus(?:es)?
+- (?i)vans?
+- (?i)ships?
+- (?i)vessels?
+- (?i)boats?
+- (?i)trains?
+- (?i)ferr(?:y|ies)
+- (?i)planes?
+- (?i)aircraft
+- (?i)carts?
+- (?i)conveyors?
+- (?i)couriers?
+- (?i)porters?
+- (?i)drivers?
+- (?i)soldiers?
+- (?i)players?
+- (?i)patients?
+- (?i)mothers?
+- (?i)fathers?
+- (?i)wom[ae]n
+- (?i)m[ae]n
+- (?i)person
+- (?i)people
+- (?i)virus(?:es)?
+- (?i)mosquito(?:es)?
+- (?i)ticks?
+- (?i)genes?
+- (?i)alleles?
+- (?i)chromosomes?
+- (?i)cells?
+- (?i)blood
+- (?i)proteins?
+- (?i)bacteria
+- (?i)carriers?
+- (?i)wires?
+- (?i)cables?
+- (?i)currents?
+- (?i)winds?
+- (?i)rivers?
+- (?i)water
+- (?i)air
+- (?i)waves?
+- (?i)papers?
+- (?i)contexts?
+- (?i)objects?
+tokens:
+- \bcarr(?:y|ies|ied|ying) (?:significant |real |extra |added |considerable |serious |enormous |heavy )?(?:weight|significance|meaning|implications?|connotations?|baggage|risks?|consequences|urgency|stigma)\b
+- \bcarr(?:y|ies|ied|ying) (?:the same|as much|more|less|little|no|equal|the|some) weight\b
+- \bcarr(?:y|ies|ied|ying) (?:a|an|the) (?:caveat|warning|cost|price|price tag|penalty|footnote|asterisk|catch|downside|tradeoff|trade-off)\b
+- \bcarr(?:y|ies|ied|ying) the (?:day|team|torch|banner|mantle|load|conversation|narrative|argument|story|suite|whole \w+)\b
+- \bcarr(?:y|ies|ied|ying) (?!out\b)(?:no |a |an |any |little |the |all the |its |their |extra |additional |significant |real |actual |meaningful |core )?(?:[a-z][-a-z]* )?(?:logic|functionality|behaviors?|behaviours?|semantics|side[ -]effects?|state|payloads?|data|traffic|tokens?|headers?|cookies?|signals?|metadata|information)\b
+- \bcarr(?:y|ies|ied|ying) (?!out\b|over\b)(?:no |a |an |any |the |its |their |that |this |the same |every )?(?:[a-z][-a-z]* )?(?:pattern|rule|exemption|exception|convention|constraint|requirement|policy|contract|guarantee|invariant|override|precedent|assumption|default|setting)s?\b
+- \bcarr(?:y|ies|ied|ying) (?!out\b|over\b)(?:no |a |an |any |the |its |their |that |this |every )?(?:[a-z][-a-z]* )?(?:prefix(?:es)?|suffix(?:es)?|tags?|labels?|markers?|trailers?|templates?|stamps?)\b
+- "\\bcarr(?:y|ies|ied|ying) (?:no (?!(?:one|matter|more|less|fewer|longer|sooner|later|earlier|better|worse|faster|slower|higher|lower|further|deeper|closer|harder|easier)\\b)|zero (?!(?:or|value|values|to)\\b))(?:['\"\u2018\u201C`]?[a-z][-a-z]*\\b|\\*+)"
+- \bcarr(?:y|ies|ied|ying) (?:the same|a similar|an identical|a matching)\b
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|no|one|any|some|(?!(?:it|that|there|what|here|let)'s)[a-z]+'s) (?:[a-z0-9][-a-z0-9']* ){0,2}(?!(?:of|in|for|by|with|from|at|on|to|worth|without|while|when|before|after) )[a-z][-a-z']* (?:(?:already|also|always|never|still|then|now|only|just|otherwise|simply) )?carr(?:ies|ied|ying)(?!\s+(?:out|over|on)\b)\b
+- \b(?:[a-z]+,? ){0,2}(?:it|which|that|what|who|this) (?:(?:already|also|always|never|still|then|now|only|just|otherwise|simply) )?carr(?:ies|ied|ying)(?!\s+(?:out|over|on)\b)\b
+- (?<=\*+ (?:[a-z][-a-z']* ){0,2})carr(?:ies|ied|ying)(?!\s+(?:out|over|on)\b)\b
+- (?<=\*+ (?:[a-z][-a-z']* ){0,2})carry\b(?! (?:out|over|on|if|when|bits?|flags?|chains?|in|save|propagation|lookahead|select)\b|[.,;:)/])
+- '\b(?:[a-z]+ ){0,2}(?:(?:can|cannot|could|may|might|must|shall|should|will|will not|would|do|does|did|do not|does not|did not|not|never) carry\b(?![- ]out\b| (?:over|on|if|when|bits?|flags?|chains?|in|save|propagation|lookahead|select)\b| and carry| (?:its|their) (?:own )?weight\b)|to carry\b(?![- ]out\b| (?:over|on|if|when|bits?|flags?|chains?|in|save|propagation|lookahead|select)\b| and carry| (?:its|their) (?:own )?weight\b|[.,;:)/]))'
+- \b(?:a|an|the|this|that|these|those|each|every|its|their|both|all|most|some|many|two|three|several|other|no|one|any|(?!(?:it|that|there|what|here|let)'s)[a-z]+'s) (?:[a-z0-9][-a-z0-9']* ){0,2}[a-z]+s (?:(?:already|also|always|never|still|then|now|only|just|otherwise|simply) )?carry\b(?! (?:out|over|on|if|when|bits?|flags?|chains?|in|save|propagation|lookahead|select)\b)
+- \b(?:that|which|who|what|they|these|those|both) (?:[a-z]+ )?carry\b(?! (?:out|over|on|if|when|bits?|flags?|chains?|in|save|propagation|lookahead|select)\b|[.,;:)/])
+- \b(?!(?:this|is|was|has|as|does|thus|its|his|us|plus|minus|yes)\b)[a-z]+s (?:(?:already|also|always|never|still|then|now|only|just|otherwise|simply) )?carry\b(?! (?:out|over|on|if|when|bits?|flags?|chains?|in|save|propagation|lookahead|select)\b|[.,;:)/])
+tests:
+- name: flags 'No set carries'
+  input: |
+    No set carries the name.
+  want: |
+    1:1:PlainTechnical.FigurativeCarries:Figurative verb: 'No set carries'. Say what it contains or entails.
+- name: truck carries freight
+  input: |
+    The truck carries freight to the depot every night.
+  want: ''

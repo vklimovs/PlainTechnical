@@ -1,0 +1,22 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FusionMetaphors (MIT).
+extends: existence
+message: 'Fusion metaphor: ''%s''. Say merged, added or combined, and say what went where.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bfold(?:s|ed|ing)? (?:the|a|an|its|their|that|this|it|them|those|these|each|every|both) (?:[a-z-]+ )?into\b
+- \bcollaps(?:e|es|ed|ing) (?:to|into|down to|down into) (?:a|an|the|one|two|three|its|their|this|that|[a-z]+)\b
+- \babsorb(?:s|ed|ing)? (?:the|a|an|its|their|this|that|each|every|it|them)\b
+- \bfus(?:e|es|ed|ing) (?:the|a|an|its|their|this|that|it|them|two|both)\b
+- \bcoupl(?:es|ed|ing) (?:the|a|an|its|their|this|that|it|them) (?:[a-z]+ )?(?:to|with)\b
+tests:
+- name: flags 'fuses the'
+  input: |
+    The fix fuses the two passes.
+  want: |
+    1:9:PlainTechnical.FusionMetaphor:Fusion metaphor: 'fuses the'. Say merged, added or combined, and say what went where.
+- name: literal fold
+  input: |
+    Fold the paper in half.
+  want: ''

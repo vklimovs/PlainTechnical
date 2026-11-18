@@ -1,0 +1,21 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-experimental.PassiveVoiceAdverb (MIT).
+# Changed: The message drops the word AI, since rule 3.6 of ASD-STE100 Issue 9
+# asks for the active voice in any text.
+extends: sequence
+message: 'Passive voice: ''%[1]s %[2]s %[3]s''. Name who acts and use an active verb.'
+level: warning
+tokens:
+- pattern: \b(?:am|is|are|was|were|be|been|being|get|gets|got|gotten|getting)\b
+  tag: VBZ|VBP|VBD|VB|VBN|VBG
+- tag: RB
+- tag: VBN
+tests:
+- name: flags 'was not merged'
+  input: |
+    The patch was not merged.
+  want: |
+    1:11:PlainTechnical.PassiveVoiceAdverb:Passive voice: 'was not merged'. Name who acts and use an active verb.
+- name: leaves a passive with no adverb to PassiveVoice
+  input: |
+    The file was deleted by the cleanup job.
+  want: ''

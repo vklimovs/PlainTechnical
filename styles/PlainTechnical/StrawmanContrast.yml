@@ -1,0 +1,23 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.StrawmanContrast (MIT).
+# Changed: A warning, because a real tradeoff takes the same form.
+extends: existence
+message: 'Strawman contrast: ''%s''. State what it does and stop.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- ', (?:rather than|instead of) (?:[a-z-]+ ){0,2}(?!(?:no|some|any|every)?things?\b|strings?\b|during\b|bring\b|rings?\b|springs?\b|siblings?\b|ceiling\b|evening\b|morning\b|kings?\b|wings?\b|swing\b|sling\b)[a-z]+(?:-[a-z]+)*ing\b[^.!?;:,\n]*[.!?]'
+- ', (?:rather than|instead of) (?:a|an|the|one|every|each|its|their|this|that) [^.!?;:,\n]*[.!?]'
+- ', not (?:the other way(?: around| round)?|the reverse|the inverse|the opposite|vice versa)\b'
+- ', not (?:one|once) (?:per|for each|for every)\b'
+- ', not the (?:whole|entire|full) [a-z-]+\b'
+tests:
+- name: flags ', rather than a scan.'
+  input: |
+    The lookup is one read, rather than a scan.
+  want: |
+    1:23:PlainTechnical.StrawmanContrast:Strawman contrast: ', rather than a scan.'. State what it does and stop.
+- name: rather than without a comma
+  input: |
+    The tool prefers a flag rather than walking the whole tree.
+  want: ''

@@ -1,0 +1,20 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeClears (MIT).
+extends: existence
+message: 'Hurdle metaphor: ''%s''. Say that the check passed.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bclear(?:s|ed|ing)? (?:a|an|the|every|each|its|that|this|those|these|all|both) (?:[a-z-]+ )?(?:gates?|checks?|checkers?|lints?|linters?|validators?|reviews?|hooks?|findings?|alerts?|hurdles?|bars?|thresholds?|targets?|floors?|ceilings?|limits?|caps?|runs?|suites?|stages?|passes|tiers?|rounds?|audits?|scans?|probes?|tests?|cutoffs?|minimums?|quotas?|budgets?)\b
+- \bclear(?:s|ed|ing)? CI\b
+- \bclear(?:s|ed|ing)? on (?:the|a|its|every|each) (?:[a-z]+ )?(?:run|pass|retry|rerun|re-run|attempt|commit|push|build|sync|cycle|iteration|refresh|reload)\b
+tests:
+- name: flags 'clears on the next run'
+  input: |
+    The finding clears on the next run.
+  want: |
+    1:13:PlainTechnical.HurdleMetaphor:Hurdle metaphor: 'clears on the next run'. Say that the check passed.
+- name: clearing a cache
+  input: |
+    The script clears the cache before the build starts.
+  want: ''

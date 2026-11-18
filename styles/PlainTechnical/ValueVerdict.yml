@@ -1,0 +1,18 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeWorth (MIT).
+extends: existence
+message: 'Value verdict: ''%s''. Say what the thing does or what it costs.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- '(?<!net )(?<!-)\bworth\b(?! of\b)(?: [a-z'']+){0,2}'
+tests:
+- name: flags 'worth it'
+  input: |
+    The complexity is worth it.
+  want: |
+    1:19:PlainTechnical.ValueVerdict:Value verdict: 'worth it'. Say what the thing does or what it costs.
+- name: net worth
+  input: |
+    The report lists the net worth of each fund.
+  want: ''

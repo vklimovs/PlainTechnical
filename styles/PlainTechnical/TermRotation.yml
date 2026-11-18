@@ -1,0 +1,35 @@
+# Source: ASD-STE100 Issue 9 rules 1.11 and 9.4, via SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: A word in backticks is a name in code, as in a comment that Vale
+# does not read as Markdown.
+extends: consistency
+message: "Inconsistent term: '%s'. Give one thing one name in a document."
+level: warning
+ignorecase: true
+either:
+  '(?<!`)configuration(?!`)': '(?<!`)config(?!`)'
+  '(?<!`)verify(?!`)': '(?<!`)confirm(?!`)'
+tests:
+- name: flags two names for one thing
+  input: |
+    Edit the configuration. Then reload the config.
+  want: |
+    1:41:PlainTechnical.TermRotation:Inconsistent term: 'config'. Give one thing one name in a document.
+- name: leaves one name alone
+  input: |
+    Edit the configuration. Then reload the configuration.
+  want: ''
+- name: leaves a name in backticks alone
+  input: |
+    # Install the configuration.
+    # Vale merges the `config` directory.
+    key: value
+  want: ''
+  format: yaml
+- name: flags a comment of a YAML file
+  input: |
+    # Install the configuration.
+    # Vale merges the config directory.
+    key: value
+  want: |
+    2:19:PlainTechnical.TermRotation:Inconsistent term: 'config'. Give one thing one name in a document.
+  format: yaml

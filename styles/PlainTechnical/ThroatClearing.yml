@@ -1,0 +1,30 @@
+# Source: Voices v0.2.0 Voices.ThroatClearing (MIT).
+# Changed: Leaves 'here is what nobody tells you' to FalseExclusivity. Matches
+# the full form alone, since Contraction flags a contraction. Leaves 'Let me be
+# clear' and 'The uncomfortable truth is' to AffirmativeFormula. Matches 'here
+# is the thing' before a stop, a colon or a comma alone. Adds 'Recall that' and
+# 'Remember that' at the start of a sentence, which CrossReference leaves to
+# it. Reads 'Remember that' before a clause alone, since 'Remember that host'
+# names an object.
+extends: existence
+message: 'Throat-clearing: ''%s''. Delete it and state the point.'
+level: warning
+ignorecase: true
+tokens:
+- '(?:\A|(?<=[.!?]\s))(?:Recall|Remember) that(?= (?:(?-i:[A-Z])|(?:the|a|an|each|every|this|these|those|it|its|they|we|you|he|she|there|no|all|some|any|if|when|most|many|one|our|your|their)\b))'
+- 'here is the thing(?=[.:,])'
+- 'here is what I mean'
+- 'I will be honest'
+- what most people get wrong
+- the part everyone misses
+- this is the part most people skip
+tests:
+- name: flags 'I will be honest'
+  input: |
+    I will be honest, the migration was harder than expected.
+  want: |
+    1:1:PlainTechnical.ThroatClearing:Throat-clearing: 'I will be honest'. Delete it and state the point.
+- name: leaves a truth table alone
+  input: |
+    The truth table lists every input and its output.
+  want: ''

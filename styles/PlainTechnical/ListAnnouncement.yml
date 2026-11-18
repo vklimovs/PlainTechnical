@@ -1,0 +1,27 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ListIntroductions (MIT).
+# Changed: Matches the full form alone, since Contraction flags a contraction.
+extends: existence
+message: 'List announcement: ''%s''. Delete it and start the list.'
+level: warning
+ignorecase: true
+tokens:
+- 'Below you will find'
+- 'Here is a breakdown of'
+- 'Here is an overview of'
+- 'Here is a summary of'
+- 'Here is everything you need to know'
+- 'Here is what you need to know about'
+- The following sections will
+- The following guide will
+- The following tutorial will
+- The following walkthrough will
+tests:
+- name: flags 'Here is a breakdown of'
+  input: |
+    Here is a breakdown of how the system works.
+  want: |
+    1:1:PlainTechnical.ListAnnouncement:List announcement: 'Here is a breakdown of'. Delete it and start the list.
+- name: plain list lead-in
+  input: |
+    The supported options are listed in the table.
+  want: ''

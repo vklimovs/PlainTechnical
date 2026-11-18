@@ -1,0 +1,25 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ParallelStaccato (MIT).
+# Changed: A warning, because ASD-STE100 rule 6.1 also asks for one fact a
+# sentence. Leaves a pair whose second sentence holds a negation in its middle,
+# the form of a caution. Matches the full form alone, since Contraction flags a
+# contraction.
+extends: existence
+message: 'Staccato: ''%s''. Join the short parallel sentences with a connector.'
+level: warning
+nonword: true
+tokens:
+- '\b([A-Z][a-z]+) [a-z]+s?\. (?!\1\b)[A-Z][a-z]+ [a-z]+s?\.'
+- \bThe [a-z]+ [a-z]+s?\. The [a-z]+ [a-z]+s?\.
+- '\b[A-Z][a-z]+ [^.!?]{1,400}\. [A-Z][a-z]+ does not\.'
+- '\b[A-Z][a-z]+ [^.!?]{1,400}\. [A-Z][a-z]+ do not\.'
+- \b[A-Z][a-z]+ (?:ships?|breaks?|builds?|flows?|lands?|wins?|fails?|scans?|reads?|stays?|drops?|clicks?|runs?|falls?|grows?|fades?|leads?|hits?|fits?|stops?|starts?|moves?|waits?|holds?|lives?|dies?|rises?|shines?|shifts?|sticks?|stands?|spreads?|bends?|flips?|snaps?|locks?|fires?|loads?|calls?|pulls?|push(?:es)?|pays?|sells?|talks?|walks?)\.
+tests:
+- name: flags 'Workers push.'
+  input: |
+    Workers push.
+  want: |
+    1:1:PlainTechnical.Staccato:Staccato: 'Workers push.'. Join the short parallel sentences with a connector.
+- name: leaves a caution and its risk alone
+  input: |
+    CAUTION: Do not run the migration against production. The migration deletes rows that do not match the source.
+  want: ''

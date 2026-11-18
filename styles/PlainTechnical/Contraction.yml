@@ -1,0 +1,32 @@
+# Source: ASD-STE100 Issue 9 rule 4.2, via SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: Also matches 'I'm', and 's after when, why and how. Matches the 'd
+# form after a pronoun alone, since 'malloc'd' has no full form. Leaves the
+# names Let's Encrypt, Don't Fragment, don't-fragment and don't-care alone, and
+# the possessive of an acronym such as IT's.
+extends: existence
+message: "Contraction: '%s'. Write the full form."
+level: error
+ignorecase: true
+nonword: true
+tokens:
+  - '\b\w+n[''\u2019]t\b(?<!\b[Dd]on[''\u2019]t(?=-(?:cares?|fragment)\b|(?-i: Fragment\b)))'
+  - '\b\w+[''\u2019](?:ll|re|ve)\b'
+  - '\b(?:I|you|he|she|it|we|they|that|there|who|what|where|when|why|how)[''\u2019]d\b'
+  - '\b(?-i:(?![A-Z]{2,}[''\u2019]))(?:it|that|there|here|what|who|where|when|why|how|let|he|she)[''\u2019]s\b(?! Encrypt\b)'
+  - '\bI[''\u2019]m\b'
+tests:
+- name: flags a contraction
+  input: |
+    The daemon doesn't restart.
+  want: |
+    1:12:PlainTechnical.Contraction:Contraction: 'doesn't'. Write the full form.
+- name: leaves a possessive alone
+  input: |
+    The daemon does not restart. The host's key stays.
+  want: ''
+- name: flags 'I'm'
+  input: |
+    I'm here to help, and here's how it works.
+  want: |
+    1:1:PlainTechnical.Contraction:Contraction: 'I'm'. Write the full form.
+    1:23:PlainTechnical.Contraction:Contraction: 'here's'. Write the full form.

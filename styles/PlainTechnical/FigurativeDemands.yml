@@ -1,0 +1,19 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeDemands (MIT).
+extends: existence
+message: 'Figurative verb: ''%s''. Say that the work requires it.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bdemand(?:s|ed|ing)? (?:attention|care|caution|scrutiny|precision|rigou?r|respect|discipline|vigilance|patience|humility|careful)\b
+- \bdemand(?:s|ed|ing)? (?:a|an) (?:closer look|second look|explanation|answer|response)\b
+tests:
+- name: flags 'demands care'
+  input: |
+    The migration demands care.
+  want: |
+    1:15:PlainTechnical.FigurativeDemands:Figurative verb: 'demands care'. Say that the work requires it.
+- name: person demanding a refund
+  input: |
+    The customer demanded a refund after the outage.
+  want: ''

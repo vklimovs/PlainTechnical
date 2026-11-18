@@ -1,0 +1,22 @@
+# Source: ASD-STE100 Issue 9 rule 8.1, via SimpleEnglish a6fcb4fde098 (MIT).
+# Changed: Matches a semicolon before a space or the end of the text alone, so
+# 'C:\bin;C:\tools' and an HTML entity stay. Skips one before a parameter, as in
+# 'text/html; charset=utf-8'. Skips one in the header of a for loop. Skips a
+# semicolon after a space or in parentheses or quotes, which names the
+# character, as in 'a line that starts with ; is a comment'.
+extends: existence
+message: "Semicolon. Write two sentences."
+level: error
+nonword: true
+tokens:
+  - '(?<!\bfor ?\(\(?[^()\n]{0,80}(?:\([^()\n]{0,80}\)[^()\n]{0,80}){0,4})(?<![(''\u2018"\u201c\s])(?<!&#?\w{1,8});(?![)''\u2019"\u201d])(?=\s|\z)(?!\s[A-Za-z][\w-]*=)'
+tests:
+- name: flags a semicolon
+  input: |
+    The pool is full; the write fails.
+  want: |
+    1:17:PlainTechnical.Semicolon:Semicolon. Write two sentences.
+- name: leaves code alone
+  input: |
+    Run `a; b` in a shell.
+  want: ''

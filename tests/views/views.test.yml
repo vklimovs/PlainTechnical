@@ -1,0 +1,290 @@
+# The configuration beside this file maps an extension to each View that a
+# case cannot choose by itself. A case that names a View also reads its input
+# as plain text.
+- name: reads each YAML comment once
+  input: |
+    # You should restart it.
+    key: value  # It might fail.
+  format: yaml
+  want: |
+    1:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    2:18:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: reads the names and messages of Ansible tasks
+  input: |
+    - name: The task should run
+      ansible.builtin.debug:
+        msg: It might fail.
+  format: tasks
+  want: |
+    1:18:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:13:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: leaves a module argument called name alone
+  input: |
+    - name: Create the user
+      ansible.builtin.user:
+        name: should
+  format: tasks
+  want: ''
+- name: reads the description of an option
+  input: |
+    argument_specs:
+      main:
+        short_description: Sets up the host.
+        options:
+          port:
+            description:
+              - The port you should use.
+  format: specs
+  want: |
+    3:24:PlainTechnical.PhrasalVerb:Phrasal verb: 'Sets up'. Write 'installs'.
+    7:26:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: reads a YAML file with an integer key
+  input: |
+    1: a
+    # You should go.
+  format: yaml
+  want: |
+    2:7:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: reads a YAML file that holds a comment alone
+  input: |
+    # It might fail.
+  format: yaml
+  want: |
+    1:6:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: skips a quotation in the name of a task
+  input: |
+    - name: Set the "should" flag and the `might` key
+      ansible.builtin.debug:
+        msg: It is {{ x | default("should") }}.
+  format: tasks
+  want: ''
+- name: skips a trailer that names no writing tool
+  input: |
+    parser: add a check for empty input
+
+    The check stops the parse.
+
+    Fixes: abc123def456 ("repo: add a robust cache; it should")
+    Co-authored-by: Robust Should <should@example.com>
+    Signed-off-by: Robust Should <should@example.com>
+  format: commit
+  want: ''
+- name: skips a code span and a quotation in the subject
+  input: |
+    repo: drop the `should` key and the "robust; should" value
+  format: commit
+  want: ''
+- name: skips a subject that git writes
+  input: |
+    Merge branch 'robust-should'
+  format: commit
+  want: ''
+- name: skips the subject of a fixup
+  input: |
+    fixup! repo: drop the cache; should
+  format: commit
+  want: ''
+- name: reads a label in the body as prose
+  input: |
+    parser: add a check for empty input
+
+    Coverage: 87%
+  format: commit
+  want: |
+    3:1:PlainTechnical.CommitTestEnumeration:Test enumeration: 'Coverage: 87%'. Say what coverage changed.
+- name: skips each trailer key in the form of a trailer
+  input: |
+    parser: add a check for empty input
+
+    The check stops the parse.
+    Follow-up: it should drain the pool.
+    Bug: the pool should drain.
+
+    Fixes: abc123def456 ("repo: x; should")
+    Closes: #12 should
+    Resolves: owner/repo#34 should
+    Refs: https://example.com/should
+    See-also: 0123abc should
+    Link: should
+    Bug: should
+    Change-Id: should
+    Signed-off-by: Robust Should <should@example.com>
+    Co-Authored-By: Robust Should <should@example.com>
+    Reviewed-by: Robust Should <should@example.com>
+    Cc: Robust Should <should@example.com>
+  format: commit
+  want: |
+    4:15:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    5:15:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: skips the subjects that git writes for a reapply and an amend
+  input: |
+    Reapply "repo: drop the robust cache; should"
+
+    The body might go.
+  format: commit
+  want: |
+    3:10:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: skips the subject of an amend
+  input: |
+    amend! repo: drop the cache; should
+  format: commit
+  want: ''
+- name: skips a See-also trailer
+  input: |
+    parser: add a check for empty input
+
+    The check stops the parse.
+
+    See-also: 0123abc ("repo: x; should") should
+  format: commit
+  want: ''
+- name: stops at the scissors line
+  input: |
+    parser: add a check for empty input
+
+    The check stops the parse.
+    # ------------------------ >8 ------------------------
+    The diff below should not count.
+  format: commit
+  want: ''
+- name: reads the tasks of an always list and a success message
+  input: |
+    - name: Run the block
+      block:
+        - name: Run it
+          ansible.builtin.debug:
+            msg: x
+      always:
+        - name: The cleanup should run
+          ansible.builtin.assert:
+            that: [true]
+            success_msg: It might pass.
+  format: tasks
+  want: |
+    7:25:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    10:25:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: joins the lines of a description
+  input: |
+    argument_specs:
+      main:
+        options:
+          port:
+            description:
+              - Nothing is
+              - started on the port.
+  format: specs
+  contains: PlainTechnical.NegatedSubject
+- name: reads the text of an XML element once
+  input: |
+    <pkgmetadata><longdescription>You should simply restart it.</longdescription></pkgmetadata>
+  format: xml
+  want: |
+    1:35:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    1:42:PlainTechnical.EmptyWord:Empty word: 'simply'. Delete it. The sentence keeps its meaning.
+- name: leaves a closed quotation in a YAML comment alone
+  input: |
+    # The tool prints "done" and stops.
+    key: value
+  format: yaml
+  want: ''
+- name: reads the tasks of a block and a rescue list and a failure message
+  input: |
+    - name: Run the block
+      block:
+        - name: The first step should run
+          ansible.builtin.assert:
+            that: [true]
+            fail_msg: It might fail.
+      rescue:
+        - name: The repair could run
+          ansible.builtin.debug:
+            msg: x
+  format: tasks
+  want: |
+    3:28:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    6:22:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    8:24:PlainTechnical.ModalVerb:Modal verb: 'could'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+- name: reads the children of an XML element apart
+  input: |
+    <pkg>
+      <a>One is here. Two is here. Three is here. You should go.</a>
+      <b>Five is here. Six is here. Seven is here. You might go.</b>
+    </pkg>
+  want: |
+    2:51:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+    3:52:PlainTechnical.ModalVerb:Modal verb: 'might'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: xml
+- name: reads a trailer of Cursor
+  input: |
+    parser: add a check for empty input
+
+    The check stops the parse.
+
+    Co-authored-by: Cursor <cursoragent@cursor.com>
+  format: commit
+  contains: PlainTechnical.CommitAttribution
+- name: keeps ReadingEase off in code
+  input: |
+    # SPDX-License-Identifier: Apache-2.0
+  want: ''
+  format: py
+- name: flags an unclosed quote in a YAML comment
+  input: |
+    x: 1  # It prints "ok and stops.
+  want: |
+    1:19:PlainTechnical.UnclosedQuote:Unclosed quotation mark. Close the quote, or put a literal mark in a code span. Otherwise the rules read the rest of the paragraph as prose.
+  format: yml
+- name: keeps the code switches in a .yaml task
+  input: |
+    - name: Sort the hosts of the pool
+        hosts: "{{ (kept + extra)
+          | sort(attribute='name') }}"
+        names: "{{ extra | map(attribute='name') | list }}"
+        kept: "{{ base
+          | rejectattr('name', 'in', names) | list }}"
+  want: ''
+  format: yaml
+- name: keeps the code switches in a .yml task
+  input: |
+    - name: Sort the hosts of the pool
+        hosts: "{{ (kept + extra)
+          | sort(attribute='name') }}"
+        names: "{{ extra | map(attribute='name') | list }}"
+        kept: "{{ base
+          | rejectattr('name', 'in', names) | list }}"
+  want: ''
+  format: yml
+- name: skips a quotation in XML
+  input: |
+    <doc>
+      <b>The tool reads the "quoted" thing. You should go.</b>
+    </doc>
+  want: |
+    2:45:PlainTechnical.ModalVerb:Modal verb: 'should'. Write 'must' for a requirement and 'can' for a possibility, or state the fact.
+  format: xml
+- name: skips a Bug trailer
+  input: |
+    parser: add a check for empty input
+
+    The check stops the parse.
+
+    Bug: 1234
+  want: ''
+  format: commit
+- name: reads a mark of emphasis in a YAML comment as code
+  input: |
+    # The cache is *never* cleared.
+    key: value
+  want: ''
+  format: yaml
+- name: reads a mark of emphasis in a yml comment as code
+  input: |
+    # The cache is *never* cleared.
+    key: value
+  want: ''
+  format: yml
+- name: leaves a quotation around an expression of a component alone
+  input: |
+    export const Label = ({ v }) => <p>The label is "{v}" on the host.</p>;
+  want: ''
+  format: tsx

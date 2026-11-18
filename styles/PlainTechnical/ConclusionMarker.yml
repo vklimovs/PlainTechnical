@@ -1,0 +1,43 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ConclusionMarkers (MIT).
+# Changed: Anchors each token at the start of a sentence, and each one but 'The
+# bottom line is' before a comma, after vale-ai-tells a96c5fe. So 'on the whole
+# pool' and 'To summarize the column' read as plain words. Adds 'By following
+# these steps', from the wikiHow part of the M4 corpus.
+extends: existence
+message: 'Conclusion marker: ''%s''. Delete it and end on the last point.'
+level: warning
+ignorecase: true
+tokens:
+- '(?:\A|(?<=[.!?]\s))By following (?:these|the) (?:(?:simple|easy) )?(?:steps|tips|instructions)\b'
+- '(?:\A|(?<=[.!?]\s))In conclusion(?=,)'
+- '(?:\A|(?<=[.!?]\s))In summary(?=,)'
+- '(?:\A|(?<=[.!?]\s))To summarize(?=,)'
+- '(?:\A|(?<=[.!?]\s))To sum up(?=,)'
+- '(?:\A|(?<=[.!?]\s))To conclude(?=,)'
+- '(?:\A|(?<=[.!?]\s))In closing(?=,)'
+- (?:\A|(?<=[.!?]\s))Ultimately(?=,)
+- '(?:\A|(?<=[.!?]\s))All in all(?=,)'
+- '(?:\A|(?<=[.!?]\s))At the end of the day(?=,)'
+- '(?:\A|(?<=[.!?]\s))When all is said and done(?=,)'
+- '(?:\A|(?<=[.!?]\s))The bottom line is'
+- '(?:\A|(?<=[.!?]\s))In the final analysis(?=,)'
+- '(?:\A|(?<=[.!?]\s))Taking everything into account(?=,)'
+- '(?:\A|(?<=[.!?]\s))Taking all of this into account(?=,)'
+- (?:\A|(?<=[.!?]\s))Overall(?=,)
+- '(?:\A|(?<=[.!?]\s))On the whole(?=,)'
+- '(?:\A|(?<=[.!?]\s))By way of conclusion(?=,)'
+tests:
+- name: flags 'The bottom line is'
+  input: |
+    The bottom line is that costs dropped sharply.
+  want: |
+    1:1:PlainTechnical.ConclusionMarker:Conclusion marker: 'The bottom line is'. Delete it and end on the last point.
+- name: flags a marker after the first sentence
+  input: |
+    The build passes. Overall, the run is clean.
+  want: |
+    1:19:PlainTechnical.ConclusionMarker:Conclusion marker: 'Overall'. Delete it and end on the last point.
+- name: adverb inside a sentence
+  input: |
+    The owner is ultimately responsible, and the overall design holds.
+  want: ''

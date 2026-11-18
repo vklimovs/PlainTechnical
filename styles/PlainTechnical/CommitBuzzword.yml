@@ -1,0 +1,91 @@
+# Source: vale-ai-tells v1.37.0 ai-tells-commits.CommitBuzzwords (MIT).
+# Changed: Reads the subject and the body of a commit. Leaves 'comprehensive',
+# 'robust' and 'more robust' to UnmeasuredClaim, and 'ensuring proper handling'
+# to CommitTrailingJustification. Leaves 'various' before a noun to
+# EmptyModifier.
+extends: existence
+message: 'Commit buzzword: ''%s''. Say what changed.'
+level: warning
+ignorecase: true
+tokens:
+- proper validation
+- proper error handling
+- proper error messages
+- proper type checking
+- proper cleanup
+- proper initialization
+- properly handle
+- properly validate
+- properly clean up
+- properly initialize
+- relevant components
+- relevant tests
+- relevant documentation
+- relevant files
+- relevant modules
+- relevant sections
+- update relevant
+- appropriate error messages
+- appropriate error handling
+- appropriate validation
+- appropriate handling
+- appropriate defaults
+- appropriate types
+- necessary changes
+- necessary updates
+- necessary tests
+- necessary fixes
+- necessary adjustments
+- necessary modifications
+- necessary refactoring
+- necessary cleanup
+- overall performance
+- overall quality
+- overall readability
+- overall structure
+- overall code quality
+- overall maintainability
+- overall stability
+- overall experience
+- corresponding tests
+- corresponding changes
+- corresponding updates
+- corresponding documentation
+- corresponding types
+- and related changes
+- and related updates
+- and related tests
+- and associated changes
+- and associated tests
+- '(?<!ensuring )proper handling'
+scope:
+- subject
+- body
+tests:
+- name: flags 'proper error handling'
+  input: |
+    repo: add the parser
+    
+    The change adds proper error handling to the parser.
+  want: |
+    3:17:PlainTechnical.CommitBuzzword:Commit buzzword: 'proper error handling'. Say what changed.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: flags 'proper handling'
+  input: |
+    parser: add a check for empty input
+    
+    The change adds proper handling of empty files.
+  want: |
+    3:17:PlainTechnical.CommitBuzzword:Commit buzzword: 'proper handling'. Say what changed.
+  format: COMMIT_EDITMSG
+  view: Commit
+- name: specific description of the change
+  input: |
+    fix(parser): handle empty input
+
+    An empty file returned a nil tree, which the caller dereferenced.
+    The parser now returns an error before building the tree.
+  want: ''
+  format: COMMIT_EDITMSG
+  view: Commit

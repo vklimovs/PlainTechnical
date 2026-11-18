@@ -1,0 +1,109 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.OpeningCliches (MIT).
+# Changed: Leaves 'When it comes to' to InflatedWord. Matches the full form
+# alone, since Contraction flags a contraction. Matches each token at the start
+# of a sentence alone, since 'added in recent years' and 'whether you are a
+# member' are plain in the middle of one. Adds 'This guide will show you how'
+# and the like, from the wikiHow part of the M4 corpus.
+extends: existence
+message: 'Opening cliche: ''%s''. Start with the point.'
+level: warning
+ignorecase: true
+tokens:
+- '(?:\A|(?<=[.!?]\s))This (?:guide|article|post|tutorial) will (?:show you how|guide you through|take you through|teach you)'
+- '(?:\A|(?<=[.!?]\s))In today''s rapidly evolving'
+- '(?:\A|(?<=[.!?]\s))In today''s fast-paced'
+- '(?:\A|(?<=[.!?]\s))In today''s digital age'
+- '(?:\A|(?<=[.!?]\s))In today''s ever-changing'
+- '(?:\A|(?<=[.!?]\s))In today''s interconnected'
+- '(?:\A|(?<=[.!?]\s))In the realm of'
+- '(?:\A|(?<=[.!?]\s))In the world of'
+- '(?:\A|(?<=[.!?]\s))In the landscape of'
+- '(?:\A|(?<=[.!?]\s))In the ever-evolving landscape'
+- '(?:\A|(?<=[.!?]\s))In an era where'
+- '(?:\A|(?<=[.!?]\s))In an age where'
+- '(?:\A|(?<=[.!?]\s))In this day and age'
+- '(?:\A|(?<=[.!?]\s))Embarking on a journey'
+- '(?:\A|(?<=[.!?]\s))Embark on a journey'
+- '(?:\A|(?<=[.!?]\s))Embarking on this journey'
+- '(?:\A|(?<=[.!?]\s))As we navigate'
+- '(?:\A|(?<=[.!?]\s))As we delve into'
+- '(?:\A|(?<=[.!?]\s))As we explore'
+- '(?:\A|(?<=[.!?]\s))Picture this'
+- '(?:\A|(?<=[.!?]\s))Imagine a world where'
+- '(?:\A|(?<=[.!?]\s))Have you ever wondered'
+- '(?:\A|(?<=[.!?]\s))In recent years'
+- '(?:\A|(?<=[.!?]\s))Throughout history'
+- '(?:\A|(?<=[.!?]\s))Since the dawn of'
+- '(?:\A|(?<=[.!?]\s))From time immemorial'
+- '(?:\A|(?<=[.!?]\s))Before we dive in'
+- '(?:\A|(?<=[.!?]\s))Before we dive into'
+- '(?:\A|(?<=[.!?]\s))By the end of this article'
+- '(?:\A|(?<=[.!?]\s))By the end of this guide'
+- '(?:\A|(?<=[.!?]\s))By the end of this post'
+- '(?:\A|(?<=[.!?]\s))By the end of this tutorial'
+- '(?:\A|(?<=[.!?]\s))By the end of this section'
+- '(?:\A|(?<=[.!?]\s))This guide will walk you through'
+- '(?:\A|(?<=[.!?]\s))This article will walk you through'
+- '(?:\A|(?<=[.!?]\s))This post will walk you through'
+- '(?:\A|(?<=[.!?]\s))This guide will help you'
+- '(?:\A|(?<=[.!?]\s))This article will help you'
+- '(?:\A|(?<=[.!?]\s))This post will help you'
+- '(?:\A|(?<=[.!?]\s))Welcome to this guide'
+- '(?:\A|(?<=[.!?]\s))Welcome to this overview'
+- '(?:\A|(?<=[.!?]\s))Welcome to this exploration'
+- '(?:\A|(?<=[.!?]\s))Welcome to this deep dive'
+- '(?:\A|(?<=[.!?]\s))Without further ado'
+- '(?:\A|(?<=[.!?]\s))Gone are the days'
+- '(?:\A|(?<=[.!?]\s))Whether you are a'
+- '(?:\A|(?<=[.!?]\s))Whether you are an'
+- '(?:\A|(?<=[.!?]\s))Whether you are just'
+- '(?:\A|(?<=[.!?]\s))Whether you are new'
+- '(?:\A|(?<=[.!?]\s))Whether you are already'
+- '(?:\A|(?<=[.!?]\s))Whether you are looking'
+- '(?:\A|(?<=[.!?]\s))Whether you are trying'
+- '(?:\A|(?<=[.!?]\s))Whether you are someone'
+- '(?:\A|(?<=[.!?]\s))You might be wondering'
+- '(?:\A|(?<=[.!?]\s))You may be wondering'
+- '(?:\A|(?<=[.!?]\s))You are probably wondering'
+- '(?:\A|(?<=[.!?]\s))You might be asking yourself'
+- '(?:\A|(?<=[.!?]\s))You may be asking yourself'
+- '(?:\A|(?<=[.!?]\s))If you have ever'
+- '(?:\A|(?<=[.!?]\s))Have you ever found yourself'
+- '(?:\A|(?<=[.!?]\s))Chances are'
+- '(?:\A|(?<=[.!?]\s))You are not alone'
+- '(?:\A|(?<=[.!?]\s))We have all been there'
+- '(?:\A|(?<=[.!?]\s))Look no further'
+- '(?:\A|(?<=[.!?]\s))You have come to the right place'
+- '(?:\A|(?<=[.!?]\s))You are in the right place'
+- '(?:\A|(?<=[.!?]\s))Ready to dive in'
+- '(?:\A|(?<=[.!?]\s))Ready to get started'
+- '(?:\A|(?<=[.!?]\s))Ready to learn'
+- '(?:\A|(?<=[.!?]\s))Ready to explore'
+- '(?:\A|(?<=[.!?]\s))In the dynamic world of'
+- '(?:\A|(?<=[.!?]\s))In an increasingly'
+- '(?:\A|(?<=[.!?]\s))In a world where'
+- '(?:\A|(?<=[.!?]\s))In a world of'
+- '(?:\A|(?<=[.!?]\s))As technology continues to evolve'
+- '(?:\A|(?<=[.!?]\s))As technology continues to advance'
+- '(?:\A|(?<=[.!?]\s))As the world becomes'
+- '(?:\A|(?<=[.!?]\s))As the world continues'
+- '(?:\A|(?<=[.!?]\s))As we stand at'
+- '(?:\A|(?<=[.!?]\s))As we stand on the'
+- '(?:\A|(?<=[.!?]\s))We live in an era'
+- '(?:\A|(?<=[.!?]\s))We live in a world'
+- '(?:\A|(?<=[.!?]\s))We live in a time'
+tests:
+- name: flags 'You might be wondering'
+  input: |
+    You might be wondering why this matters.
+  want: |
+    1:1:PlainTechnical.OpeningCliche:Opening cliche: 'You might be wondering'. Start with the point.
+- name: flags the full form
+  input: |
+    If you have ever wondered why the build fails, read on.
+  want: |
+    1:1:PlainTechnical.OpeningCliche:Opening cliche: 'If you have ever'. Start with the point.
+- name: whether as a conditional
+  input: |
+    The loader checks whether the cache is warm.
+  want: ''

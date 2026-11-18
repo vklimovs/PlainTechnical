@@ -1,0 +1,62 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.ParticipialPadding (MIT).
+# Changed: Leaves a participle after a comma to ParticipleTail. Leaves 'paving
+# the way' to StockPhrase. Leaves 'for contributing to the development', a
+# credit, alone. Matches 'marking a new' before a word such as 'era' or
+# 'chapter' alone, since 'marking a new block as used' is plain.
+extends: existence
+message: 'Participial padding: ''%s''. Delete it or state the point as a sentence.'
+level: warning
+ignorecase: true
+tokens:
+- '(?<!,\s)highlighting its importance'
+- '(?<!,\s)highlighting its significance'
+- '(?<!,\s)highlighting its role'
+- '(?<!,\s)highlighting the importance'
+- '(?<!,\s)highlighting the need'
+- '(?<!,\s)highlighting the growing'
+- '(?<!,\s)reflecting broader trends'
+- '(?<!,\s)reflecting broader changes'
+- '(?<!,\s)reflecting a broader'
+- '(?<!,\s)reflecting the broader'
+- '(?<!,\s)reflecting its commitment'
+- '(?<!,\s)reflecting a growing'
+- '(?<!,\s)reflecting the growing'
+- symbolizing its
+- symbolizing the
+- '(?<!\bfor )contributing to its'
+- '(?<!\bfor )contributing to the development'
+- '(?<!\bfor )contributing to the growth'
+- '(?<!\bfor )contributing to the overall'
+- '(?<!\bfor )contributing to a more'
+- '(?<!\bfor )contributing to the region'
+- '(?<!,\s)demonstrating its commitment'
+- '(?<!,\s)demonstrating its dedication'
+- '(?<!,\s)demonstrating a commitment'
+- '(?<!,\s)demonstrating the importance'
+- reinforcing its position
+- reinforcing its role
+- reinforcing its commitment
+- reinforcing the importance
+- solidifying its position
+- solidifying its role
+- solidifying its place
+- cementing its position
+- cementing its role
+- cementing its place
+- shaping the future
+- shaping the trajectory
+- shaping the direction
+- setting the stage for a
+- marking a pivotal
+- marking a turning
+- 'marking a new (?:era|chapter|phase|milestone|beginning|stage)'
+tests:
+- name: flags 'Shaping the direction'
+  input: |
+    Shaping the direction of the API took a year.
+  want: |
+    1:1:PlainTechnical.ParticipialPadding:Participial padding: 'Shaping the direction'. Delete it or state the point as a sentence.
+- name: participle with a concrete object
+  input: |
+    The patch adds a retry, reducing timeouts on slow networks.
+  want: ''

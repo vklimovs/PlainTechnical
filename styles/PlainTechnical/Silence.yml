@@ -1,0 +1,27 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeQuiet (MIT).
+extends: existence
+message: 'Silence metaphor: ''%s''. Describe the behavior.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \b(?:stays?|staying|stayed|remains?|remaining|remained) (?:quiet|silent|mute)\b
+- \b(?:goes?|going|went|gone) (?:quiet|silent|mute)\b
+- \b(?:falls?|falling|fell|fallen) (?:quiet|silent)\b
+- \bquiet(?:s|ing|ed)? down\b
+- \bkeeps? quiet about\b
+- \bke(?:eps?|eping|pt) (?:a|an|the|this|that|these|those|its|their|each|every|all|both) (?:[a-z'-]+ ){1,3}(?:quiet|silent)\b
+- \bquietly (?:drops?|ignores?|skips?|discards?|swallows?|handles?|fails?|retries|logs?|ships?|slips?|deprecates?|breaks?|does|absorbs?|masks?|hides?|suppresses?|omits?|sidesteps?|bypasses?|clobbers?|overrides?|adds?|removes?|rewrites?|mutates?|patches?)\b
+- \bquietly (?:falls back|rolls? out|opts? out|goes? away|slips? in)\b
+- \bthe quiet part out loud\b
+- \bsilenc(?:e|es|ed|ing) (?:the|a|an|its|their|this|that|it|them|every|each)\b
+tests:
+- name: flags 'keeps the console quiet'
+  input: |
+    It keeps the console quiet.
+  want: |
+    1:4:PlainTechnical.Silence:Silence metaphor: 'keeps the console quiet'. Describe the behavior.
+- name: literal quiet adjective
+  input: |
+    The office is a quiet room with a closed door.
+  want: ''

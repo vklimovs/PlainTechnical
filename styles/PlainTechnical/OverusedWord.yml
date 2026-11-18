@@ -1,0 +1,135 @@
+# Source: vale-ai-tells v1.37.0 OverusedVocabulary and Voices v0.2.0 Banned and Human.Tics (MIT), merged.
+# Changed: Drops the words the STE layer flags and the terms of art of systems
+# prose. Leaves 'harness' to InflatedWord, 'look no further' and 'whether you
+# are a' to OpeningCliche, and 'paradigm shift' to StockPhrase. Matches each
+# form of 'navigate the' and 'supercharge'. Leaves 'Rest assured' to
+# AffirmativeFormula, 'embark' to InflatedWord, 'significantly' before a
+# comparison to IncompleteComparison, and ', underscoring' to
+# SuperficialAnalysis. Leaves 'a myriad of' to InflatedWord. Leaves 'indelible
+# mark', 'impact' and 'impression' to Puffery. Leaves a term of art alone, such
+# as 'most significant bit', 'statistically significant', 'the order is
+# significant', 'exceptional case', 'beacon frame', 'pivoting' in a matrix and
+# 'navigate the tree', and the names Catalyst and Metropolis. Drops
+# 'proactive', as in 'proactive compaction'. Drops 'notable', as in 'All
+# notable changes'. Drops 'catalyst' and 'catalyze', as in chemistry, and
+# 'kaleidoscope', the name of a GStreamer element. Leaves 'Vital Product Data',
+# 'significant decimal digits', 'significant indentation', Apache Ignite and
+# the Enigma machine alone.
+extends: existence
+message: 'Overused word: ''%s''. Use a specific, common word.'
+level: warning
+ignorecase: true
+tokens:
+- intricacies
+- underpins
+- underpin
+- underpinning
+- '(?<!,\s)underscoring(?![/-])'
+- 'pivoting (?:to|toward|towards|away)'
+- reimagine
+- reimagining
+- reimagines
+- synergies
+- synergistic
+- cornerstones
+- aforementioned
+- burgeoning
+- ubiquitous
+- encompasses
+- encompassing
+- 'actionable(?!::)'
+- impactful
+- proactively
+- '(?<!\bonly )meaningful(?! names?\b)'
+- '(?<!ever-)evolving'
+- '(?<![@.])innovation(?![.@])'
+- '(?<![@.])innovations(?![.@])'
+- sophisticated
+- sophistication
+- remarkably
+- 'exceptional(?! (?:cases?|conditions?|events?|paths?|states?|returns?)\b)'
+- exceptionally
+- '(?<!\b(?:statistically|least|most) )(?<!\b(?:is|are|was|were) (?:not )?)significant(?! (?:(?:decimal|hex|hexadecimal|binary|octal) )?(?:bit|bits|byte|bytes|digit|digits|figure|figures)\b| (?:whitespace|indentation|newlines?|spaces?|zeros|zeroes|order|characters?|to \d)\b)'
+- 'significantly(?! (?:\w+er|more|less|fewer|improved|reduced|increased|decreased)\b)'
+- versatile
+- versatility
+- versatilely
+- 'vital(?! product data\b)'
+- vitally
+- foundational
+- best-in-class
+- world-class
+- next-generation
+- next-level
+- salient
+- saliently
+- efficacy
+- adept
+- cognizant
+- camaraderie
+- palpable
+- palpably
+- fleeting
+- amidst
+- solace
+- cacophony
+- unspoken
+- '(?-i:ignite)'
+- '(?-i:ignites)'
+- '(?-i:igniting)'
+- grapple
+- grapples
+- grappling
+- gossamer
+- '(?-i:enigma)'
+- enigmatic
+- labyrinth
+- labyrinthine
+- '(?-i:metropolis)'
+- expanse
+- expanses
+- 'indelible(?! (?:mark|impact|impression)s?\b)'
+- indelibly
+- kaleidoscopic
+- waft
+- wafting
+- 'beacon of'
+- intertwine
+- intertwines
+- intertwined
+- intertwining
+- unravel
+- unravels
+- unraveling
+- genuine
+- turbocharge
+- turbocharges
+- turbocharging
+- democratize
+- democratizes
+- democratizing
+- democratized
+- game changer
+- deep dive
+- 'navigat(?:e|es|ed|ing) the (?:complexities|landscape|challenges|world|waters|intricacies|nuances|maze|labyrinth)'
+- unwavering
+- garner
+- garnered
+- valuable insights
+- in essence
+- 'supercharg(?:e|es|ed|ing)'
+tests:
+- name: flags 'Deep Dive'
+  input: |
+    ### Deep Dive
+  want: |
+    1:5:PlainTechnical.OverusedWord:Overused word: 'Deep Dive'. Use a specific, common word.
+- name: leaves a test harness alone
+  input: |
+    A broken test harness shows up in seconds. A harness that is itself
+    broken says so.
+  want: ''
+- name: leaves 'indelible mark' to Puffery
+  input: |
+    The launch left an indelible mark. It made an indelible impression.
+  want: ''

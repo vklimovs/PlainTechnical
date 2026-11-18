@@ -1,0 +1,22 @@
+# Source: vale-ai-tells v1.37.0 ai-tells.FigurativeLoud (MIT).
+extends: existence
+message: 'Loudness metaphor: ''%s''. Describe the behavior.'
+level: warning
+nonword: true
+ignorecase: true
+tokens:
+- \bloudly (?:announces?|proclaims?|declares?|complains?|protests?|objects?|warns?|signals?|advertises?|broadcasts?|fails?|logs?|flags?|insists?|demands?|trumpets?|telegraphs?)\b
+- \b(?:fails?|failing|failed|breaks?|breaking|broke|errors?|erroring|errored|crashes?|complains?|complained) loudly\b
+- \b(?:sends?|sending|sent|throws?|throwing|threw|emits?|emitting|emitted) (?:a|an|off a|out a) loud (?:signal|warning|message|alarm|alert)\b
+- \ba loud (?:signal|warning|message) (?:about|that|to)\b
+- \bloud and clear\b
+tests:
+- name: flags 'fails loudly'
+  input: |
+    The check fails loudly on bad input.
+  want: |
+    1:11:PlainTechnical.Loudness:Loudness metaphor: 'fails loudly'. Describe the behavior.
+- name: out loud
+  input: |
+    She read the report out loud to the team.
+  want: ''

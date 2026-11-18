@@ -1,0 +1,30 @@
+# Source: ASD-STE100 Issue 9 rule 6.3, via SimpleEnglish a6fcb4fde098 (MIT).
+extends: occurrence
+message: "Long sentence: %d words. Write a description in 25 words or fewer and an instruction in 20 or fewer."
+level: error
+scope: sentence
+max: 25
+token: '(?<![\w/.''\u2019(-])(?:\([^()]*\)|\d[\d.,]*[ \u00a0]?(?:%|°[CF]|[kMGT]?Hz|[kKMGT]i?B|[kMG]?bit|[kMG]?bps|GbE|[mk]?V|[mk]?W|[kM]?Pa|psi|bar|[mck]?m|ft|[mk]?g|lb|[mnµ]?s|min|rpm)\b|-{0,2}[/~.]*[\w''\u2019](?:[\w''\u2019./:=@\\-]+|,\d{3}){0,100}(?:\([^()]*\))?)'
+tests:
+- name: flags a sentence over 25 words
+  input: |
+    word word word word word word word word word word word word word word word word word word word word word word word word word word.
+  want: |
+    1:1:PlainTechnical.SentenceLength:Long sentence: 26 words. Write a description in 25 words or fewer and an instruction in 20 or fewer.
+- name: leaves 25 words alone
+  input: |
+    word word word word word word word word word word word word word word word word word word word word word word word word word.
+  want: ''
+- name: flags a long sentence in a table cell
+  input: |
+    | A | B |
+    | --- | --- |
+    | one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen | short |
+  want: |
+    3:3:PlainTechnical.SentenceLength:Long sentence: 30 words. Write a description in 25 words or fewer and an instruction in 20 or fewer.
+- name: counts each sentence of a cell
+  input: |
+    | A | B |
+    | --- | --- |
+    | one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen. one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen. | one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen |
+  want: ''

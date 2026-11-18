@@ -1,0 +1,15 @@
+# The configuration of the package skips each closed quotation before the
+# rule reads the text.
+- name: flags a quotation that never closes
+  input: |
+    It says "it never closes.
+  contains: PlainTechnical.UnclosedQuote
+- name: leaves a closed quotation alone
+  input: |
+    It says "it closes" here.
+  absent: PlainTechnical.UnclosedQuote
+- name: skips the words of a quotation across a line
+  input: |
+    The RFC says "the server
+    should reply" here.
+  absent: PlainTechnical.ModalVerb

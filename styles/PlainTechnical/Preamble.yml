@@ -1,0 +1,34 @@
+# Source: Voices v0.2.0 Direct.Preamble (MIT).
+# Changed: Reads 'In this article' and 'In this section' before a comma at the
+# start of a sentence only. The phrase 'the options in this section' names a
+# part of the page. Matches 'the reason for this is' and 'the reason it is'
+# alone, so 'the reason string' reads as plain words. Matches 'In this
+# section,' before 'we', 'I', 'you' or 'let us' alone, since 'In this section,
+# let T denote' defines a term.
+extends: existence
+message: 'Preamble: ''%s''. Lead with the finding.'
+level: warning
+ignorecase: true
+tokens:
+- 'the reason (?:for (?:this|that)|(?:that |why )?(?:this|that|it)) is'
+- what this means is
+- '(?:\A|(?<=[.!?]\s))In this (?:article|post|section)(?=, (?:we|I|you|let us|let''s)\b)'
+tests:
+- name: flags 'What this means is'
+  input: |
+    What this means is that the pin moved.
+  want: |
+    1:1:PlainTechnical.Preamble:Preamble: 'What this means is'. Lead with the finding.
+- name: flags 'In this section'
+  input: |
+    In this section, we read the log.
+  want: |
+    1:1:PlainTechnical.Preamble:Preamble: 'In this section'. Lead with the finding.
+- name: leaves 'In this section' before a definition alone
+  input: |
+    In this section, let T denote the type.
+  want: ''
+- name: leaves a section that a sentence names alone
+  input: |
+    The options in this section apply to the server only.
+  want: ''
